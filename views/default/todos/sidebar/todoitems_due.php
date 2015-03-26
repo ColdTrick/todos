@@ -12,7 +12,8 @@ $options = array(
 		'name' => 'due',
 		'as' => 'integer',
 		'direction' => 'asc'
-	)
+	),
+	'pagination' => false
 );
 $list = elgg_list_entities_from_metadata($options);
 if (empty($list)) {

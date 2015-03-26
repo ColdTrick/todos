@@ -11,7 +11,8 @@ $options = array(
 		'name' => 'completed',
 		'as' => 'integer',
 		'direction' => 'desc'
-	)
+	),
+	'pagination' => false
 );
 $list = elgg_list_entities_from_metadata($options);
 if (empty($list)) {
