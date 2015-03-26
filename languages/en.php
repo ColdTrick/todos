@@ -3,7 +3,7 @@ $translation = array(
 	'todos' => "To-dos",
 	
 	'todos:all:no_results' => "There are currently no to-do lists. You can add one to start writing to-dos.",
-	'todos:assigned:no_results' => "You currently have no assigned to-do items!",
+	'todos:assigned:no_results' => "No assigned to-do items could be found",
 	'todos:assigned:closed' => "Recently closed assigned to-do items",
 	
 	'todos:filter:active' => "Active lists",
@@ -29,6 +29,10 @@ $translation = array(
 	
 	'todos:sidebar:todoitems_created:title' => "Recently added to-do items",
 	'todos:sidebar:todoitems_created:none' => "No recently added to-do items",
+	
+	// widgets
+	'todos:widget:assigned:title' => "Assigned to-do items",
+	'todos:widget:assigned:description' => "List to-do items assigned to you",
 	
 	// actions
 	'todos:action:error:title' => "Please enter a title",

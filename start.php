@@ -3,6 +3,7 @@
  * Main file for this plugin
  */
 
+require_once(dirname(__FILE__) . "/lib/functions.php");
 require_once(dirname(__FILE__) . "/lib/hooks.php");
 
 elgg_register_event_handler('init', 'system', 'todos_init');
@@ -38,6 +39,11 @@ function todos_init() {
 	elgg_register_plugin_hook_handler('register', 'menu:todoitem', 'todos_todoitem_menu_register');
 	elgg_register_plugin_hook_handler('register', 'menu:todolist', 'todos_todolist_menu_register');
 	elgg_register_plugin_hook_handler('register', 'menu:filter', 'todos_filter_menu_register');
+	
+	// widgets
+	elgg_register_plugin_hook_handler("widget_url", "widget_manager", "todos_widget_title_url");
+	
+	elgg_register_widget_type('todos_assigned', elgg_echo('todos:widget:assigned:title'), elgg_echo('todos:widget:assigned:description'), 'dashboard');
 }
 
 /**
