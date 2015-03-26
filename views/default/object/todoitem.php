@@ -47,5 +47,27 @@ if (!$full) {
 	echo elgg_view_image_block($checkbox, $body);
 	
 } else {
+	
+	if ($entity->due) {
+		echo '<div>';
+		echo '<label>' . elgg_echo('todos:todoitem:due') . ': </label>';
+		echo elgg_view('output/date', array('value' => $entity->due));
+		echo '</div>';
+	}
+	
+	if ($entity->assignee) {
+		$assignee = get_user($entity->assignee);
+		if (!empty($assignee)) {
+			echo '<div>';
+			echo '<label>' . elgg_echo('todos:todoitem:assignee') . ': </label>';
+			echo elgg_view('output/url', array(
+				'text' => $assignee->name,
+				'href' => $assignee->getURL(),
+				'is_trusted' => true
+			));
+			echo '</div>';
+		}
+	}
+	
 	echo elgg_view_comments($entity);
 }
