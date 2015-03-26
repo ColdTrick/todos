@@ -15,6 +15,16 @@ $translation = array(
 	'todos:todoitem:assignee' => "Assignee",
 	'todos:todoitem:due' => "Due",
 	
+	// sidebar
+	'todos:sidebar:todoitems_due:title' => "Due to-do items",
+	'todos:sidebar:todoitems_due:none' => "No to-do items are due!",
+	
+	'todos:sidebar:todoitems_closed:title' => "Recently closed to-do items",
+	'todos:sidebar:todoitems_closed:none' => "No recently closed to-do items",
+	
+	'todos:sidebar:todoitems_created:title' => "Recently added to-do items",
+	'todos:sidebar:todoitems_created:none' => "No recently added to-do items",
+	
 	// actions
 	'todos:action:error:title' => "Please enter a title",
 	

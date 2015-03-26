@@ -1,26 +1,51 @@
 <?php
 
-$full = elgg_extract('full_view', $vars, false);
+$full = (bool) elgg_extract('full_view', $vars, false);
 $entity = elgg_extract('entity', $vars);
 
 if (!$full) {
-	$checkbox = elgg_view('input/checkbox', array(
-		'rel' => $entity->guid,
-		'checked' => $entity->isCompleted()
-	));
+	$checkbox = '';
+	if (!elgg_in_context('todos_sidebar')) {
+		$checkbox = elgg_view('input/checkbox', array(
+			'rel' => $entity->guid,
+			'checked' => $entity->isCompleted(),
+			'disabled' => !$entity->canEdit()
+		));
+	}
 	
 	$body = elgg_view('output/url', array(
 		'text' => $entity->title,
-		'href' => $entity->getURL()
+		'href' => $entity->getURL(),
+		'is_trusted' => true
 	));
 	
+	if ($entity->due) {
+		$body .= '<span class="elgg-subtext mls">';
+		$body .= elgg_view('output/date', array('value' => $entity->due));
+		$body .= '</span>';
+	}
+	
+	if ($entity->assignee) {
+		$assignee = get_user($entity->assignee);
+		if (!empty($assignee)) {
+			$body .= '<span class="elgg-subtext mls">';
+			$body .= elgg_view('output/url', array(
+				'text' => $assignee->name,
+				'href' => $assignee->getURL(),
+				'is_trusted' => true
+			));
+			$body .= '</span>';
+		}
+	}
+	
 	$body .= elgg_view_menu('todoitem', array(
-		'entity' => $entity, 
-		'class' => 'elgg-menu-hz elgg-menu-todos', 
+		'entity' => $entity,
+		'class' => 'elgg-menu-hz elgg-menu-todos',
 		'sort_by' => 'register'
 	));
 
-	echo elgg_view('page/components/image_block', array('image' => $checkbox, 'body' => $body));
+	echo elgg_view_image_block($checkbox, $body);
+	
 } else {
-	echo elgg_view_comments($entity, true);
+	echo elgg_view_comments($entity);
 }
