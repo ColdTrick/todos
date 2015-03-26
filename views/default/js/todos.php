@@ -20,10 +20,12 @@ $(document).ready(function() {
 
 			var guid = $(ui.item).attr('id').replace('elgg-object-', '');
 			var pos = $(ui.item).index();
+			var container_guid = $(ui.item).parent().parent().attr('id').replace('elgg-object-', '');
 			
 			elgg.action('todos/todo/move', {
 				pos: pos,
-				guid: guid
+				guid: guid,
+				container_guid: container_guid
 			});
 		}
 	});
