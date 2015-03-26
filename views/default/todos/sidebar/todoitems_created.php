@@ -7,6 +7,7 @@ $options = array(
 	'subtype' => TodoItem::SUBTYPE,
 	'limit' => $limit,
 	'full_view' => false,
+	'pagination' => false
 );
 $list = elgg_list_entities_from_metadata($options);
 if (empty($list)) {

@@ -19,24 +19,7 @@ elgg_push_breadcrumb($page_owner->name);
 $title = elgg_echo("todos:filter:assigned");
 
 // open assigned todo items
-$options = array(
-	'type' => 'object',
-	'subtype' => TodoItem::SUBTYPE,
-	'limit' => false,
-	'metadata_name_value_pairs' => array(
-		array(
-			'name' => 'assignee',
-			'value' => $page_owner->getGUID()
-		),
-		array(
-			'name' => 'order',
-			'value' => 0,
-			'operand' => '>'
-		)
-	),
-	'full_view' => false,
-	'list_class' => 'todos-list'
-);
+$options = todos_get_open_assigned_item_options($page_owner->getGUID());
 $content = elgg_list_entities_from_metadata($options);
 if (empty($content)) {
 	$content = elgg_echo('todos:assigned:no_results');
@@ -60,7 +43,6 @@ $options['order_by_metadata'] = array(
 	'as' => 'integer',
 	'direction' => 'desc'
 );
-$options['pagination'] = false;
 $options['item_class'] = 'todos-list-item-completed';
 $options['list_class'] = 'todos-list';
 

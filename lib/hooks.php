@@ -127,3 +127,37 @@ function todos_filter_menu_register($hook, $type, $return, $params) {
 	
 	return $return;
 }
+
+/**
+ * Adds urls to the widgets
+ *
+ * @param string  $hook   name of the hook
+ * @param string  $type   type of the hook
+ * @param string  $return return value
+ * @param unknown $params hook parameters
+ *
+ * @return string
+ */
+function todos_widget_title_url($hook, $type, $return, $params) {
+	
+	if (!empty($return)) {
+		return $return;
+	}
+	
+	if (empty($params) || !is_array($params)) {
+		return $return;
+	}
+	
+	$widget = elgg_extract('entity', $params);
+	if (empty($widget) || !elgg_instanceof($widget, 'object', 'widget')) {
+		return $return;
+	}
+	
+	switch ($widget->handler) {
+		case "todos_assigned":
+			$return = "todos/assigned/" . $widget->getOwnerEntity()->username;
+			break;
+	}
+	
+	return $return;
+}
