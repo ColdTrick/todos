@@ -14,23 +14,34 @@
  * @return array
  */
 function todos_todoitem_menu_register($hook, $type, $return, $params) {
-	$entity = elgg_extract('entity', $params);
-	if (!$entity) {
+	
+	if (empty($params) || !is_array($params)) {
 		return $return;
 	}
-		
-	$return[] = ElggMenuItem::factory(array(
-		'name' => 'edit',
-		'text' => elgg_echo('edit'),
-		'href' => '#',
-	));
 	
-	$return[] = ElggMenuItem::factory(array(
-		'name' => 'delete',
-		'text' => elgg_echo('delete'),
-		'href' => 'action/todos/todoitem/delete?guid=' . $entity->guid,
-		'is_action' => true
-	));
+	$entity = elgg_extract('entity', $params);
+	if (empty($entity) || !elgg_instanceof($entity, 'object', TodoItem::SUBTYPE)) {
+		return $return;
+	}
+	
+	if ($entity->canEdit()) {
+		elgg_load_js("lightbox");
+		elgg_load_css("lightbox");
+		
+		$return[] = ElggMenuItem::factory(array(
+			'name' => 'edit',
+			'text' => elgg_echo('edit'),
+			'href' => 'ajax/view/todos/todoitem/form?guid=' . $entity->getGUID(),
+			'link_class' => 'elgg-lightbox'
+		));
+		
+		$return[] = ElggMenuItem::factory(array(
+			'name' => 'delete',
+			'text' => elgg_echo('delete'),
+			'href' => 'action/todos/todoitem/delete?guid=' . $entity->getGUID(),
+			'confirm' => elgg_echo('deleteconfirm')
+		));
+	}
 	
 	return $return;
 }

@@ -1,24 +1,20 @@
 <?php
 
-$full = elgg_extract('full_view', $vars, false);
+$full = (bool) elgg_extract('full_view', $vars, false);
 $entity = elgg_extract('entity', $vars);
 
-if (!$entity) {
+if (empty($entity) || !elgg_instanceof($entity, 'object', TodoList::SUBTYPE)) {
 	return;
 }
-
-elgg_load_js("lightbox");
-elgg_load_css("lightbox");
-
-elgg_load_js('elgg.userpicker');
-elgg_load_js('jquery.ui.autocomplete.html');
 
 if (!$full) {
 	echo '<div class="todos-list-item">';
 	echo '<h3>' . elgg_view('output/url', array(
 		'text' => $entity->title,
-		'href' => $entity->getURL()
+		'href' => $entity->getURL(),
+		'is_trusted' => true
 	)) . '</h3>';
+	
 	echo elgg_view_menu('todolist', array(
 		'entity' => $entity,
 		'class' => 'elgg-menu-hz elgg-menu-todos',
@@ -43,13 +39,21 @@ $options = array(
 
 echo elgg_list_entities_from_metadata($options);
 
-echo '<div>';
-echo elgg_view('output/url', array(
-	'text' => elgg_echo('todos:todoitem:add'),
-	'class' => 'elgg-lightbox mll',
-	'href' => 'ajax/view/todos/todoitem/form?container_guid=' . $entity->getGUID()
-));
-echo '</div>';
+if ($entity->canWriteToContainer(0, 'object', TodoItem::SUBTYPE)) {
+	elgg_load_js("lightbox");
+	elgg_load_css("lightbox");
+	
+	elgg_load_js('elgg.userpicker');
+	elgg_load_js('jquery.ui.autocomplete.html');
+	
+	echo '<div>';
+	echo elgg_view('output/url', array(
+		'text' => elgg_echo('todos:todoitem:add'),
+		'class' => 'elgg-lightbox mll',
+		'href' => 'ajax/view/todos/todoitem/form?container_guid=' . $entity->getGUID()
+	));
+	echo '</div>';
+}
 
 if ($full) {
 	// list completed todos

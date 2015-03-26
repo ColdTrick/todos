@@ -1,34 +1,74 @@
 <?php
 
 $title = get_input('title');
-$container_guid = get_input('container_guid');
+$container_guid = (int) get_input('container_guid');
+$guid = (int) get_input('guid');
+$due = (int) get_input('due');
+$assignee = get_input('members');
+
+$entity = false;
 
 if (empty($title)) {
-	register_error(elgg_echo('missing_title'));
+	register_error(elgg_echo('todos:action:error:title'));
+	forward(REFERER);
+}
+
+if (!empty($guid)) {
+	$entity = get_entity($guid);
+	if (empty($entity) || !elgg_instanceof($entity, 'object', TodoItem::SUBTYPE)) {
+		register_error(elgg_echo('InvalidParameterException:NoEntityFound'));
+		forward(REFERER);
+	}
+	
+	if (!$entity->canEdit()) {
+		register_error(elgg_echo('InvalidParameterException:NoEntityFound'));
+		forward(REFERER);
+	}
+	
+	$container_guid = $entity->getContainerGUID();
+}
+
+if (!empty($assignee) && !is_array($assignee)) {
+	$assignee = array($assignee);
+}
+if (!empty($assignee) && count($assignee) > 1) {
+	register_error(elgg_echo("todos:action:todoitem:edit:assignee"));
 	forward(REFERER);
 }
 
 if (empty($container_guid)) {
-	register_error(elgg_echo('missing_container'));
+	register_error(elgg_echo('todos:todoitem:error:missing_container'));
 	forward(REFERER);
 }
 
 $todolist = get_entity($container_guid);
-if (!elgg_instanceof($todolist, 'object', TodoList::SUBTYPE)) {
-	register_error(elgg_echo('missing_container'));
+if (empty($todolist) || !elgg_instanceof($todolist, 'object', TodoList::SUBTYPE)) {
+	register_error(elgg_echo('todos:todoitem:error:missing_container'));
 	forward(REFERER);
 }
 
-$entity = new TodoItem();
+if (!$todolist->canWriteToContainer(0, 'object', TodoItem::SUBTYPE)) {
+	register_error(elgg_echo('todos:action:todoitem:edit:cant_write'));
+	forward(REFERER);
+}
+
+if (empty($due)) {
+	unset($due);
+}
+
+if (empty($entity)) {
+	$entity = new TodoItem();
+	$entity->container_guid = $todolist->getGUID();
+	$entity->access_id = $todolist->access_id;
+}
+
 $entity->title = $title;
-$entity->active = true;
-$entity->container_guid = $todolist->guid;
-$entity->access_id = $todolist->access_id;
+$entity->due = $due;
 
 if ($entity->save()) {
-	system_message(elgg_echo('saved'));
+	system_message(elgg_echo('todos:action:todoitem:edit:success'));
 } else {
-	register_error(elgg_echo('save failed'));
+	register_error(elgg_echo('todos:action:todoitem:edit:error'));
 }
 
 forward(REFERER);

@@ -1,19 +1,23 @@
 <?php
 
-$entity = elgg_extract('entity', $entity);
+$entity = elgg_extract('entity', $vars);
+$container_guid = (int) elgg_extract('container_guid', $vars);
 
 $title = '';
-$container_guid = get_input('container_guid');
+$assignee = null;
+$due = null;
 
 if ($entity) {
 	$title = $entity->title;
+	$assignee = $entity->assignee;
+	$due = $entity->due;
+	$container_guid = $entity->getContainerGUID();
+	
+	echo elgg_view('input/hidden', array(
+		'name' => 'guid',
+		'value' => $entity->getGUID()
+	));
 }
-
-if (empty($container_guid)) {
-	echo 'missing container_guid';
-	return;
-}
-
 
 echo elgg_view('input/hidden', array(
 	'value' => $container_guid,
@@ -27,18 +31,22 @@ echo elgg_view('input/text', array(
 	'placeholder' => elgg_echo('todos:todoitem:title')
 ));
 
-echo '<label>' . elgg_echo('todos:todoitem:assignee') . '<label>';
+echo '<div>';
+echo '<label>' . elgg_echo('todos:todoitem:assignee') . '</label>';
 echo '<span class="ui-front">';
 echo elgg_view('input/userpicker', array(
 	'value' => $assignee,
-	'name' => 'assignee'
 ));
 echo '</span>';
 
-echo '<label>' . elgg_echo('todos:todoitem:due') . '<label>';
+echo '<label>' . elgg_echo('todos:todoitem:due') . '</label>';
 echo elgg_view('input/date', array(
 	'value' => $due,
-	'name' => 'due'
+	'name' => 'due',
+	'timestamp' => true
 ));
+echo '</div>';
 
+echo '<div class="elgg-foot">';
 echo elgg_view('input/submit', array('value' => elgg_echo('save')));
+echo '</div>';
