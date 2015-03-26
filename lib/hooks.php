@@ -116,11 +116,14 @@ function todos_filter_menu_register($hook, $type, $return, $params) {
 		'href' => 'todos?filter=completed'
 	));
 
-	$return[] = ElggMenuItem::factory(array(
-		'name' => 'assigned',
-		'text' => elgg_echo('todos:filter:assigned'),
-		'href' => 'todos?filter=assigned'
-	));
+	$user = elgg_get_logged_in_user_entity();
+	if (!empty($user)) {
+		$return[] = ElggMenuItem::factory(array(
+			'name' => 'assigned',
+			'text' => elgg_echo('todos:filter:assigned'),
+			'href' => 'todos/assigned/' . $user->username
+		));
+	}
 	
 	return $return;
 }
