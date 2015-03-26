@@ -22,7 +22,11 @@ $options = array(
 	'limit' => false,
 	'full_view' => false,
 	'item_class' => 'mbl',
-	'list_class' => 'todos-list todos-list-todolist'
+	'list_class' => 'todos-list todos-list-todolist',
+	'order_by_metadata' => array(
+		'name' => 'order',
+		'as' => 'integer'
+	),
 );
 
 switch ($filter) {
