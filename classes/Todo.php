@@ -11,26 +11,55 @@ class Todo extends ElggObject {
 	 * 
 	 * @return void
 	 */
-	public function moveToPosition($pos) {
+	public function moveToPosition($offset) {
+		$current_order = $this->order;
 		
 		$options = array(
 			'type' => 'object',
-			'subtype' => $this::subtype,
+			'subtype' => $this::SUBTYPE,
 			'container_guid' => $this->container_guid,
-			'metadata_name_value_pairs' => array('order' => $pos),
-			'limit' => 1
+			'order_by_metadata' => array(
+				'name' => 'order',
+				'direction' => 'ASC',
+				'as' => 'integer'
+			),
+			'limit' => false
 		);
 		
-		// is pos already taken move the other to pos + 1
-		$existing_entity = elgg_get_entities_from_metadata($options);
-				
-		// update pos of current
-		$this->order = $pos;
-		
-		if ($existing_entity) {
-			$existing_entity = $existing_entity[0];
-			$existing_entity->moveToPosition($pos + 1);
+		$entities = elgg_get_entities_from_metadata($options);
+		if (empty($entities)) {
+			// nothing to do			
+			return;	
+		}
+
+		$current_pos_entity = elgg_extract($offset, $entities);
+		if (!$current_pos_entity) {
+			return;
 		}
 		
+		$new_order = $current_pos_entity->order;
+		
+		$forward = false;
+		if ($current_order < $new_order) {
+			$forward = true;
+		}
+		
+		$this->order = $new_order;
+		
+		foreach ($entities as $entity) {
+			if ($entity->guid == $this->guid) {
+				continue;
+			}
+			
+			if ($forward) {
+				if ($entity->order <= $new_order) {
+					$entity->order--;
+				}
+			} else {
+				if ($entity->order >= $new_order) {
+					$entity->order++;
+				}
+			}
+		}
 	}	
 }

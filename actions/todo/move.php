@@ -1,14 +1,9 @@
 <?php
 
-$guid = (int) get_input('guid');
-$pos = (int) get_input('pos');
+$guid = sanitise_int(get_input('guid'), false);
+$pos = sanitise_int(get_input('pos'), false);
 
 $entity = get_entity($guid);
-
-if (empty($pos)) {
-	register_error('position missing');
-	forward(REFERER);
-}
 
 if ($entity instanceof Todo) {
 	// update container
