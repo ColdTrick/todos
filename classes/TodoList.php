@@ -31,6 +31,24 @@ class TodoList extends Todo {
 	}
 	
 	/**
+	 * Saves object-specific attributes.
+	 *
+	 * @return bool
+	 *
+	 * @see ElggObject::save()
+	 */
+	public function save() {
+		$res = parent::save();
+		
+		if (!$res) {
+			return $res;
+		}
+		
+		$this->updateTodoItemAccess();
+		return $res;
+	}
+	
+	/**
 	 * Marks a list as active
 	 */
 	public function markAsActive() {
@@ -63,12 +81,39 @@ class TodoList extends Todo {
 			'metadata_names' => array('order')
 		);
 		
-		$incomplete_children_count = elgg_get_entities_from_metadata($options); 
+		$incomplete_children_count = elgg_get_entities_from_metadata($options);
 		if ($this->isActive() && ($incomplete_children_count === 0)) {
 			$this->markAsInactive();
 		} elseif (!$this->isActive() && $incomplete_children_count > 0) {
 			$this->markAsActive();
 		}
+	}
+	
+	/**
+	 * Update the access of todoitems in this list to match the list access
+	 *
+	 * @return void
+	 */
+	protected function updateTodoItemAccess() {
+		
+		$options = array(
+			'type' => 'object',
+			'subtype' => TodoItem::SUBTYPE,
+			'limit' => false,
+			'container_guid' => $this->getGUID(),
+			'wheres' => array('e.access_id <> ' . $this->access_id)
+		);
+		
+		$ia = elgg_set_ignore_access(true);
+		
+		$batch = new ElggBatch('elgg_get_entities', $options);
+		$batch->setIncrementOffset(false);
+		foreach ($batch as $item) {
+			$item->access_id = $this->access_id;
+			$item->save();
+		}
+		
+		elgg_set_ignore_access($ia);
 	}
 	
 }
