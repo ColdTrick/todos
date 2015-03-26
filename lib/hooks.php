@@ -20,15 +20,15 @@ function todos_todoitem_menu_register($hook, $type, $return, $params) {
 	}
 		
 	$return[] = ElggMenuItem::factory(array(
-		'name' => 'edit', 
-		'text' => elgg_echo('edit'), 
-		'href' => '#', 
+		'name' => 'edit',
+		'text' => elgg_echo('edit'),
+		'href' => '#',
 	));
 	
 	$return[] = ElggMenuItem::factory(array(
-		'name' => 'delete', 
-		'text' => elgg_echo('delete'), 
-		'href' => 'action/todos/todoitem/delete?guid=' . $entity->guid, 
+		'name' => 'delete',
+		'text' => elgg_echo('delete'),
+		'href' => 'action/todos/todoitem/delete?guid=' . $entity->guid,
 		'is_action' => true
 	));
 	
@@ -46,25 +46,36 @@ function todos_todoitem_menu_register($hook, $type, $return, $params) {
  * @return array
  */
 function todos_todolist_menu_register($hook, $type, $return, $params) {
-	$entity = elgg_extract('entity', $params);
-	if (!$entity) {
+	
+	if (empty($params) || !is_array($params)) {
 		return $return;
 	}
 	
-	$return[] = ElggMenuItem::factory(array(
-		'name' => 'edit', 
-		'text' => elgg_echo('edit'), 
-		'href' => '#', 
-	));
+	$entity = elgg_extract('entity', $params);
+	if (empty($entity) || !elgg_instanceof($entity, 'object', TodoList::SUBTYPE)) {
+		return $return;
+	}
 	
-	$return[] = ElggMenuItem::factory(array(
-		'name' => 'delete', 
-		'text' => elgg_echo('delete'), 
-		'href' => 'action/todos/todolist/delete?guid=' . $entity->guid,
-		'is_action' => true
-	));
+	if ($entity->canEdit()) {
+		elgg_load_js("lightbox");
+		elgg_load_css("lightbox");
+		
+		$return[] = ElggMenuItem::factory(array(
+			'name' => 'edit',
+			'text' => elgg_echo('edit'),
+			'href' => 'ajax/view/todos/todolist/form?guid=' . $entity->getGUID(),
+			'link_class' => 'elgg-lightbox'
+		));
+		
+		$return[] = ElggMenuItem::factory(array(
+			'name' => 'delete',
+			'text' => elgg_echo('delete'),
+			'href' => 'action/todos/todolist/delete?guid=' . $entity->getGUID(),
+			'confirm' => elgg_echo('deleteconfirm')
+		));
+	}
 	
-	return $return;	
+	return $return;
 }
 
 /**
@@ -83,22 +94,22 @@ function todos_filter_menu_register($hook, $type, $return, $params) {
 	}
 	
 	$return[] = ElggMenuItem::factory(array(
-		'name' => 'active', 
-		'text' => elgg_echo('todos:filter:active'), 
+		'name' => 'active',
+		'text' => elgg_echo('todos:filter:active'),
 		'href' => 'todos'
 	));
 
 	$return[] = ElggMenuItem::factory(array(
-		'name' => 'completed', 
-		'text' => elgg_echo('todos:filter:completed'), 
+		'name' => 'completed',
+		'text' => elgg_echo('todos:filter:completed'),
 		'href' => 'todos?filter=completed'
 	));
 
 	$return[] = ElggMenuItem::factory(array(
-		'name' => 'assigned', 
-		'text' => elgg_echo('todos:filter:assigned'), 
+		'name' => 'assigned',
+		'text' => elgg_echo('todos:filter:assigned'),
 		'href' => 'todos?filter=assigned'
 	));
 	
-	return $return;	
+	return $return;
 }

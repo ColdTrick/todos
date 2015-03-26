@@ -13,6 +13,13 @@ $translation = array(
 	'todos:todoitem:title' => "Enter the title of the to-do",
 	'todos:todoitem:assignee' => "Assignee",
 	'todos:todoitem:due' => "Due",
+	
+	// actions
+	'todos:action:error:title' => "Please enter a title",
+	
+	'todos:action:todolist:edit:success' => "Todolist saved",
+	'todos:action:todolist:edit:error' => "An error occured during the save of the todolist",
+	
 );
 
 add_translation('en', $translation);
