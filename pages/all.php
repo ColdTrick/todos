@@ -1,7 +1,9 @@
 <?php
 
+gatekeeper();
+
 $filter = get_input('filter', 'active');
-if (!in_array($filter, ['active', 'completed', 'assigned'])) {
+if (!in_array($filter, array('active', 'completed'))) {
 	$filter = 'active';
 }
 
@@ -10,11 +12,7 @@ if(!$page_owner) {
 	$page_owner = elgg_get_logged_in_user_entity();
 }
 
-if (!$page_owner) {
-	forward();
-}
-
-$container_guid = $page_owner->getGUID(); 
+$container_guid = $page_owner->getGUID();
 elgg_set_page_owner_guid($container_guid);
 
 $options = array(
@@ -33,10 +31,10 @@ switch ($filter) {
 		elgg_load_css("lightbox");
 		
 		$item = ElggMenuItem::factory([
-			'text' => elgg_echo('todos:todolist:add'), 
+			'text' => elgg_echo('todos:todolist:add'),
 			'href' => 'ajax/view/todos/todolist/form',
 			'name' => 'todolist_add',
-			'class' => 'elgg-button elgg-button-action elgg-lightbox'	
+			'class' => 'elgg-button elgg-button-action elgg-lightbox'
 		]);
 		elgg_register_menu_item('title', $item);
 		
@@ -44,10 +42,6 @@ switch ($filter) {
 		break;
 	case 'completed':
 		$options['metadata_name_value_pairs'] = ['active' => false];
-		break;
-	case 'assigned':
-		$options['subtype'] = 'todoitem';
-		$options['metadata_name_value_pairs'] = ['assigned' => false];
 		break;
 }
 
@@ -61,8 +55,8 @@ if (empty($content)) {
 $filter = elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz'));
 
 $body = elgg_view_layout('content', array(
-	'title' => $title, 
-	'filter' => $filter, 
+	'title' => $title,
+	'filter' => $filter,
 	'content' => $content,
 	'sidebar' => elgg_view('todos/sidebar')
 ));

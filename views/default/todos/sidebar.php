@@ -1,12 +1,11 @@
 <?php
-$due_todos = 'lijstje';
 
-echo elgg_view_module('aside', elgg_echo("Due to-do items"), $due_todos);
+elgg_push_context("todos_sidebar");
 
-$recently_closed = 'lijstje';
+echo elgg_view('todos/sidebar/todoitems_due');
 
-echo elgg_view_module('aside', elgg_echo("Recently closed to-do items"), $recently_closed);
+echo elgg_view('todos/sidebar/todoitems_closed');
 
-$recently_added = 'lijstje';
+echo elgg_view('todos/sidebar/todoitems_created');
 
-echo elgg_view_module('aside', elgg_echo("Recently added to-do items"), $recently_added);
+elgg_pop_context();

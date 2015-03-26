@@ -18,6 +18,8 @@ if ($entity instanceof TodoList) {
 	}
 	$items = todos_todoitem_menu_register('','', [], ['entity' => $entity]);
 }
+
+elgg_push_breadcrumb($entity->title);
 	
 foreach ($items as $menu_item) {
 	$menu_item->setLinkClass('elgg-button elgg-button-action');
@@ -28,6 +30,10 @@ $title = $entity->title;
 
 $content = elgg_view_entity($entity, array("full_view" => true));
 
-$body = elgg_view_layout('content', array('title' => $title, 'filter' => false, 'content' => $content));
+$body = elgg_view_layout('content', array(
+	'title' => $title,
+	'filter' => false,
+	'content' => $content
+));
 
 echo elgg_view_page($title, $body);

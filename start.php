@@ -45,14 +45,23 @@ function todos_init() {
  * @return void | bool
  */
 function todos_page_handler($pages) {
-	$page = elgg_extract(0, $pages, 'all');
 		
-	switch ($page) {
+	switch ($pages[0]) {
 		case 'view':
 			$guid = elgg_extract(1, $pages);
 			set_input('guid', $guid);
 			
 			include(dirname(__FILE__) . '/pages/view.php');
+			break;
+		case 'assigned':
+			if (isset($pages[1])) {
+				$user = get_user_by_username($pages[1]);
+				if ($user) {
+					elgg_set_page_owner_guid($user->getGUID());
+				}
+			}
+			
+			include(dirname(__FILE__) . '/pages/assigned.php');
 			break;
 		default:
 			include(dirname(__FILE__) . '/pages/all.php');
