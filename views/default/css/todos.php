@@ -37,3 +37,7 @@
 .todos-list-item .elgg-image-block .elgg-body > a {
 	color: inherit;
 }
+
+.todos-list-item-completed .elgg-image-block .elgg-body > a {
+	color: #999;
+}

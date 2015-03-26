@@ -27,6 +27,7 @@ function todos_init() {
 	
 	elgg_register_action('todos/todoitem/edit', $actions_path . 'todoitem/edit.php');
 	elgg_register_action('todos/todoitem/delete', $actions_path . 'todoitem/delete.php');
+	elgg_register_action('todos/todoitem/toggle', $actions_path . 'todoitem/toggle.php');
 	
 	elgg_register_action('todos/todo/move', $actions_path . 'todo/move.php');
 	elgg_register_action('todos/todo/complete', $actions_path . 'todo/complete.php');

@@ -45,3 +45,26 @@ echo elgg_view('output/url', array(
 	'class' => 'elgg-lightbox mll', 'href' => 'ajax/view/todos/todoitem/form?container_guid=' . $entity->guid
 ));
 echo '</div>';
+
+if ($full) {
+	// list completed todos
+	$options = array(
+		'type' => 'object',
+		'subtype' => TodoItem::SUBTYPE,
+		'limit' => false,
+		'full_view' => false,
+		'item_class' => 'todos-list-item todos-list-item-completed',
+		'list_class' => 'todos-list',
+		'container_guid' => $entity->guid,
+		'order_by_metadata' => array(
+			'name' => 'completed',
+			'as' => 'integer'
+		),
+	);
+	
+	$completed_list = elgg_list_entities_from_metadata($options);
+	
+	if ($completed_list) {
+		echo elgg_view_module('info', elgg_echo("Completed to-dos"), $completed_list, array('class' => 'mtl'));
+	}
+}

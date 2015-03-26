@@ -11,6 +11,24 @@ class Todo extends ElggObject {
 		unset($this->order);
 		$this->completed = time();
 	}
+
+	/**
+	 * Marks a todo as incomplete
+	 */
+	public function markAsIncomplete() {
+		unset($this->completed);
+		$this->order = time();
+	}
+
+	/**
+	 * Check if todo is completed
+	 */
+	public function isCompleted() {
+		if (!empty($this->completed)) {
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * Reorders todo to new position

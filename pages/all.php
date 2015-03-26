@@ -60,6 +60,11 @@ if (empty($content)) {
 
 $filter = elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz'));
 
-$body = elgg_view_layout('content', array('title' => $title, 'filter' => $filter, 'content' => $content));
+$body = elgg_view_layout('content', array(
+	'title' => $title, 
+	'filter' => $filter, 
+	'content' => $content,
+	'sidebar' => elgg_view('todos/sidebar', $vars)
+));
 
 echo elgg_view_page($title, $body);
