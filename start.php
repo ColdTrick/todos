@@ -9,7 +9,7 @@ elgg_register_event_handler('init', 'system', 'todos_init');
 
 /**
  * Initialize the plugin
- * 
+ *
  * @return void
  */
 function todos_init() {
@@ -42,7 +42,7 @@ function todos_init() {
 
 /**
  * Page handler
- * 
+ *
  * @return void | bool
  */
 function todos_page_handler($pages) {
@@ -68,6 +68,6 @@ function todos_page_handler($pages) {
  * @return void
  */
 function todos_pagesetup() {
-	$item = new ElggMenuItem('todos', elgg_echo('todos'), 'todos/all');
+	$item = new ElggMenuItem('todos', elgg_echo('todos'), 'todos');
 	elgg_register_menu_item('site', $item);
 }
