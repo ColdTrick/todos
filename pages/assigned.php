@@ -61,9 +61,12 @@ $options['order_by_metadata'] = array(
 	'direction' => 'desc'
 );
 $options['pagination'] = false;
+$options['item_class'] = 'todos-list-item-completed';
+$options['list_class'] = 'todos-list';
+
 $closed = elgg_list_entities_from_metadata($options);
 if (!empty($closed)) {
-	$content .= elgg_view_module('info', elgg_echo('todos:assigned:closed'), $closed);
+	$content .= elgg_view_module('info', elgg_echo('todos:assigned:closed'), $closed, array('class' => 'mtl'));
 }
 
 $filter = elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz'));

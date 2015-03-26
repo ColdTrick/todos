@@ -4,7 +4,7 @@ $translation = array(
 	
 	'todos:all:no_results' => "There are currently no to-do lists. You can add one to start writing to-dos.",
 	'todos:assigned:no_results' => "You currently have no assigned to-do items!",
-	'todos:assigned:closed' => "Closed assigned to-do items",
+	'todos:assigned:closed' => "Recently closed assigned to-do items",
 	
 	'todos:filter:active' => "Active lists",
 	'todos:filter:completed' => "Completed lists",
