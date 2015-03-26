@@ -35,6 +35,8 @@ class TodoItem extends Todo {
 	
 		$parent_list = $this->getContainerEntity();
 		$parent_list->validateListCompleteness();
+		
+		return true;
 	}
 	
 	/**
