@@ -64,6 +64,7 @@ if (empty($entity)) {
 
 $entity->title = $title;
 $entity->due = $due;
+$entity->assignee = $assignee;
 
 if ($entity->save()) {
 	system_message(elgg_echo('todos:action:todoitem:edit:success'));
