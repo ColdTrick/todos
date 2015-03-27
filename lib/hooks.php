@@ -160,8 +160,17 @@ function todos_widget_title_url($hook, $type, $return, $params) {
 	}
 	
 	switch ($widget->handler) {
-		case "todos_assigned":
-			$return = "todos/assigned/" . $widget->getOwnerEntity()->username;
+		case 'todos_assigned':
+			$return = 'todos/assigned/' . $widget->getOwnerEntity()->username;
+			break;
+		case 'todos_list':
+			$list_guid = (int) $widget->list_guid;
+			if (!empty($list_guid)) {
+				$list = get_entity($list_guid);
+				if (!empty($list) && elgg_instanceof($list, 'object', TodoList::SUBTYPE)) {
+					$return = $list->getURL();
+				}
+			}
 			break;
 	}
 	
