@@ -38,6 +38,9 @@ $translation = array(
 	'todos:widget:assigned:title' => "Assigned to-do items",
 	'todos:widget:assigned:description' => "List to-do items assigned to you",
 	
+	'todos:widget:closed:title' => "Recently closed to-do items",
+	'todos:widget:closed:description' => "List recently closed to-do items",
+	
 	// actions
 	'todos:action:error:title' => "Please enter a title",
 	

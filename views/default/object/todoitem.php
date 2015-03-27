@@ -5,7 +5,7 @@ $entity = elgg_extract('entity', $vars);
 
 if (!$full) {
 	$checkbox = '';
-	if (!elgg_in_context('todos_sidebar')) {
+	if (!elgg_in_context('todos_sidebar') && !elgg_in_context('widgets')) {
 		$checkbox = elgg_view('input/checkbox', array(
 			'rel' => $entity->guid,
 			'checked' => $entity->isCompleted(),
