@@ -45,6 +45,7 @@ function todos_init() {
 	elgg_register_widget_type('todos_assigned', elgg_echo('todos:widget:assigned:title'), elgg_echo('todos:widget:assigned:description'), 'dashboard');
 	elgg_register_widget_type('todos_closed', elgg_echo('todos:widget:closed:title'), elgg_echo('todos:widget:closed:description'), 'index,groups');
 	elgg_register_widget_type('todos_due', elgg_echo('todos:widget:due:title'), elgg_echo('todos:widget:due:description'), 'index,groups');
+	elgg_register_widget_type('todos_created', elgg_echo('todos:widget:created:title'), elgg_echo('todos:widget:created:description'), 'index,groups');
 }
 
 /**

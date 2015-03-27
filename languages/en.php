@@ -44,6 +44,9 @@ $translation = array(
 	'todos:widget:due:title' => "Due to-do items",
 	'todos:widget:due:description' => "List due to-do items",
 	
+	'todos:widget:created:title' => "Recently created to-do items",
+	'todos:widget:created:description' => "List recently created to-do items",
+	
 	// actions
 	'todos:action:error:title' => "Please enter a title",
 	
