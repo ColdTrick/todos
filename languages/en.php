@@ -5,6 +5,9 @@ $translation = array(
 	'item:object:todolist' => "To-do list",
 	'item:object:todoitem' => "To-do item",
 	
+	// settings
+	'todos:settings:enable_groups' => "Enable todos for groups",
+	
 	'todos:all:no_results' => "There are currently no to-do lists. You can add one to start writing to-dos.",
 	'todos:assigned:no_results' => "No assigned to-do items could be found",
 	'todos:assigned:closed' => "Recently closed assigned to-do items",
@@ -46,6 +49,11 @@ $translation = array(
 	
 	'todos:widget:created:title' => "Recently created to-do items",
 	'todos:widget:created:description' => "List recently created to-do items",
+	
+	// groups
+	'todos:group:tool_option' => "Enable todos",
+	'todos:owner_block:group' => "Group todos",
+	'' => "",
 	
 	// actions
 	'todos:action:error:title' => "Please enter a title",

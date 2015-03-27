@@ -40,3 +40,38 @@ function todos_get_open_assigned_item_options($assignee = 0) {
 	
 	return $options;
 }
+
+/**
+ * Check if group support is enabled
+ *
+ * @param ElggGroup $group (optional) check if the group has this enabled
+ *
+ * @return bool
+ */
+function todos_group_enabled(ElggGroup $group = null) {
+	static $plugin_setting;
+
+	if (!isset($plugin_setting)) {
+		$plugin_setting = false;
+
+		$setting = elgg_get_plugin_setting('enable_groups', 'todos');
+		if ($setting === 'yes') {
+			$plugin_setting = true;
+		}
+	}
+
+	// shortcut
+	if (!$plugin_setting) {
+		return false;
+	}
+
+	if (empty($group) || !elgg_instanceof($group, 'group')) {
+		return $plugin_setting;
+	}
+
+	if ($group->todos_enable === 'yes') {
+		return true;
+	}
+
+	return false;
+}

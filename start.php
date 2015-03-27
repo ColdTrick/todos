@@ -38,6 +38,12 @@ function todos_init() {
 	elgg_register_plugin_hook_handler('register', 'menu:todoitem', 'todos_todoitem_menu_register');
 	elgg_register_plugin_hook_handler('register', 'menu:todolist', 'todos_todolist_menu_register');
 	elgg_register_plugin_hook_handler('register', 'menu:filter', 'todos_filter_menu_register');
+	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'todos_owner_block_menu_register');
+	
+	// groups
+	if (todos_group_enabled()) {
+		add_group_tool_option('todos', elgg_echo('todos:group:tool_option'), false);
+	}
 	
 	// widgets
 	elgg_register_plugin_hook_handler("widget_url", "widget_manager", "todos_widget_title_url");
@@ -72,6 +78,7 @@ function todos_page_handler($pages) {
 			
 			include(dirname(__FILE__) . '/pages/assigned.php');
 			break;
+		case 'group':
 		default:
 			include(dirname(__FILE__) . '/pages/all.php');
 	}
