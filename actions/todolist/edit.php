@@ -1,8 +1,11 @@
 <?php
 
 $title = get_input('title');
-$access_id = (int) get_input('access_id');
+$access_id = (int) get_input('access_id', ACCESS_PRIVATE);
 $guid = (int) get_input('guid');
+$container_guid = (int) get_input('container_guid');
+
+$entity = null;
 
 if (empty($title)) {
 	register_error(elgg_echo('todos:action:error:title'));
@@ -20,8 +23,17 @@ if (!empty($guid)) {
 		register_error(elgg_echo('InvalidParameterException:NoEntityFound'));
 		forward(REFERER);
 	}
-} else {
+}
+
+if (empty($entity) && can_write_to_container(0, $container_guid, 'object', TodoList::SUBTYPE)) {
 	$entity = new TodoList();
+	$entity->container_guid = $container_guid;
+}
+
+if (empty($entity)) {
+	// this should not happen
+	register_error(elgg_echo('InvalidParameterException:NoEntityFound'));
+	forward(REFERER);
 }
 
 $entity->title = $title;

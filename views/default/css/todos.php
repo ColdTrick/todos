@@ -43,6 +43,6 @@
 	color: inherit;
 }
 
-.todos-list-item-completed .elgg-image-block .elgg-body > a {
+.todos-list-item-completed.elgg-image-block .elgg-body > a {
 	color: #999;
 }

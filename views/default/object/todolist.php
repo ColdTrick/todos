@@ -68,7 +68,7 @@ if ($full) {
 		'subtype' => TodoItem::SUBTYPE,
 		'limit' => false,
 		'full_view' => false,
-		'item_class' => 'todos-list-item todos-list-item-completed',
+		'item_class' => 'todos-list-item',
 		'list_class' => 'todos-list',
 		'container_guid' => $entity->getGUID(),
 		'order_by_metadata' => array(

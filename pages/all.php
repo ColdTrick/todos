@@ -36,7 +36,7 @@ switch ($filter) {
 		
 		$item = ElggMenuItem::factory([
 			'text' => elgg_echo('todos:todolist:add'),
-			'href' => 'ajax/view/todos/todolist/form',
+			'href' => 'ajax/view/todos/todolist/form?container_guid=' . $page_owner->getGUID(),
 			'name' => 'todolist_add',
 			'class' => 'elgg-button elgg-button-action elgg-lightbox'
 		]);

@@ -2,6 +2,9 @@
 $translation = array(
 	'todos' => "To-dos",
 	
+	'item:object:todolist' => "To-do list",
+	'item:object:todoitem' => "To-do item",
+	
 	'todos:all:no_results' => "There are currently no to-do lists. You can add one to start writing to-dos.",
 	'todos:assigned:no_results' => "No assigned to-do items could be found",
 	'todos:assigned:closed' => "Recently closed assigned to-do items",
@@ -10,6 +13,7 @@ $translation = array(
 	'todos:filter:completed' => "Completed lists",
 	'todos:filter:assigned' => "Assigned to-dos",
 	
+	'todos:todolist:error:missing_container' => "Please supply a container to create the list in",
 	'todos:todolist:add' => "Add to-do list",
 	'todos:todolist:title' => "Enter the name for the to-do list",
 
@@ -33,6 +37,15 @@ $translation = array(
 	// widgets
 	'todos:widget:assigned:title' => "Assigned to-do items",
 	'todos:widget:assigned:description' => "List to-do items assigned to you",
+	
+	'todos:widget:closed:title' => "Recently closed to-do items",
+	'todos:widget:closed:description' => "List recently closed to-do items",
+	
+	'todos:widget:due:title' => "Due to-do items",
+	'todos:widget:due:description' => "List due to-do items",
+	
+	'todos:widget:created:title' => "Recently created to-do items",
+	'todos:widget:created:description' => "List recently created to-do items",
 	
 	// actions
 	'todos:action:error:title' => "Please enter a title",
