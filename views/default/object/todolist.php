@@ -37,7 +37,8 @@ $options = array(
 	),
 );
 
-echo elgg_list_entities_from_metadata($options);
+$active_todos = elgg_list_entities_from_metadata($options);
+echo $active_todos;
 
 if ($entity->canWriteToContainer(0, 'object', TodoItem::SUBTYPE)) {
 	elgg_load_js("lightbox");
@@ -45,6 +46,11 @@ if ($entity->canWriteToContainer(0, 'object', TodoItem::SUBTYPE)) {
 	
 	elgg_load_js('elgg.userpicker');
 	elgg_load_js('jquery.ui.autocomplete.html');
+	
+	if (empty($active_todos) && !$full) {
+		// add an empty place to drop todos from other lists
+		echo "<ul class='elgg-list todos-list todos-list-todoitem'></ul>";	
+	}
 	
 	echo '<div>';
 	echo elgg_view('output/url', array(
