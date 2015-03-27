@@ -28,6 +28,16 @@ function todos_todoitem_menu_register($hook, $type, $return, $params) {
 		elgg_load_js("lightbox");
 		elgg_load_css("lightbox");
 		
+		$full_view = elgg_extract('full_view', $params, false);
+		if ($full_view) {
+			$return[] = ElggMenuItem::factory(array(
+				'name' => 'toggle',
+				'text' => $entity->isCompleted() ? elgg_echo('todos:todoitem:reopen') : elgg_echo('todos:todoitem:close'),
+				'href' => 'action/todos/todoitem/toggle?guid=' . $entity->getGUID(),
+				'is_action' => true
+			));
+		}
+		
 		$return[] = ElggMenuItem::factory(array(
 			'name' => 'edit',
 			'text' => elgg_echo('edit'),

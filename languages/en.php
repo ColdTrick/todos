@@ -21,6 +21,8 @@ $translation = array(
 	'todos:todolist:title' => "Enter the name for the to-do list",
 
 	'todos:todoitem:add' => "Add a to-do",
+	'todos:todoitem:reopen' => "Reopen",
+	'todos:todoitem:close' => "Close",
 	'todos:todoitem:error:missing_container' => "Missing to-do list",
 	
 	'todos:todoitem:title' => "Enter the title of the to-do",

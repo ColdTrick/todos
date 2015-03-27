@@ -16,7 +16,7 @@ if ($entity instanceof TodoList) {
 	if ($todolist) {
 		elgg_push_breadcrumb($todolist->title, $todolist->getURL());
 	}
-	$items = todos_todoitem_menu_register('','', [], ['entity' => $entity]);
+	$items = todos_todoitem_menu_register('','', [], ['entity' => $entity, 'full_view' => true]);
 }
 
 elgg_push_breadcrumb($entity->title);
