@@ -10,6 +10,7 @@ $translation = array(
 	'todos:filter:completed' => "Completed lists",
 	'todos:filter:assigned' => "Assigned to-dos",
 	
+	'todos:todolist:error:missing_container' => "Please supply a container to create the list in",
 	'todos:todolist:add' => "Add to-do list",
 	'todos:todolist:title' => "Enter the name for the to-do list",
 
