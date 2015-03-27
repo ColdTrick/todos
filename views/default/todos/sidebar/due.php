@@ -14,7 +14,8 @@ $options = array(
 		'as' => 'integer',
 		'direction' => 'asc'
 	),
-	'pagination' => false
+	'pagination' => false,
+	'list_class' => 'todos-list'
 );
 
 if (!empty($page_owner) && elgg_instanceof($page_owner, 'group')) {
