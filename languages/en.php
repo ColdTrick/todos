@@ -52,6 +52,12 @@ $translation = array(
 	'todos:widget:created:description' => "List recently created to-do items",
 	'todos:widget:created:none' => "No recently added to-do items",
 	
+	'todos:widget:list:title' => "To-do list",
+	'todos:widget:list:description' => "Show a specific to-do list",
+	'todos:widget:list:list' => "Please select the list to display",
+	'todos:widget:list:select' => "Select a list",
+	'todos:widget:list:no_list' => "No to-do list selected",
+	
 	// groups
 	'todos:group:tool_option' => "Enable todos",
 	'todos:owner_block:group' => "Group todos",
