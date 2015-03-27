@@ -73,6 +73,10 @@ $translation = array(
 	'todos:action:todoitem:edit:success' => "Todoitem saved",
 	'todos:action:todoitem:edit:error' => "An error occured during the save of the todoitem",
 	
+	// river
+	'river:create:object:todoitem' => '%s added a new todo %s',
+	'river:close:object:todoitem' => '%s closed todo %s',
+	'river:reopen:object:todoitem' => '%s reopened todo %s',
 );
 
 add_translation('en', $translation);

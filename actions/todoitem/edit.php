@@ -56,10 +56,13 @@ if (empty($due)) {
 	unset($due);
 }
 
+$new_entity_created = false;
 if (empty($entity)) {
 	$entity = new TodoItem();
 	$entity->container_guid = $todolist->getGUID();
 	$entity->access_id = $todolist->access_id;
+	
+	$new_entity_created = true;
 }
 
 $entity->title = $title;
@@ -68,6 +71,10 @@ $entity->assignee = $assignee;
 
 if ($entity->save()) {
 	system_message(elgg_echo('todos:action:todoitem:edit:success'));
+	
+	if ($new_entity_created) {
+		add_to_river('river/object/todoitem/create', 'create', elgg_get_logged_in_user_guid(), $entity->guid);
+	}
 } else {
 	register_error(elgg_echo('todos:action:todoitem:edit:error'));
 }
