@@ -2,7 +2,7 @@
 ?>
 $(document).ready(function() {
 	$(".todos-list-todolist").sortable({
-		update: function( event, ui ) {
+		update: function(event, ui) {
 
 			var guid = $(ui.item).attr('id').replace('elgg-object-', '');
 			var pos = $(ui.item).index();
@@ -15,8 +15,9 @@ $(document).ready(function() {
 	});
 	
 	$(".todos-list-todoitem").sortable({
-		connectWith: ".todos-list-todolist .todos-list-todoitem",
-		update: function( event, ui ) {
+		connectWith: ".todos-list.todos-list-todoitem",
+		forcePlaceholderSizeType: true,
+		update: function(event, ui) {
 
 			var guid = $(ui.item).attr('id').replace('elgg-object-', '');
 			var pos = $(ui.item).index();

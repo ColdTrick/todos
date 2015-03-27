@@ -34,6 +34,11 @@
 	border: none;
 }
 
+.todos-list.todos-list-todoitem {
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
 .todos-list-item .elgg-image-block .elgg-body > a {
 	color: inherit;
 }
