@@ -43,8 +43,13 @@ if (!$full) {
 		'class' => 'elgg-menu-hz elgg-menu-todos',
 		'sort_by' => 'register'
 	));
+	
+	$params = array();
+	if ($entity->isCompleted()) {
+		$params['class'] = 'todos-list-item-completed';
+	}
 
-	echo elgg_view_image_block($checkbox, $body);
+	echo elgg_view_image_block($checkbox, $body, $params);
 	
 } else {
 	
