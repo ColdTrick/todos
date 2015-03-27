@@ -29,7 +29,7 @@ if (elgg_instanceof($widget->getOwnerEntity(), 'group')) {
 
 $list = elgg_list_entities_from_metadata($options);
 if (empty($list)) {
-	$list = elgg_echo('todos:sidebar:todoitems_closed:none');
+	$list = elgg_echo('todos:widget:closed:none');
 }
 
 echo $list;

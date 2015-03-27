@@ -21,4 +21,4 @@ if (empty($container_guid)) {
 
 elgg_set_page_owner_guid($container_guid);
 
-echo elgg_view_form('todos/todolist/edit', array('id' => 'todos-todolist-edit'), array('entity' => $entity));
+echo elgg_view_form('todos/todolist/edit', array('id' => 'todos-todolist-edit'), array('entity' => $entity, 'container_guid' => $container_guid));

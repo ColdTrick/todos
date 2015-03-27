@@ -104,16 +104,22 @@ function todos_filter_menu_register($hook, $type, $return, $params) {
 		return $return;
 	}
 	
+	$base_url = 'todos';
+	$page_owner = elgg_get_page_owner_entity();
+	if (elgg_instanceof($page_owner, 'group')) {
+		$base_url .= "/group/{$page_owner->getGUID()}/all";
+	}
+	
 	$return[] = ElggMenuItem::factory(array(
 		'name' => 'active',
 		'text' => elgg_echo('todos:filter:active'),
-		'href' => 'todos'
+		'href' => $base_url
 	));
 
 	$return[] = ElggMenuItem::factory(array(
 		'name' => 'completed',
 		'text' => elgg_echo('todos:filter:completed'),
-		'href' => 'todos?filter=completed'
+		'href' => "$base_url?filter=completed"
 	));
 
 	$user = elgg_get_logged_in_user_entity();
@@ -158,6 +164,40 @@ function todos_widget_title_url($hook, $type, $return, $params) {
 			$return = "todos/assigned/" . $widget->getOwnerEntity()->username;
 			break;
 	}
+	
+	return $return;
+}
+
+/**
+ * Adds the menu items to the owner_block of a group
+ *
+ * @param string  $hook   name of the hook
+ * @param string  $type   type of the hook
+ * @param unknown $return return value
+ * @param unknown $params hook parameters
+ *
+ * @return array
+ */
+function todos_owner_block_menu_register($hook, $type, $return, $params) {
+	
+	if (empty($params) || !is_array($params)) {
+		return $return;
+	}
+	
+	$entity = elgg_extract('entity', $params);
+	if (empty($entity) || !elgg_instanceof($entity, 'group')) {
+		return $return;
+	}
+	
+	if (!todos_group_enabled($entity)) {
+		return $return;
+	}
+	
+	$return[] = ElggMenuItem::factory(array(
+		'name' => 'todos',
+		'text' => elgg_echo('todos:owner_block:group'),
+		'href' => "todos/group/{$entity->getGUID()}/all"
+	));
 	
 	return $return;
 }

@@ -1,6 +1,7 @@
 <?php
 
 $limit = (int) elgg_extract('limit', $vars, 5);
+$page_owner = elgg_get_page_owner_entity();
 
 $options = array(
 	'type' => 'object',
@@ -15,8 +16,17 @@ $options = array(
 	),
 	'pagination' => false
 );
+
+if (!empty($page_owner) && elgg_instanceof($page_owner, 'group')) {
+	$dbprefix = elgg_get_config('dbprefix');
+
+	$options['joins'] = array("JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid");
+	$options['wheres'] = array("ce.container_guid = {$page_owner->getGUID()}");
+}
+
 $list = elgg_list_entities_from_metadata($options);
 if (empty($list)) {
+	return;
 	$list = elgg_echo('todos:sidebar:todoitems_due:none');
 }
 

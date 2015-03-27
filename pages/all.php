@@ -15,6 +15,16 @@ if(!$page_owner) {
 $container_guid = $page_owner->getGUID();
 elgg_set_page_owner_guid($container_guid);
 
+if (elgg_instanceof($page_owner, 'group')) {
+	
+	if (!todos_group_enabled($page_owner)) {
+		forward(REFERER);
+	}
+	
+	elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
+	elgg_push_breadcrumb($page_owner->name);
+}
+
 $options = array(
 	'type' => 'object',
 	'subtype' => 'todolist',
@@ -31,16 +41,19 @@ $options = array(
 
 switch ($filter) {
 	case 'active':
-		elgg_load_js("lightbox");
-		elgg_load_css("lightbox");
 		
-		$item = ElggMenuItem::factory([
-			'text' => elgg_echo('todos:todolist:add'),
-			'href' => 'ajax/view/todos/todolist/form?container_guid=' . $page_owner->getGUID(),
-			'name' => 'todolist_add',
-			'class' => 'elgg-button elgg-button-action elgg-lightbox'
-		]);
-		elgg_register_menu_item('title', $item);
+		if ($page_owner->canWriteToContainer(0, 'object', TodoList::SUBTYPE)) {
+			elgg_load_js("lightbox");
+			elgg_load_css("lightbox");
+			
+			$item = ElggMenuItem::factory([
+				'text' => elgg_echo('todos:todolist:add'),
+				'href' => 'ajax/view/todos/todolist/form?container_guid=' . $page_owner->getGUID(),
+				'name' => 'todolist_add',
+				'class' => 'elgg-button elgg-button-action elgg-lightbox'
+			]);
+			elgg_register_menu_item('title', $item);
+		}
 		
 		$options['metadata_name_value_pairs'] = ['active' => true];
 		break;

@@ -5,6 +5,9 @@ $translation = array(
 	'item:object:todolist' => "To-do list",
 	'item:object:todoitem' => "To-do item",
 	
+	// settings
+	'todos:settings:enable_groups' => "Enable todos for groups",
+	
 	'todos:all:no_results' => "There are currently no to-do lists. You can add one to start writing to-dos.",
 	'todos:assigned:no_results' => "No assigned to-do items could be found",
 	'todos:assigned:closed' => "Recently closed assigned to-do items",
@@ -26,13 +29,10 @@ $translation = array(
 	
 	// sidebar
 	'todos:sidebar:todoitems_due:title' => "Due to-do items",
-	'todos:sidebar:todoitems_due:none' => "No to-do items are due!",
 	
 	'todos:sidebar:todoitems_closed:title' => "Recently closed to-do items",
-	'todos:sidebar:todoitems_closed:none' => "No recently closed to-do items",
 	
 	'todos:sidebar:todoitems_created:title' => "Recently added to-do items",
-	'todos:sidebar:todoitems_created:none' => "No recently added to-do items",
 	
 	// widgets
 	'todos:widget:assigned:title' => "Assigned to-do items",
@@ -40,12 +40,20 @@ $translation = array(
 	
 	'todos:widget:closed:title' => "Recently closed to-do items",
 	'todos:widget:closed:description' => "List recently closed to-do items",
+	'todos:widget:closed:none' => "No recently closed to-do items",
 	
 	'todos:widget:due:title' => "Due to-do items",
 	'todos:widget:due:description' => "List due to-do items",
+	'todos:widget:due:none' => "No to-do items are due!",
 	
 	'todos:widget:created:title' => "Recently created to-do items",
 	'todos:widget:created:description' => "List recently created to-do items",
+	'todos:widget:created:none' => "No recently added to-do items",
+	
+	// groups
+	'todos:group:tool_option' => "Enable todos",
+	'todos:owner_block:group' => "Group todos",
+	'' => "",
 	
 	// actions
 	'todos:action:error:title' => "Please enter a title",
