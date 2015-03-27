@@ -25,6 +25,7 @@ if (!empty($page_owner) && elgg_instanceof($page_owner, 'group')) {
 
 $list = elgg_list_entities_from_metadata($options);
 if (empty($list)) {
+	return;
 	$list = elgg_echo('todos:sidebar:todoitems_closed:none');
 }
 

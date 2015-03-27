@@ -29,13 +29,10 @@ $translation = array(
 	
 	// sidebar
 	'todos:sidebar:todoitems_due:title' => "Due to-do items",
-	'todos:sidebar:todoitems_due:none' => "No to-do items are due!",
 	
 	'todos:sidebar:todoitems_closed:title' => "Recently closed to-do items",
-	'todos:sidebar:todoitems_closed:none' => "No recently closed to-do items",
 	
 	'todos:sidebar:todoitems_created:title' => "Recently added to-do items",
-	'todos:sidebar:todoitems_created:none' => "No recently added to-do items",
 	
 	// widgets
 	'todos:widget:assigned:title' => "Assigned to-do items",
@@ -43,12 +40,15 @@ $translation = array(
 	
 	'todos:widget:closed:title' => "Recently closed to-do items",
 	'todos:widget:closed:description' => "List recently closed to-do items",
+	'todos:widget:closed:none' => "No recently closed to-do items",
 	
 	'todos:widget:due:title' => "Due to-do items",
 	'todos:widget:due:description' => "List due to-do items",
+	'todos:widget:due:none' => "No to-do items are due!",
 	
 	'todos:widget:created:title' => "Recently created to-do items",
 	'todos:widget:created:description' => "List recently created to-do items",
+	'todos:widget:created:none' => "No recently added to-do items",
 	
 	// groups
 	'todos:group:tool_option' => "Enable todos",
