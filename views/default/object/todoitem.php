@@ -75,4 +75,14 @@ if (!$full) {
 	}
 	
 	echo elgg_view_comments($entity);
+	
+	$activity = elgg_list_river(array(
+		'object_guids' => array($entity->guid),
+		'action_types' => array('create', 'reopen', 'close'),
+		'limit' => false
+	));
+	
+	if ($activity) {
+		echo elgg_view_module('info', elgg_echo('activity'), $activity);
+	}
 }

@@ -4,5 +4,6 @@ $item = elgg_extract('item', $vars);
 $object = $item->getObjectEntity();
 
 echo elgg_view('river/elements/layout', array(
-	'item' => $item
+	'item' => $item,
+	'responses' => '<span></span>'
 ));
