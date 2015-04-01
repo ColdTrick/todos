@@ -46,3 +46,23 @@
 .todos-list-item-completed.elgg-image-block .elgg-body > a {
 	color: #999;
 }
+
+.todos-item-comments {
+	font-size: 0.9em;
+    padding: 2px 8px;
+	background: #71b9f7;
+	color: #FFF;
+	border-radius: 8px;
+}
+
+.todos-item-info {
+	font-size: 0.9em;
+    padding: 2px 8px;
+	background: #eee;
+	color: #999;
+	border-radius: 8px;
+}
+
+.todos-item-info a {
+	color: #999;
+}

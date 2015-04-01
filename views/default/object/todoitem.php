@@ -19,23 +19,41 @@ if (!$full) {
 		'is_trusted' => true
 	));
 	
-	if ($entity->due) {
-		$body .= '<span class="elgg-subtext mls">';
-		$body .= elgg_view('output/date', array('value' => $entity->due));
+	$comments_count = $entity->countComments();
+	if ($comments_count) {
+		$body .= '<span class="todos-item-comments mls">';
+		$body .= elgg_echo('comments:count', array($comments_count));
 		$body .= '</span>';
 	}
-	
+		
+	$info = array();
 	if ($entity->assignee) {
 		$assignee = get_user($entity->assignee);
 		if (!empty($assignee)) {
-			$body .= '<span class="elgg-subtext mls">';
-			$body .= elgg_view('output/url', array(
+			$assignee_text = '<span class="todos-item-assignee">';
+			$assignee_text .= elgg_view('output/url', array(
 				'text' => $assignee->name,
 				'href' => $assignee->getURL(),
 				'is_trusted' => true
 			));
-			$body .= '</span>';
+			$assignee_text .= '</span>';
+
+			$info[] = $assignee_text;
 		}
+	}
+	
+	if ($entity->due) {
+		$due_text = '<span class="todos-item-due">';
+		$due_text .= elgg_view('output/date', array('value' => $entity->due));
+		$due_text .= '</span>';
+		
+		$info[] = $due_text;
+	}
+	
+	if (!empty($info)) {
+		$body .= '<span class="todos-item-info mls">';
+		$body .= implode('<span class="phs">&#8226;</span>', $info);
+		$body .= '</span>';
 	}
 	
 	$body .= elgg_view_menu('todoitem', array(
