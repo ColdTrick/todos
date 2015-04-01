@@ -6,12 +6,12 @@
 /**
  * Adds the menu items to the todoitem
  *
- * @param string  $hook   name of the hook
- * @param string  $type   type of the hook
- * @param unknown $return return value
- * @param unknown $params hook parameters
+ * @param string         $hook   name of the hook
+ * @param string         $type   type of the hook
+ * @param ElggMenuItem[] $return return value
+ * @param arary          $params hook parameters
  *
- * @return array
+ * @return ElggMenuItem[]
  */
 function todos_todoitem_menu_register($hook, $type, $return, $params) {
 	
@@ -59,12 +59,12 @@ function todos_todoitem_menu_register($hook, $type, $return, $params) {
 /**
  * Adds the menu items to the todolist
  *
- * @param string  $hook   name of the hook
- * @param string  $type   type of the hook
- * @param unknown $return return value
- * @param unknown $params hook parameters
+ * @param string         $hook   name of the hook
+ * @param string         $type   type of the hook
+ * @param ElggMenuItem[] $return return value
+ * @param arary          $params hook parameters
  *
- * @return array
+ * @return ElggMenuItem[]
  */
 function todos_todolist_menu_register($hook, $type, $return, $params) {
 	
@@ -102,12 +102,12 @@ function todos_todolist_menu_register($hook, $type, $return, $params) {
 /**
  * Adds the filter menu for todos
  *
- * @param string  $hook   name of the hook
- * @param string  $type   type of the hook
- * @param unknown $return return value
- * @param unknown $params hook parameters
+ * @param string         $hook   name of the hook
+ * @param string         $type   type of the hook
+ * @param ElggMenuItem[] $return return value
+ * @param array          $params hook parameters
  *
- * @return array
+ * @return ElggMenuItem[]
  */
 function todos_filter_menu_register($hook, $type, $return, $params) {
 	if (elgg_get_context() !== 'todos') {
@@ -150,7 +150,7 @@ function todos_filter_menu_register($hook, $type, $return, $params) {
  * @param string  $hook   name of the hook
  * @param string  $type   type of the hook
  * @param string  $return return value
- * @param unknown $params hook parameters
+ * @param arary   $params hook parameters
  *
  * @return string
  */
@@ -190,12 +190,12 @@ function todos_widget_title_url($hook, $type, $return, $params) {
 /**
  * Adds the menu items to the owner_block of a group
  *
- * @param string  $hook   name of the hook
- * @param string  $type   type of the hook
- * @param unknown $return return value
- * @param unknown $params hook parameters
+ * @param string         $hook   name of the hook
+ * @param string         $type   type of the hook
+ * @param ElggMenuItem[] $return return value
+ * @param array          $params hook parameters
  *
- * @return array
+ * @return ElggMenuItem[]
  */
 function todos_owner_block_menu_register($hook, $type, $return, $params) {
 	
@@ -219,4 +219,77 @@ function todos_owner_block_menu_register($hook, $type, $return, $params) {
 	));
 	
 	return $return;
+}
+
+/**
+ * Send notifications about due todo items
+ *
+ * @param string $hook   name of the hook
+ * @param string $type   type of the hook
+ * @param array  $return return value
+ * @param array  $params hook parameters
+ *
+ * @return void
+ */
+function todos_cron_handler($hook, $type, $return, $params) {
+	
+	if (empty($params) || !is_array($params)) {
+		return;
+	}
+	
+	$time = (int) elgg_extract('time', $params, time());
+	
+	$upper = $time + (24 * 60 * 60);
+	
+	$options = array(
+		'type' => 'object',
+		'subtype' => TodoItem::SUBTYPE,
+		'limit' => false,
+		'metadata_name_value_pairs' => array(
+			array(
+				'name' => 'due',
+				'value' => $time,
+				'operand' => '>='
+			),
+			array(
+				'name' => 'due',
+				'value' => $upper,
+				'operand' => '<='
+			)
+		)
+	);
+	
+	$ia = elgg_set_ignore_access(true);
+	
+	$batch = new ElggBatch('elgg_get_entities_from_metadata', $options);
+	foreach ($batch as $entity) {
+		$user_guids = array(
+			$entity->getOwnerGUID()
+		);
+		if ($entity->isAssigned()) {
+			$user_guids[] = $entity->getAssignee(true);
+		}
+		
+		$user_guids = array_unique($user_guids);
+		if (empty($user_guids)) {
+			continue;
+		}
+		
+		$list = $entity->getContainerEntity();
+		if (empty($list)) {
+			// orphaned to-to item, should not happen
+			continue;
+		}
+		
+		$subject = elgg_echo('todos:notify:todoitem:due_soon:subject', array($entity->title));
+		$message = elgg_echo('todos:notify:todoitem:due_soon:message', array(
+			$entity->title,
+			date('Y-m-d', $entity->due),
+			$entity->getURL()
+		));
+		
+		notify_user($user_guids, $list->getContainerGUID(), $subject, $message);
+	}
+	
+	elgg_set_ignore_access($ia);
 }
