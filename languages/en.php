@@ -6,7 +6,7 @@ $translation = array(
 	'item:object:todoitem' => "To-do item",
 	
 	// settings
-	'todos:settings:enable_groups' => "Enable todos for groups",
+	'todos:settings:enable_groups' => "Enable to-dos for groups",
 	
 	'todos:all:no_results' => "There are currently no to-do lists. You can add one to start writing to-dos.",
 	'todos:assigned:no_results' => "No assigned to-do items could be found",
@@ -59,26 +59,26 @@ $translation = array(
 	'todos:widget:list:no_list' => "No to-do list selected",
 	
 	// groups
-	'todos:group:tool_option' => "Enable todos",
-	'todos:owner_block:group' => "Group todos",
+	'todos:group:tool_option' => "Enable to-dos",
+	'todos:owner_block:group' => "Group to-dos",
 	'' => "",
 	
 	// actions
 	'todos:action:error:title' => "Please enter a title",
 	
-	'todos:action:todolist:edit:success' => "Todolist saved",
-	'todos:action:todolist:edit:error' => "An error occured during the save of the todolist",
+	'todos:action:todolist:edit:success' => "To-do list saved",
+	'todos:action:todolist:edit:error' => "An error occured during the save of the to-do list",
 	
-	'todos:action:todoitem:edit:cant_write' => "You're not allowed to add todo items to this list",
+	'todos:action:todoitem:edit:cant_write' => "You're not allowed to add to-do items to this list",
 	'todos:action:todoitem:edit:assignee' => "You can only assign a todo item to one person",
 	
-	'todos:action:todoitem:edit:success' => "Todoitem saved",
-	'todos:action:todoitem:edit:error' => "An error occured during the save of the todoitem",
+	'todos:action:todoitem:edit:success' => "To-do item saved",
+	'todos:action:todoitem:edit:error' => "An error occured during the save of the to-do item",
 	
 	// river
-	'river:create:object:todoitem' => '%s added a new todo %s',
-	'river:close:object:todoitem' => '%s closed todo %s',
-	'river:reopen:object:todoitem' => '%s reopened todo %s',
+	'river:create:object:todoitem' => '%s added a new to-do %s',
+	'river:close:object:todoitem' => '%s closed to-do %s',
+	'river:reopen:object:todoitem' => '%s reopened to-do %s',
 );
 
 add_translation('en', $translation);
