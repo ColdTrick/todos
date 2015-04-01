@@ -32,12 +32,16 @@ echo elgg_view('input/text', array(
 ));
 
 echo '<div>';
-echo '<label>' . elgg_echo('todos:todoitem:assignee') . '</label>';
-echo '<span class="ui-front">';
-echo elgg_view('input/userpicker', array(
-	'value' => $assignee,
-));
-echo '</span>';
+
+$container = get_entity($container_guid);
+if ($container->getContainerEntity() instanceof ElggGroup) {
+	echo '<label>' . elgg_echo('todos:todoitem:assignee') . '</label>';
+	echo '<span class="ui-front">';
+	echo elgg_view('input/userpicker', array(
+		'value' => $assignee,
+	));
+	echo '</span>';
+}
 
 echo '<label>' . elgg_echo('todos:todoitem:due') . '</label>';
 echo elgg_view('input/date', array(

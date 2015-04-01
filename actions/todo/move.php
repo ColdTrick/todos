@@ -17,6 +17,7 @@ if ($entity instanceof Todo) {
 			
 			$old_container_entity = $entity->getContainerEntity();
 			$entity->container_guid = $container_guid;
+			$entity->access_id = $new_container_entity->access_id;
 			
 			// move to bottom
 			$entity->order = time();
