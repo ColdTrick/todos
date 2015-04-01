@@ -3,9 +3,33 @@
 $full = (bool) elgg_extract('full_view', $vars, false);
 $entity = elgg_extract('entity', $vars);
 
+$default_show_due = true;
+$default_show_comments = true;
+$default_show_assignee = true;
+$default_show_checkbox = true;
+
+if (elgg_in_context('todos_sidebar')) {
+	$default_show_due = false;
+	$default_show_comments = false;
+	$default_show_assignee = false;
+	$default_show_checkbox = false;
+}
+
+if (elgg_in_context('widgets')) {
+	$default_show_due = false;
+	$default_show_comments = false;
+	$default_show_assignee = false;
+	$default_show_checkbox = false;
+}
+
+$show_due = elgg_extract('show_due', $vars, $default_show_due);
+$show_comments = elgg_extract('show_comments', $vars, $default_show_comments);
+$show_assignee = elgg_extract('show_assignee', $vars, $default_show_assignee);
+$show_checkbox = elgg_extract('show_checkbox', $vars, $default_show_checkbox);
+
 if (!$full) {
 	$checkbox = '';
-	if (!elgg_in_context('todos_sidebar') && !elgg_in_context('widgets')) {
+	if ($show_checkbox) {
 		$checkbox = elgg_view('input/checkbox', array(
 			'rel' => $entity->guid,
 			'checked' => $entity->isCompleted(),
@@ -19,30 +43,31 @@ if (!$full) {
 		'is_trusted' => true
 	));
 	
-	$comments_count = $entity->countComments();
-	if ($comments_count) {
-		$body .= '<span class="todos-item-comments mls">';
-		$body .= elgg_echo('comments:count', array($comments_count));
-		$body .= '</span>';
-	}
-		
-	$info = array();
-	if ($entity->assignee) {
-		$assignee = get_user($entity->assignee);
-		if (!empty($assignee)) {
-			$assignee_text = '<span class="todos-item-assignee">';
-			$assignee_text .= elgg_view('output/url', array(
-				'text' => $assignee->name,
-				'href' => $assignee->getURL(),
-				'is_trusted' => true
-			));
-			$assignee_text .= '</span>';
-
-			$info[] = $assignee_text;
+	if ($show_comments) {
+		$comments_count = $entity->countComments();
+		if ($comments_count) {
+			$body .= '<span class="todos-item-comments mls">';
+			$body .= elgg_echo('comments:count', array($comments_count));
+			$body .= '</span>';
 		}
 	}
 	
-	if ($entity->due) {
+	$info = array();
+	
+	$assignee = $entity->getAssignee();
+	if (!empty($assignee) && $show_assignee) {
+		$assignee_text = '<span class="todos-item-assignee">';
+		$assignee_text .= elgg_view('output/url', array(
+			'text' => $assignee->name,
+			'href' => $assignee->getURL(),
+			'is_trusted' => true
+		));
+		$assignee_text .= '</span>';
+
+		$info[] = $assignee_text;
+	}
+	
+	if ($entity->due && $show_due) {
 		$due_text = '<span class="todos-item-due">';
 		$due_text .= elgg_view('output/date', array('value' => $entity->due));
 		$due_text .= '</span>';
@@ -78,18 +103,16 @@ if (!$full) {
 		echo '</div>';
 	}
 	
-	if ($entity->assignee) {
-		$assignee = get_user($entity->assignee);
-		if (!empty($assignee)) {
-			echo '<div>';
-			echo '<label>' . elgg_echo('todos:todoitem:assignee') . ': </label>';
-			echo elgg_view('output/url', array(
-				'text' => $assignee->name,
-				'href' => $assignee->getURL(),
-				'is_trusted' => true
-			));
-			echo '</div>';
-		}
+	$assignee = $entity->getAssignee();
+	if (!empty($assignee)) {
+		echo '<div>';
+		echo '<label>' . elgg_echo('todos:todoitem:assignee') . ': </label>';
+		echo elgg_view('output/url', array(
+			'text' => $assignee->name,
+			'href' => $assignee->getURL(),
+			'is_trusted' => true
+		));
+		echo '</div>';
 	}
 	
 	echo elgg_view_comments($entity);

@@ -18,7 +18,9 @@ $options = array(
 		'as' => 'integer',
 		'direction' => 'asc'
 	),
-	'pagination' => false
+	'pagination' => false,
+	'show_assignee' => true,
+	'show_due' => true
 );
 
 if (elgg_instanceof($widget->getOwnerEntity(), 'group')) {
