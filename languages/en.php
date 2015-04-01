@@ -61,8 +61,64 @@ $translation = array(
 	// groups
 	'todos:group:tool_option' => "Enable to-dos",
 	'todos:owner_block:group' => "Group to-dos",
-	'' => "",
 	
+	// notifications
+	'todos:notify:todoitem:unassinged:subject' => "To-do item %s is no longer assigned",
+	'todos:notify:todoitem:unassinged:message' => "Hi,
+
+The to-do item %s is no longer assigned to %s.
+
+To view the to-do item click on the link
+%s",
+	
+	'todos:notify:todoitem:assinged:subject' => "To-do item %s was assigned",
+	'todos:notify:todoitem:assinged:message' => "Hi,
+
+The to-do item %s was assigned to %s.
+
+To view the to-do item click on the link
+%s",
+	
+	'todos:notify:todoitem:reassinged:subject' => "To-do item %s was re-assigned",
+	'todos:notify:todoitem:reassinged:message' => "Hi,
+
+The to-do item %s was re-assigned from %s to %s.
+
+To view the to-do item click on the link
+%s",
+	
+	'todos:notify:todoitem:completed:subject' => "To-do item %s was completed",
+	'todos:notify:todoitem:completed:message' => "Hi,
+
+The to-do item %s was completed.
+
+To view the to-do item click on the link
+%s",
+	
+	'todos:notify:todoitem:reopen:subject' => "To-do item %s was reopened",
+	'todos:notify:todoitem:reopen:message' => "Hi,
+
+The to-do item %s was reopened.
+
+To view the to-do item click on the link
+%s",
+	
+	'todos:notify:todoitem:due:subject' => "To-do item %s got a new due date",
+	'todos:notify:todoitem:due:message' => "Hi,
+
+The to-do item %s got the new due date %s.
+
+To view the to-do item click on the link
+%s",
+	
+	'todos:notify:todoitem:due_soon:subject' => "To-do item %s is due soon",
+	'todos:notify:todoitem:due_soon:message' => "Hi,
+
+The to-do item %s is due soon (%s).
+
+To view the to-do item click on the link
+%s",
+
 	// actions
 	'todos:action:error:title' => "Please enter a title",
 	
