@@ -62,7 +62,7 @@ function todos_todoitem_menu_register($hook, $type, $return, $params) {
  * @param string         $hook   name of the hook
  * @param string         $type   type of the hook
  * @param ElggMenuItem[] $return return value
- * @param arary          $params hook parameters
+ * @param array          $params hook parameters
  *
  * @return ElggMenuItem[]
  */

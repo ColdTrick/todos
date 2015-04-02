@@ -12,13 +12,13 @@ $container = $entity->getContainerEntity();
 $todolist = false;
 if (elgg_instanceof($entity, 'object', TodoList::SUBTYPE)) {
 	
-	$items = todos_todolist_menu_register('','', array(), array('entity' => $entity));
+	$items = todos_todolist_menu_register('', '', array(), array('entity' => $entity));
 } else {
 	$todolist = $entity->getContainerEntity();
 	if (!empty($todolist)) {
 		$container = $todolist->getContainerEntity();
 	}
-	$items = todos_todoitem_menu_register('','', array(), array('entity' => $entity, 'full_view' => true));
+	$items = todos_todoitem_menu_register('', '', array(), array('entity' => $entity, 'full_view' => true));
 }
 
 if (elgg_instanceof($container, 'group')) {

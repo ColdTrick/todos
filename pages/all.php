@@ -8,7 +8,7 @@ if (!in_array($filter, array('active', 'completed'))) {
 }
 
 $page_owner = elgg_get_page_owner_entity();
-if(!$page_owner) {
+if (empty($page_owner)) {
 	$page_owner = elgg_get_logged_in_user_entity();
 }
 
