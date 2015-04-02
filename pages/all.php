@@ -15,12 +15,11 @@ if(!$page_owner) {
 $container_guid = $page_owner->getGUID();
 elgg_set_page_owner_guid($container_guid);
 
+if (!todos_enabled_for_container($page_owner)) {
+	forward(REFERER);
+}
+
 if (elgg_instanceof($page_owner, 'group')) {
-	
-	if (!todos_group_enabled($page_owner)) {
-		forward(REFERER);
-	}
-	
 	elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
 	elgg_push_breadcrumb($page_owner->name);
 }

@@ -94,6 +94,9 @@ function todos_page_handler($pages) {
  * @return void
  */
 function todos_pagesetup() {
-	$item = new ElggMenuItem('todos', elgg_echo('todos'), 'todos');
-	elgg_register_menu_item('site', $item);
+	
+	if (todos_personal_enabled()) {
+		$item = new ElggMenuItem('todos', elgg_echo('todos'), 'todos');
+		elgg_register_menu_item('site', $item);
+	}
 }

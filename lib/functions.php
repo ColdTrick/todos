@@ -75,3 +75,43 @@ function todos_group_enabled(ElggGroup $group = null) {
 
 	return false;
 }
+
+/**
+ * Check if personal support is enabled
+ *
+ * @return bool
+ */
+function todos_personal_enabled() {
+	static $plugin_setting;
+
+	if (!isset($plugin_setting)) {
+		$plugin_setting = false;
+
+		$setting = elgg_get_plugin_setting('enable_personal', 'todos');
+		if ($setting === 'yes') {
+			$plugin_setting = true;
+		}
+	}
+
+	return $plugin_setting;
+}
+
+/**
+ * Wrapper function to check if todos is enabled to user/group
+ *
+ * @param ElggEntity $container the user/group to check
+ *
+ * @return bool
+ */
+function todos_enabled_for_container(ElggEntity $container) {
+	
+	if (empty($container) || !elgg_instanceof($container)) {
+		return false;
+	}
+	
+	if (elgg_instanceof($container, 'group')) {
+		return todos_group_enabled($container);
+	}
+	
+	return todos_personal_enabled();
+}

@@ -6,6 +6,7 @@ $translation = array(
 	'item:object:todoitem' => "To-do item",
 	
 	// settings
+	'todos:settings:enable_personal' => "Enable to-dos for users",
 	'todos:settings:enable_groups' => "Enable to-dos for groups",
 	
 	'todos:all:no_results' => "There are currently no to-do lists. You can add one to start writing to-dos.",

@@ -33,7 +33,7 @@ function todos_todoitem_menu_register($hook, $type, $return, $params) {
 			$return[] = ElggMenuItem::factory(array(
 				'name' => 'toggle',
 				'text' => $entity->isCompleted() ? elgg_echo('todos:todoitem:reopen') : elgg_echo('todos:todoitem:close'),
-				'href' => 'action/todos/todoitem/toggle?guid=' . $entity->getGUID(),
+				'href' => "action/todos/todoitem/toggle?guid={$entity->getGUID()}",
 				'is_action' => true
 			));
 		}
@@ -41,14 +41,14 @@ function todos_todoitem_menu_register($hook, $type, $return, $params) {
 		$return[] = ElggMenuItem::factory(array(
 			'name' => 'edit',
 			'text' => elgg_echo('edit'),
-			'href' => 'ajax/view/todos/todoitem/form?guid=' . $entity->getGUID(),
+			'href' => "ajax/view/todos/todoitem/form?guid={$entity->getGUID()}",
 			'link_class' => 'elgg-lightbox'
 		));
 		
 		$return[] = ElggMenuItem::factory(array(
 			'name' => 'delete',
 			'text' => elgg_echo('delete'),
-			'href' => 'action/todos/todoitem/delete?guid=' . $entity->getGUID(),
+			'href' => "action/todos/todoitem/delete?guid={$entity->getGUID()}",
 			'confirm' => elgg_echo('deleteconfirm')
 		));
 	}
@@ -84,14 +84,14 @@ function todos_todolist_menu_register($hook, $type, $return, $params) {
 		$return[] = ElggMenuItem::factory(array(
 			'name' => 'edit',
 			'text' => elgg_echo('edit'),
-			'href' => 'ajax/view/todos/todolist/form?guid=' . $entity->getGUID(),
+			'href' => "ajax/view/todos/todolist/form?guid={$entity->getGUID()}",
 			'link_class' => 'elgg-lightbox'
 		));
 		
 		$return[] = ElggMenuItem::factory(array(
 			'name' => 'delete',
 			'text' => elgg_echo('delete'),
-			'href' => 'action/todos/todolist/delete?guid=' . $entity->getGUID(),
+			'href' => "action/todos/todolist/delete?guid={$entity->getGUID()}",
 			'confirm' => elgg_echo('deleteconfirm')
 		));
 	}
@@ -114,30 +114,32 @@ function todos_filter_menu_register($hook, $type, $return, $params) {
 		return $return;
 	}
 	
-	$base_url = 'todos';
 	$page_owner = elgg_get_page_owner_entity();
-	if (elgg_instanceof($page_owner, 'group')) {
-		$base_url .= "/group/{$page_owner->getGUID()}/all";
-	}
+	if (todos_enabled_for_container($page_owner)) {
+		$base_url = 'todos';
+		if (elgg_instanceof($page_owner, 'group')) {
+			$base_url .= "/group/{$page_owner->getGUID()}/all";
+		}
+		
+		$return[] = ElggMenuItem::factory(array(
+			'name' => 'active',
+			'text' => elgg_echo('todos:filter:active'),
+			'href' => $base_url
+		));
 	
-	$return[] = ElggMenuItem::factory(array(
-		'name' => 'active',
-		'text' => elgg_echo('todos:filter:active'),
-		'href' => $base_url
-	));
-
-	$return[] = ElggMenuItem::factory(array(
-		'name' => 'completed',
-		'text' => elgg_echo('todos:filter:completed'),
-		'href' => "$base_url?filter=completed"
-	));
+		$return[] = ElggMenuItem::factory(array(
+			'name' => 'completed',
+			'text' => elgg_echo('todos:filter:completed'),
+			'href' => "{$base_url}?filter=completed"
+		));
+	}
 
 	$user = elgg_get_logged_in_user_entity();
 	if (!empty($user)) {
 		$return[] = ElggMenuItem::factory(array(
 			'name' => 'assigned',
 			'text' => elgg_echo('todos:filter:assigned'),
-			'href' => 'todos/assigned/' . $user->username
+			'href' => "todos/assigned/{$user->username}"
 		));
 	}
 	
@@ -171,7 +173,7 @@ function todos_widget_title_url($hook, $type, $return, $params) {
 	
 	switch ($widget->handler) {
 		case 'todos_assigned':
-			$return = 'todos/assigned/' . $widget->getOwnerEntity()->username;
+			$return = "todos/assigned/{$widget->getOwnerEntity()->username}";
 			break;
 		case 'todos_list':
 			$list_guid = (int) $widget->list_guid;
