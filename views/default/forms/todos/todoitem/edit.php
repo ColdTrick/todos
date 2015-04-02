@@ -7,7 +7,7 @@ $title = '';
 $assignee = null;
 $due = null;
 
-if ($entity) {
+if (!empty($entity)) {
 	$title = $entity->title;
 	$assignee = $entity->assignee;
 	$due = $entity->due;
@@ -33,8 +33,8 @@ echo elgg_view('input/text', array(
 
 echo '<div>';
 
-$container = get_entity($container_guid);
-if ($container->getContainerEntity() instanceof ElggGroup) {
+$list = get_entity($container_guid);
+if (!empty($list) && elgg_instanceof($list->getContainerEntity(), 'group')) {
 	echo '<label>' . elgg_echo('todos:todoitem:assignee') . '</label>';
 	echo '<span class="ui-front">';
 	echo elgg_view('input/userpicker', array(

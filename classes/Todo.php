@@ -6,9 +6,9 @@ class Todo extends ElggObject {
 	
 	/**
 	 * Reorders todo to new position
-	 * 
-	 * @param int $pos new position
-	 * 
+	 *
+	 * @param int $offset new position
+	 *
 	 * @return void
 	 */
 	public function moveToPosition($offset) {
@@ -28,8 +28,8 @@ class Todo extends ElggObject {
 		
 		$entities = elgg_get_entities_from_metadata($options);
 		if (empty($entities)) {
-			// nothing to do			
-			return;	
+			// nothing to do
+			return;
 		}
 
 		$current_pos_entity = elgg_extract($offset, $entities);
@@ -61,5 +61,5 @@ class Todo extends ElggObject {
 				}
 			}
 		}
-	}	
+	}
 }
