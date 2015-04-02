@@ -29,13 +29,17 @@ $options = array(
 	'limit' => false,
 	'full_view' => false,
 	'item_class' => 'todos-list-item',
-	'list_class' => 'todos-list todos-list-todoitem',
+	'list_class' => 'todos-list todos-list-todoitem elgg-todo-' . $entity->guid,
 	'container_guid' => $entity->getGUID(),
 	'order_by_metadata' => array(
 		'name' => 'order',
 		'as' => 'integer'
-	),
+	)
 );
+
+if (can_write_to_container(null, $entity->getContainerGUID())) {
+	$options['list_class'] .= ' todos-sortable';
+}
 
 $active_todos = elgg_list_entities_from_metadata($options);
 echo $active_todos;
@@ -49,7 +53,7 @@ if ($entity->canWriteToContainer(0, 'object', TodoItem::SUBTYPE)) {
 	
 	if (empty($active_todos) && !$full) {
 		// add an empty place to drop todos from other lists
-		echo "<ul class='elgg-list todos-list todos-list-todoitem'></ul>";	
+		echo "<ul class='elgg-list todos-list todos-list-todoitem todos-sortable elgg-todo-{$entity->guid}'></ul>";	
 	}
 	
 	echo '<div>';
@@ -80,6 +84,6 @@ if ($full) {
 	$completed_list = elgg_list_entities_from_metadata($options);
 	
 	if ($completed_list) {
-		echo elgg_view_module('info', elgg_echo("Completed to-dos"), $completed_list, array('class' => 'mtl'));
+		echo elgg_view_module('info', elgg_echo("todos:todolist:completed"), $completed_list, array('class' => 'mtl'));
 	}
 }

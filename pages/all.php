@@ -20,7 +20,7 @@ if (!todos_enabled_for_container($page_owner)) {
 }
 
 if (elgg_instanceof($page_owner, 'group')) {
-	elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
+	elgg_push_breadcrumb(elgg_echo('todos'), "todos/group/{$page_owner->getGUID()}/all");
 	elgg_push_breadcrumb($page_owner->name);
 }
 
@@ -38,6 +38,10 @@ $options = array(
 	),
 );
 
+if (can_write_to_container(null, $container_guid)) {
+	$options['list_class'] .= ' todos-sortable';
+}
+
 switch ($filter) {
 	case 'active':
 		
@@ -47,7 +51,7 @@ switch ($filter) {
 			
 			$item = ElggMenuItem::factory([
 				'text' => elgg_echo('todos:todolist:add'),
-				'href' => 'ajax/view/todos/todolist/form?container_guid=' . $page_owner->getGUID(),
+				'href' => "ajax/view/todos/todolist/form?container_guid={$page_owner->getGUID()}",
 				'name' => 'todolist_add',
 				'class' => 'elgg-button elgg-button-action elgg-lightbox'
 			]);

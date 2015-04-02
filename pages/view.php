@@ -6,14 +6,25 @@ if (!$entity) {
 	forward();
 }
 
-elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
-
 $items = array();
 if ($entity instanceof TodoList) {
+	$container = $entity->getContainerEntity();
+	if ($container instanceof ElggGroup) {
+		elgg_push_breadcrumb(elgg_echo('todos'), 'todos/group/' . $container->guid . '/all');
+	} else {
+		elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
+	}
 	$items = todos_todolist_menu_register('','', [], ['entity' => $entity]);
 } else {
 	$todolist = $entity->getContainerEntity();
 	if ($todolist) {
+		$container = $todolist->getContainerEntity();
+		if ($container instanceof ElggGroup) {
+			elgg_set_page_owner_guid($container->guid);
+			elgg_push_breadcrumb(elgg_echo('todos'), 'todos/group/' . $container->guid . '/all');
+		} else {
+			elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
+		}
 		elgg_push_breadcrumb($todolist->title, $todolist->getURL());
 	}
 	$items = todos_todoitem_menu_register('','', [], ['entity' => $entity, 'full_view' => true]);
