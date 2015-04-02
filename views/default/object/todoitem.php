@@ -54,19 +54,21 @@ if (!$full) {
 	
 	$info = array();
 	
-	$assignee = $entity->getAssignee();
-	if (!empty($assignee) && $show_assignee) {
-		$assignee_text = '<span class="todos-item-assignee">';
-		$assignee_text .= elgg_view('output/url', array(
-			'text' => $assignee->name,
-			'href' => $assignee->getURL(),
-			'is_trusted' => true
-		));
-		$assignee_text .= '</span>';
-
-		$info[] = $assignee_text;
-	}
+	if ($show_assignee) {
+		$assignee = $entity->getAssignee();
+		if (!empty($assignee)) {
+			$assignee_text = '<span class="todos-item-assignee">';
+			$assignee_text .= elgg_view('output/url', array(
+				'text' => $assignee->name,
+				'href' => $assignee->getURL(),
+				'is_trusted' => true
+			));
+			$assignee_text .= '</span>';
 	
+			$info[] = $assignee_text;
+		}
+	}
+		
 	if ($entity->due && $show_due) {
 		$due_text = '<span class="todos-item-due">';
 		$due_text .= elgg_view('output/date', array('value' => $entity->due));

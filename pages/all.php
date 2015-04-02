@@ -39,6 +39,10 @@ $options = array(
 	),
 );
 
+if (can_write_to_container(null, $container_guid)) {
+	$options['list_class'] .= ' todos-sortable';
+}
+
 switch ($filter) {
 	case 'active':
 		
