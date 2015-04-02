@@ -47,6 +47,10 @@
 	color: #999;
 }
 
+#todos-todoitem-edit {
+	max-width: 330px;
+}
+
 .todos-item-comments {
 	font-size: 0.9em;
     padding: 2px 8px;
