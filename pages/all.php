@@ -58,10 +58,11 @@ switch ($filter) {
 			elgg_register_menu_item('title', $item);
 		}
 		
-		$options['metadata_name_value_pairs'] = ['active' => true];
+		$options['metadata_name_value_pairs'] = array('active' => true);
 		break;
 	case 'completed':
-		$options['metadata_name_value_pairs'] = ['active' => false];
+		$options['metadata_name_value_pairs'] = array('active' => false);
+		$options['show_completed'] = true;
 		break;
 }
 

@@ -35,7 +35,7 @@ if (!empty($todolist)) {
 elgg_push_breadcrumb($entity->title);
 	
 foreach ($items as $menu_item) {
-	$menu_item->setLinkClass('elgg-button elgg-button-action');
+	$menu_item->addLinkClass('elgg-button elgg-button-action');
 	elgg_register_menu_item('title', $menu_item);
 }
 

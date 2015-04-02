@@ -25,8 +25,11 @@ function todos_todoitem_menu_register($hook, $type, $return, $params) {
 	}
 	
 	if ($entity->canEdit()) {
-		elgg_load_js("lightbox");
-		elgg_load_css("lightbox");
+		elgg_load_js('lightbox');
+		elgg_load_css('lightbox');
+		
+		elgg_load_js('elgg.userpicker');
+		elgg_load_js('jquery.ui.autocomplete.html');
 		
 		$full_view = elgg_extract('full_view', $params, false);
 		if ($full_view) {
@@ -78,8 +81,8 @@ function todos_todolist_menu_register($hook, $type, $return, $params) {
 	}
 	
 	if ($entity->canEdit()) {
-		elgg_load_js("lightbox");
-		elgg_load_css("lightbox");
+		elgg_load_js('lightbox');
+		elgg_load_css('lightbox');
 		
 		$return[] = ElggMenuItem::factory(array(
 			'name' => 'edit',
@@ -282,4 +285,38 @@ function todos_cron_handler($hook, $type, $return, $params) {
 	}
 	
 	elgg_set_ignore_access($ia);
+}
+
+/**
+ * Check if a user can comment on a to-do item
+ *
+ * @param string $hook   name of the hook
+ * @param string $type   type of the hook
+ * @param array  $return return value
+ * @param array  $params hook parameters
+ *
+ * @return bool
+ */
+function todos_todoitem_can_comment($hook, $type, $return, $params) {
+	
+	if (empty($params) || !is_array($params)) {
+		return $return;
+	}
+	
+	$entity = elgg_extract('entity', $params);
+	if (empty($entity) || !elgg_instanceof($entity, 'object', TodoItem::SUBTYPE)) {
+		return $return;
+	}
+	
+	$user = elgg_extract('user', $params);
+	if (empty($user) || !elgg_instanceof($user, 'user')) {
+		return $return;
+	}
+	
+	$list = $entity->getContainerEntity();
+	if (empty($list)) {
+		return false;
+	}
+	
+	return $list->canWriteToContainer($user->getGUID(), 'object', TodoItem::SUBTYPE);
 }
