@@ -57,6 +57,7 @@
 	background: #71b9f7;
 	color: #FFF;
 	border-radius: 8px;
+	white-space: nowrap;
 }
 
 .todos-item-info {
