@@ -84,6 +84,6 @@ if ($full) {
 	$completed_list = elgg_list_entities_from_metadata($options);
 	
 	if ($completed_list) {
-		echo elgg_view_module('info', elgg_echo("Completed to-dos"), $completed_list, array('class' => 'mtl'));
+		echo elgg_view_module('info', elgg_echo("todos:todolist:completed"), $completed_list, array('class' => 'mtl'));
 	}
 }

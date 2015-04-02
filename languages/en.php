@@ -19,6 +19,7 @@ $translation = array(
 	'todos:todolist:error:missing_container' => "Please supply a container to create the list in",
 	'todos:todolist:add' => "Add to-do list",
 	'todos:todolist:title' => "Enter the name for the to-do list",
+	'todos:todolist:completed' => "Completed to-dos",
 
 	'todos:todoitem:add' => "Add a to-do",
 	'todos:todoitem:reopen' => "Reopen",
