@@ -21,7 +21,7 @@ if (elgg_instanceof($page_owner, 'group')) {
 		forward(REFERER);
 	}
 	
-	elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
+	elgg_push_breadcrumb(elgg_echo('todos'), 'todos/group/' . $page_owner->guid . '/all');
 	elgg_push_breadcrumb($page_owner->name);
 }
 
