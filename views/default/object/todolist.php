@@ -3,6 +3,8 @@
 $full = (bool) elgg_extract('full_view', $vars, false);
 $entity = elgg_extract('entity', $vars);
 
+$show_completed = (bool) elgg_extract('show_completed', $vars, false);
+
 if (empty($entity) || !elgg_instanceof($entity, 'object', TodoList::SUBTYPE)) {
 	return;
 }
@@ -30,12 +32,15 @@ $options = array(
 	'full_view' => false,
 	'item_class' => 'todos-list-item',
 	'list_class' => 'todos-list todos-list-todoitem elgg-todo-' . $entity->guid,
-	'container_guid' => $entity->getGUID(),
-	'order_by_metadata' => array(
+	'container_guid' => $entity->getGUID()
+);
+
+if (!$show_completed) {
+	$options['order_by_metadata'] = array(
 		'name' => 'order',
 		'as' => 'integer'
-	)
-);
+	);
+}
 
 if (can_write_to_container(null, $entity->getContainerGUID())) {
 	$options['list_class'] .= ' todos-sortable';
@@ -53,7 +58,7 @@ if ($entity->canWriteToContainer(0, 'object', TodoItem::SUBTYPE)) {
 	
 	if (empty($active_todos) && !$full) {
 		// add an empty place to drop todos from other lists
-		echo "<ul class='elgg-list todos-list todos-list-todoitem todos-sortable elgg-todo-{$entity->guid}'></ul>";	
+		echo "<ul class='elgg-list todos-list todos-list-todoitem todos-sortable elgg-todo-{$entity->guid}'></ul>";
 	}
 	
 	echo '<div>';

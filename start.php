@@ -40,6 +40,7 @@ function todos_init() {
 	elgg_register_plugin_hook_handler('register', 'menu:filter', 'todos_filter_menu_register');
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'todos_owner_block_menu_register');
 	elgg_register_plugin_hook_handler('cron', 'daily', 'todos_cron_handler');
+	elgg_register_plugin_hook_handler('permissions_check:comment', 'object', 'todos_todoitem_can_comment');
 	
 	// groups
 	if (todos_group_enabled()) {

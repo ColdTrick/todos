@@ -117,7 +117,7 @@ if (!$full) {
 		echo '</div>';
 	}
 	
-	echo elgg_view_comments($entity);
+	echo elgg_view_comments($entity, $entity->canComment());
 	
 	$activity = elgg_list_river(array(
 		'object_guids' => array($entity->guid),
