@@ -13,8 +13,10 @@ if (!$page_owner->canEdit()) {
 
 elgg_set_page_owner_guid($page_owner->getGUID());
 
-elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
-elgg_push_breadcrumb($page_owner->name);
+if (todos_personal_enabled()) {
+	elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
+	elgg_push_breadcrumb($page_owner->name);
+}
 
 $title = elgg_echo("todos:filter:assigned");
 
@@ -51,7 +53,10 @@ if (!empty($closed)) {
 	$content .= elgg_view_module('info', elgg_echo('todos:assigned:closed'), $closed, array('class' => 'mtl'));
 }
 
-$filter = elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz'));
+$filter = '';
+if (todos_personal_enabled()) {
+	$filter = elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz'));
+}
 
 $body = elgg_view_layout('content', array(
 	'title' => $title,
