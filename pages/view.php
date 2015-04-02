@@ -20,6 +20,7 @@ if ($entity instanceof TodoList) {
 	if ($todolist) {
 		$container = $todolist->getContainerEntity();
 		if ($container instanceof ElggGroup) {
+			elgg_set_page_owner_guid($container->guid);
 			elgg_push_breadcrumb(elgg_echo('todos'), 'todos/group/' . $container->guid . '/all');
 		} else {
 			elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
