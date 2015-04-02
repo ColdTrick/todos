@@ -66,7 +66,7 @@ $translation = array(
 	'todos:notify:todoitem:unassinged:subject' => "To-do item %s is no longer assigned",
 	'todos:notify:todoitem:unassinged:message' => "Hi,
 
-The to-do item %s is no longer assigned to %s.
+%s unassigned the to-do item %s from %s.
 
 To view the to-do item click on the link
 %s",
@@ -74,7 +74,7 @@ To view the to-do item click on the link
 	'todos:notify:todoitem:assinged:subject' => "To-do item %s was assigned",
 	'todos:notify:todoitem:assinged:message' => "Hi,
 
-The to-do item %s was assigned to %s.
+%s assigned the to-do item %s to %s.
 
 To view the to-do item click on the link
 %s",
@@ -82,7 +82,7 @@ To view the to-do item click on the link
 	'todos:notify:todoitem:reassinged:subject' => "To-do item %s was re-assigned",
 	'todos:notify:todoitem:reassinged:message' => "Hi,
 
-The to-do item %s was re-assigned from %s to %s.
+%s reassigned the to-do item %s from %s to %s.
 
 To view the to-do item click on the link
 %s",
@@ -90,7 +90,7 @@ To view the to-do item click on the link
 	'todos:notify:todoitem:completed:subject' => "To-do item %s was completed",
 	'todos:notify:todoitem:completed:message' => "Hi,
 
-The to-do item %s was completed.
+%s marked the to-do item %s as completed.
 
 To view the to-do item click on the link
 %s",
@@ -98,7 +98,7 @@ To view the to-do item click on the link
 	'todos:notify:todoitem:reopen:subject' => "To-do item %s was reopened",
 	'todos:notify:todoitem:reopen:message' => "Hi,
 
-The to-do item %s was reopened.
+%s reopend the to-do item %s.
 
 To view the to-do item click on the link
 %s",
@@ -106,7 +106,7 @@ To view the to-do item click on the link
 	'todos:notify:todoitem:due:subject' => "To-do item %s got a new due date",
 	'todos:notify:todoitem:due:message' => "Hi,
 
-The to-do item %s got the new due date %s.
+%s changed the due date of the to-do item %s to %s.
 
 To view the to-do item click on the link
 %s",

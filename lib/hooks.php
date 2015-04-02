@@ -263,18 +263,6 @@ function todos_cron_handler($hook, $type, $return, $params) {
 	
 	$batch = new ElggBatch('elgg_get_entities_from_metadata', $options);
 	foreach ($batch as $entity) {
-		$user_guids = array(
-			$entity->getOwnerGUID()
-		);
-		if ($entity->isAssigned()) {
-			$user_guids[] = $entity->getAssignee(true);
-		}
-		
-		$user_guids = array_unique($user_guids);
-		if (empty($user_guids)) {
-			continue;
-		}
-		
 		$list = $entity->getContainerEntity();
 		if (empty($list)) {
 			// orphaned to-to item, should not happen
@@ -288,7 +276,7 @@ function todos_cron_handler($hook, $type, $return, $params) {
 			$entity->getURL()
 		));
 		
-		notify_user($user_guids, $list->getContainerGUID(), $subject, $message);
+		$entity->notifyUsers($subject, $message, $list->getContainerGUID());
 	}
 	
 	elgg_set_ignore_access($ia);
