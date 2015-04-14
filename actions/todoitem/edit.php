@@ -61,6 +61,7 @@ if (empty($entity)) {
 	$entity = new TodoItem();
 	$entity->container_guid = $todolist->getGUID();
 	$entity->access_id = $todolist->access_id;
+	$entity->save();
 	
 	$new_entity_created = true;
 }
