@@ -63,7 +63,7 @@ function todos_init() {
 /**
  * Page handler
  *
- * @return void | bool
+ * @return true
  */
 function todos_page_handler($pages) {
 		
