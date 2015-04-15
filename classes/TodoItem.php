@@ -139,7 +139,6 @@ class TodoItem extends Todo {
 		
 		$assignee = sanitize_int($assignee, false);
 		$new_assignee = get_user($assignee);
-		$acting_user = elgg_get_logged_in_user_entity();
 		
 		if (empty($new_assignee)) {
 			if ($this->isAssigned()) {
