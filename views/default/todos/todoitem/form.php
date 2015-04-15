@@ -19,8 +19,15 @@ if (empty($container_guid)) {
 	return;
 }
 
-
-echo elgg_view_form('todos/todoitem/edit', array('id' => 'todos-todoitem-edit'), array('container_guid' => $container_guid, 'entity' => $entity));
+$form_vars = array(
+	'id' => 'todos-todoitem-edit',
+	'enctype' => 'multipart/form-data'
+);
+$body_vars = array(
+	'container_guid' => $container_guid,
+	'entity' => $entity
+);
+echo elgg_view_form('todos/todoitem/edit', $form_vars, $body_vars);
 
 // datepicker lightbox and userpicker fix
 ?>

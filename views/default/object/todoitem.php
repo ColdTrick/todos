@@ -117,6 +117,52 @@ if (!$full) {
 		echo '</div>';
 	}
 	
+	$attachments = $entity->getAttachments();
+	if (!empty($attachments) || $entity->canEdit()) {
+		echo '<div>';
+		echo '<label>' . elgg_echo('todos:todoitem:attachment') . ': </label>';
+		
+		if (!empty($attachments)) {
+			echo '<ul>';
+			
+			foreach ($attachments as $attachment) {
+				echo '<li>';
+				echo elgg_view('output/url', array(
+					'text' => $attachment,
+					'href' => "todos/attachment/{$entity->getGUID()}/{$attachment}"
+				));
+				
+				if ($entity->canEdit()) {
+					echo elgg_view('output/confirmlink', array(
+						'text' => elgg_view_icon('delete'),
+						'href' => "action/todos/todoitem/delete_attachment?guid={$entity->getGUID()}&filename={$attachment}",
+						'confirm' => elgg_echo('deleteconfirm'),
+						'title' => elgg_echo('delete'),
+						'class' => 'mlm'
+					));
+				}
+				
+				echo '</li>';
+			}
+			
+			echo '</ul>';
+		}
+		
+		if ($entity->canEdit()) {
+			elgg_load_js('lightbox');
+			elgg_load_css('lightbox');
+			
+			echo '<div class="mtm">';
+			echo elgg_view('output/url', array(
+				'text' => elgg_echo('todos:todoitem:attachment:upload'),
+				'href' => "ajax/view/todos/todoitem/attach?guid={$entity->getGUID()}",
+				'class' => 'elgg-lightbox'
+			));
+			echo '</div>';
+		}
+		echo '</div>';
+	}
+	
 	echo elgg_view_comments($entity, $entity->canComment());
 	
 	$activity = elgg_list_river(array(

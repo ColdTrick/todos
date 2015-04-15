@@ -47,7 +47,8 @@
 	color: #999;
 }
 
-#todos-todoitem-edit {
+#todos-todoitem-edit,
+#todos-todoitem-attach {
 	max-width: 330px;
 }
 

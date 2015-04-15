@@ -26,10 +26,15 @@ $translation = array(
 	'todos:todoitem:reopen' => "Reopen",
 	'todos:todoitem:close' => "Close",
 	'todos:todoitem:error:missing_container' => "Missing to-do list",
+	'todos:todoitem:error:not_item' => "Please provide a to-do item",
 	
 	'todos:todoitem:title' => "Enter the title of the to-do",
 	'todos:todoitem:assignee' => "Assignee",
 	'todos:todoitem:due' => "Due",
+	'todos:todoitem:attachment' => "Attachment",
+	'todos:todoitem:attachment:upload' => "Upload attachment",
+	
+	'todos:todoitem:attach' => "Upload attachment for: %s",
 	
 	// sidebar
 	'todos:sidebar:todoitems_due:title' => "Due to-do items",
@@ -152,6 +157,12 @@ To view the to-do item click on the link
 	
 	'todos:action:todoitem:toggle:reopened' => "The to-do item %s was reopend",
 	'todos:action:todoitem:toggle:closed' => "The to-do item %s was completed",
+	
+	'todos:action:todoitem:delete_attachment:error' => "Unable to delete the attachment",
+	'todos:action:todoitem:delete_attachment:success' => "The attachment was deleted",
+	
+	'todos:action:todoitem:attachment:error:file' => "Please upload a file",
+	'todos:action:todoitem:attachment:success' => "The attachment was uploaded successfully",
 	
 	// river
 	'river:create:object:todoitem' => '%s added a new to-do %s',

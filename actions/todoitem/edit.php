@@ -5,6 +5,7 @@ $container_guid = (int) get_input('container_guid');
 $guid = (int) get_input('guid');
 $due = (int) get_input('due');
 $assignee = get_input('members');
+$attachment = get_uploaded_file('attachment');
 
 $entity = false;
 
@@ -76,6 +77,11 @@ $entity->title = $title;
 $entity->setDueDate($due);
 
 $entity->assign($assignee);
+
+if (!empty($attachment)) {
+	$filename = $_FILES['attachment']['name'];
+	$entity->attach($filename, $attachment);
+}
 
 if ($entity->save()) {
 	system_message(elgg_echo('todos:action:todoitem:edit:success'));

@@ -268,6 +268,127 @@ class TodoItem extends Todo {
 	}
 	
 	/**
+	 * Attach a file to the item
+	 *
+	 * @param string $filename the name of the file
+	 * @param string $content  the file contents
+	 *
+	 * @return void
+	 */
+	public function attach($filename, $content) {
+		
+		if (empty($filename) || empty($content)) {
+			return;
+		}
+		
+		if (!$this->getGUID()) {
+			return;
+		}
+		
+		$prefix = 'attachments/';
+		
+		$fh = new ElggFile();
+		$fh->owner_guid = $this->getGUID();
+		$fh->setFilename($prefix . $filename);
+		
+		if ($fh->exists()) {
+			$i = 1;
+			$fh->setFilename($prefix . $i . $filename);
+			while ($fh->exists()) {
+				$i++;
+				$fh->setFilename($prefix . $i . $filename);
+			}
+		}
+		
+		$fh->open('write');
+		$fh->write($content);
+		$fh->close();
+	}
+	
+	/**
+	 * Get all attachted files
+	 *
+	 * @return array
+	 */
+	public function getAttachments() {
+		$result = array();
+		
+		if (!$this->getGUID()) {
+			return $result;
+		}
+		
+		$fh = new ElggFile();
+		$fh->owner_guid = $this->getGUID();
+		$fh->setFilename('attachments/');
+		
+		$base_path = $fh->getFilenameOnFilestore();
+		$dh = opendir($base_path);
+		if (empty($dh)) {
+			return $result;
+		}
+		
+		while (($filename = readdir($dh)) !== false) {
+			if (!is_file($base_path . $filename)) {
+				continue;
+			}
+			
+			$result[] = $filename;
+		}
+		
+		natcasesort($result);
+		
+		return $result;
+	}
+	
+	/**
+	 * Get the contents of one attchements
+	 *
+	 * @param string $filename the filename of the attachment
+	 *
+	 * @return false|string;
+	 */
+	public function getAttachment($filename) {
+		
+		if (!$this->getGUID()) {
+			return false;
+		}
+		
+		$fh = new ElggFile();
+		$fh->owner_guid = $this->getGUID();
+		$fh->setFilename("attachments/{$filename}");
+		
+		if (!$fh->exists()) {
+			return false;
+		}
+		
+		return $fh->grabFile();
+	}
+	
+	/**
+	 * Delete an attachment
+	 *
+	 * @param string $filename the filename of the attachment
+	 *
+	 * @return bool;
+	 */
+	public function deleteAttachment($filename) {
+		
+		if (!$this->getGUID()) {
+			return false;
+		}
+		
+		$fh = new ElggFile();
+		$fh->owner_guid = $this->getGUID();
+		$fh->setFilename("attachments/{$filename}");
+		
+		if (!$fh->exists()) {
+			return false;
+		}
+		
+		return $fh->delete();
+	}
+	
+	/**
 	 * Notify users about the unassignment of the to-do
 	 *
 	 * @return void

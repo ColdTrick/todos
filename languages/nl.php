@@ -1,5 +1,13 @@
 <?php
 $language = array (
+  'todos:todoitem:error:not_item' => 'Geef een to-do item op',
+  'todos:todoitem:attachment' => 'Bijlage',
+  'todos:todoitem:attachment:upload' => 'Bijlage uploaden',
+  'todos:todoitem:attach' => 'Bijlage toevoegen aan: %s',
+  'todos:action:todoitem:delete_attachment:error' => 'De bijlage kon niet worden verwijderd',
+  'todos:action:todoitem:delete_attachment:success' => 'De bijlage is verwijderd',
+  'todos:action:todoitem:attachment:error:file' => 'Upload aub een bestand',
+  'todos:action:todoitem:attachment:success' => 'De bijlage is opgeslagen',
   'todos:action:todoitem:edit:due_in_past' => 'Je kunt geen einddatum opgeven in het verleden',
   'todos:action:todoitem:toggle:reopened' => 'Het to-do item %s is heropend',
   'todos:action:todoitem:toggle:closed' => 'Het to-do item %s is afgesloten',

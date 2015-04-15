@@ -29,11 +29,14 @@ function todos_init() {
 	elgg_register_action('todos/todoitem/edit', $actions_path . 'todoitem/edit.php');
 	elgg_register_action('todos/todoitem/delete', $actions_path . 'todoitem/delete.php');
 	elgg_register_action('todos/todoitem/toggle', $actions_path . 'todoitem/toggle.php');
+	elgg_register_action('todos/todoitem/delete_attachment', $actions_path . 'todoitem/delete_attachment.php');
+	elgg_register_action('todos/todoitem/attach', $actions_path . 'todoitem/attach.php');
 	
 	elgg_register_action('todos/todo/move', $actions_path . 'todo/move.php');
 	
 	elgg_register_ajax_view('todos/todolist/form');
 	elgg_register_ajax_view('todos/todoitem/form');
+	elgg_register_ajax_view('todos/todoitem/attach');
 	
 	elgg_register_plugin_hook_handler('register', 'menu:todoitem', 'todos_todoitem_menu_register');
 	elgg_register_plugin_hook_handler('register', 'menu:todolist', 'todos_todolist_menu_register');
@@ -66,8 +69,7 @@ function todos_page_handler($pages) {
 		
 	switch ($pages[0]) {
 		case 'view':
-			$guid = elgg_extract(1, $pages);
-			set_input('guid', $guid);
+			set_input('guid', elgg_extract(1, $pages));
 			
 			include(dirname(__FILE__) . '/pages/view.php');
 			break;
@@ -90,6 +92,11 @@ function todos_page_handler($pages) {
 			
 			include(dirname(__FILE__) . '/pages/assigned.php');
 			break;
+		case 'attachment':
+			set_input('guid', elgg_extract(1, $pages));
+			set_input('filename', elgg_extract(2, $pages));
+				
+			include(dirname(__FILE__) . '/pages/attachment.php');
 		case 'group':
 		default:
 			include(dirname(__FILE__) . '/pages/all.php');

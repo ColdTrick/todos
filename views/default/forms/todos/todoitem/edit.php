@@ -34,7 +34,6 @@ echo elgg_view('input/text', array(
 echo '</label>';
 
 echo '<div>';
-
 $list = get_entity($container_guid);
 if (!empty($list) && elgg_instanceof($list->getContainerEntity(), 'group')) {
 	echo '<label>' . elgg_echo('todos:todoitem:assignee') . '</label>';
@@ -52,6 +51,14 @@ echo elgg_view('input/date', array(
 	'timestamp' => true
 ));
 echo  '</label>';
+
+if (empty($entity)) {
+	echo '<label>' . elgg_echo('todos:todoitem:attachment');
+	echo elgg_view('input/file', array(
+		'name' => 'attachment'
+	));
+	echo  '</label>';
+}
 echo '</div>';
 
 echo '<div class="elgg-foot">';
