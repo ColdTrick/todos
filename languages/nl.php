@@ -1,5 +1,7 @@
 <?php
-$translation = array(
+$language = array (
+  'todos:action:todoitem:toggle:reopened' => 'Het to-do item %s is heropend',
+  'todos:action:todoitem:toggle:closed' => 'Het to-do item %s is afgesloten',
   'todos' => 'To-dos',
   'item:object:todolist' => 'To-do lijst',
   'item:object:todoitem' => 'To-do item',
@@ -103,5 +105,4 @@ Bekijk het to-do item op onderstaande link.
   'todos:todolist:error:missing_container' => 'De container waarin de lijst moet worden opgeslagen ontbreekt',
   'todos:settings:enable_personal' => 'Schakel persoonlijke to-dos in',
 );
-
-add_translation('nl', $translation);
+add_translation("nl", $language);

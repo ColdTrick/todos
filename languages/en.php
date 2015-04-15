@@ -133,6 +133,9 @@ To view the to-do item click on the link
 	'todos:action:todoitem:edit:success' => "To-do item saved",
 	'todos:action:todoitem:edit:error' => "An error occured during the save of the to-do item",
 	
+	'todos:action:todoitem:toggle:reopened' => "The to-do item %s was reopend",
+	'todos:action:todoitem:toggle:closed' => "The to-do item %s was completed",
+	
 	// river
 	'river:create:object:todoitem' => '%s added a new to-do %s',
 	'river:close:object:todoitem' => '%s closed to-do %s',
