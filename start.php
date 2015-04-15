@@ -75,7 +75,16 @@ function todos_page_handler($pages) {
 			if (isset($pages[1])) {
 				$user = get_user_by_username($pages[1]);
 				if ($user) {
+					set_input('user_guid', $user->getGUID());
 					elgg_set_page_owner_guid($user->getGUID());
+				}
+			}
+			
+			if (isset($pages[2])) {
+				$group = get_entity($pages[2]);
+				if (elgg_instanceof($group, 'group')) {
+					set_input('group_guid', $pages[2]);
+					elgg_set_page_owner_guid($group->getGUID());
 				}
 			}
 			

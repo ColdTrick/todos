@@ -3,9 +3,18 @@
  * All helper functions are bundled here
  */
 
-function todos_get_open_assigned_item_options($assignee = 0) {
+/**
+ * returns an array to be used in elgg_get_* functions
+ *
+ * @param int $assignee     the guid of the assigned user
+ * @param int $group_filter optional group filter
+ *
+ * @return array
+ */
+function todos_get_open_assigned_item_options($assignee = 0, $group_filter = 0) {
 	
 	$assignee = sanitise_int($assignee, false);
+	$group_filter = sanitise_int($group_filter, false);
 	
 	$options = array(
 		'type' => 'object',
@@ -36,6 +45,26 @@ function todos_get_open_assigned_item_options($assignee = 0) {
 			'value' => 0,
 			'operand' => '>'
 		);
+	}
+	
+	if (!empty($group_filter) && ($assignee !== $group_filter)) {
+		$group_lists = elgg_get_entities_from_metadata(array(
+			'type' => 'object',
+			'subtype' => TodoList::SUBTYPE,
+			'container_guid' => $group_filter,
+			'limit' => false,
+			'callback' => false,
+			'metadata_name_value_pairs' => array('active' => true)
+		));
+		
+		if (!empty($group_lists)) {
+			$guids = array();
+			foreach ($group_lists as $row) {
+				$guids[] = (int) $row->guid;
+			}
+			
+			$options['wheres'] = array('e.container_guid IN (' . implode(',', $guids) . ')');
+		}
 	}
 	
 	return $options;

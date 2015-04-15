@@ -139,10 +139,14 @@ function todos_filter_menu_register($hook, $type, $return, $params) {
 
 	$user = elgg_get_logged_in_user_entity();
 	if (!empty($user)) {
+		$href = "todos/assigned/{$user->username}";
+		if (elgg_instanceof($page_owner, 'group')) {
+			$href .= "/{$page_owner->getGUID()}";
+		}
 		$return[] = ElggMenuItem::factory(array(
 			'name' => 'assigned',
 			'text' => elgg_echo('todos:filter:assigned'),
-			'href' => "todos/assigned/{$user->username}"
+			'href' => $href
 		));
 	}
 	

@@ -2,26 +2,34 @@
 
 gatekeeper();
 
-$page_owner = elgg_get_page_owner_entity();
-if (empty($page_owner) || !elgg_instanceof($page_owner, 'user')) {
-	$page_owner = elgg_get_logged_in_user_entity();
-}
-
-if (!$page_owner->canEdit()) {
+$user_guid = (int) get_input('user_guid');
+$user = get_user($user_guid);
+if (empty($user) || !elgg_instanceof($user, 'user')) {
 	forward(REFERER);
 }
 
-elgg_set_page_owner_guid($page_owner->getGUID());
-
-if (todos_personal_enabled()) {
-	elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
-	elgg_push_breadcrumb($page_owner->name);
+if (!$user->canEdit()) {
+	forward(REFERER);
 }
 
+$page_owner = elgg_get_page_owner_entity();
+if (!todos_enabled_for_container($page_owner)) {
+	forward(REFERER);
+}
+
+// breadcrumb
+if (elgg_instanceof($page_owner, 'user')) {
+	elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
+} else {
+	elgg_push_breadcrumb(elgg_echo('todos'), "todos/group/{$page_owner->getGUID()}/all");
+}
+elgg_push_breadcrumb($page_owner->name);
+
+// page elements
 $title = elgg_echo("todos:filter:assigned");
 
 // open assigned todo items
-$options = todos_get_open_assigned_item_options($page_owner->getGUID());
+$options = todos_get_open_assigned_item_options($user->getGUID(), $page_owner->getGUID());
 $content = elgg_list_entities_from_metadata($options);
 if (empty($content)) {
 	$content = elgg_echo('todos:assigned:no_results');
@@ -32,7 +40,7 @@ $options['limit'] = 10;
 $options['metadata_name_value_pairs'] = array(
 	array(
 		'name' => 'assignee',
-		'value' => $page_owner->getGUID()
+		'value' => $user->getGUID()
 	),
 	array(
 		'name' => 'completed',
@@ -53,10 +61,7 @@ if (!empty($closed)) {
 	$content .= elgg_view_module('info', elgg_echo('todos:assigned:closed'), $closed, array('class' => 'mtl'));
 }
 
-$filter = '';
-if (todos_personal_enabled()) {
-	$filter = elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz'));
-}
+$filter = elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz'));
 
 $body = elgg_view_layout('content', array(
 	'title' => $title,
