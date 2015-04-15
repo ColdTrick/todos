@@ -198,6 +198,13 @@ class TodoItem extends Todo {
 		return $assignee;
 	}
 	
+	/**
+	 * Set the due date of this item
+	 *
+	 * @param int $timestamp the new due date
+	 *
+	 * @return void
+	 */
 	public function setDueDate($timestamp = 0) {
 		$timestamp = sanitize_int($timestamp);
 		$cur_timestamp = sanitize_int($this->due);
@@ -345,7 +352,7 @@ class TodoItem extends Todo {
 	 *
 	 * @param string $filename the filename of the attachment
 	 *
-	 * @return false|string;
+	 * @return false|string
 	 */
 	public function getAttachment($filename) {
 		
@@ -369,7 +376,7 @@ class TodoItem extends Todo {
 	 *
 	 * @param string $filename the filename of the attachment
 	 *
-	 * @return bool;
+	 * @return bool
 	 */
 	public function deleteAttachment($filename) {
 		
