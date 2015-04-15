@@ -98,42 +98,51 @@ if (!$full) {
 	
 } else {
 	
+	$rows = array();
+	
 	if ($entity->due) {
-		echo '<div>';
-		echo '<label>' . elgg_echo('todos:todoitem:due') . ': </label>';
-		echo elgg_view('output/date', array('value' => $entity->due));
-		echo '</div>';
+		$row = '<td>';
+		$row .= '<label>' . elgg_echo('todos:todoitem:due') . ': </label>';
+		$row .= '</td><td class="plm">';
+		$row .= elgg_view('output/date', array('value' => $entity->due));
+		$row .= '</td>';
+		
+		$rows[] = $row;
 	}
 	
 	$assignee = $entity->getAssignee();
 	if (!empty($assignee)) {
-		echo '<div>';
-		echo '<label>' . elgg_echo('todos:todoitem:assignee') . ': </label>';
-		echo elgg_view('output/url', array(
+		$row = '<td>';
+		$row .= '<label>' . elgg_echo('todos:todoitem:assignee') . ': </label>';
+		$row .= '</td><td class="plm">';
+		$row .= elgg_view('output/url', array(
 			'text' => $assignee->name,
 			'href' => $assignee->getURL(),
 			'is_trusted' => true
 		));
-		echo '</div>';
+		$row .= '</td>';
+		
+		$rows[] = $row;
 	}
 	
 	$attachments = $entity->getAttachments();
 	if (!empty($attachments) || $entity->canEdit()) {
-		echo '<div>';
-		echo '<label>' . elgg_echo('todos:todoitem:attachment') . ': </label>';
+		$row = '<td>';
+		$row .= '<label>' . elgg_echo('todos:todoitem:attachment') . ': </label>';
+		$row .= '</td><td class="plm">';
 		
 		if (!empty($attachments)) {
-			echo '<ul>';
+			$row .= '<ul>';
 			
 			foreach ($attachments as $attachment) {
-				echo '<li>';
-				echo elgg_view('output/url', array(
+				$row .= '<li>';
+				$row .= elgg_view('output/url', array(
 					'text' => $attachment,
 					'href' => "todos/attachment/{$entity->getGUID()}/{$attachment}"
 				));
 				
 				if ($entity->canEdit()) {
-					echo elgg_view('output/confirmlink', array(
+					$row .= elgg_view('output/confirmlink', array(
 						'text' => elgg_view_icon('delete'),
 						'href' => "action/todos/todoitem/delete_attachment?guid={$entity->getGUID()}&filename={$attachment}",
 						'confirm' => elgg_echo('deleteconfirm'),
@@ -142,25 +151,34 @@ if (!$full) {
 					));
 				}
 				
-				echo '</li>';
+				$row .= '</li>';
 			}
 			
-			echo '</ul>';
+			$row .= '</ul>';
 		}
+		
+		$rows[] = $row;
 		
 		if ($entity->canEdit()) {
 			elgg_load_js('lightbox');
 			elgg_load_css('lightbox');
 			
-			echo '<div class="mtm">';
-			echo elgg_view('output/url', array(
+			$row = '<td></td><td class="plm">';
+			$row .= elgg_view('output/url', array(
 				'text' => elgg_echo('todos:todoitem:attachment:upload'),
 				'href' => "ajax/view/todos/todoitem/attach?guid={$entity->getGUID()}",
 				'class' => 'elgg-lightbox'
 			));
-			echo '</div>';
+			$row .= '</div>';
+			
+			$rows[] = $row;
 		}
-		echo '</div>';
+	}
+	
+	if (!empty($rows)) {
+		echo '<table><tr>';
+		echo implode('</tr><tr>', $rows);
+		echo '</tr></table>';
 	}
 	
 	echo elgg_view_comments($entity, $entity->canComment());
