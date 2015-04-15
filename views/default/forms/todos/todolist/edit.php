@@ -28,6 +28,7 @@ if (!$show_access && !empty($container_guid)) {
 	}
 }
 
+echo '<label>' . elgg_echo('todos:todolist:title');
 echo elgg_view('input/text', array(
 	'value' => $title,
 	'name' => 'title',
@@ -35,14 +36,16 @@ echo elgg_view('input/text', array(
 	'required' => true,
 	'class' => 'mvm'
 ));
+echo '</label>';
 
 if ($show_access) {
 	echo '<div>';
-	echo '<label>' . elgg_echo('access') . '</label>';
+	echo '<label>' . elgg_echo('access');
 	echo elgg_view('input/access', array(
 		'name' => 'access_id',
 		'value' => $access_id
 	));
+	echo '</label>';
 	echo '</div>';
 }
 

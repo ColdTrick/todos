@@ -24,12 +24,14 @@ echo elgg_view('input/hidden', array(
 	'name' => 'container_guid'
 ));
 
+echo '<label>' . elgg_echo('todos:todoitem:title');
 echo elgg_view('input/text', array(
 	'value' => $title,
 	'name' => 'title',
 	'required' => true,
 	'placeholder' => elgg_echo('todos:todoitem:title')
 ));
+echo '</label>';
 
 echo '<div>';
 
@@ -43,12 +45,13 @@ if (!empty($list) && elgg_instanceof($list->getContainerEntity(), 'group')) {
 	echo '</span>';
 }
 
-echo '<label>' . elgg_echo('todos:todoitem:due') . '</label>';
+echo '<label>' . elgg_echo('todos:todoitem:due');
 echo elgg_view('input/date', array(
 	'value' => $due,
 	'name' => 'due',
 	'timestamp' => true
 ));
+echo  '</label>';
 echo '</div>';
 
 echo '<div class="elgg-foot">';
