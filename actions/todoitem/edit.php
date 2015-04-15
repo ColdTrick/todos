@@ -58,6 +58,12 @@ if (empty($due)) {
 
 $new_entity_created = false;
 if (empty($entity)) {
+	// check due date for the past
+	if (!empty($due) && ($due < time())) {
+		register_error(elgg_echo('todos:action:todoitem:edit:due_in_past'));
+		forward(REFERER);
+	}
+	
 	$entity = new TodoItem();
 	$entity->container_guid = $todolist->getGUID();
 	$entity->access_id = $todolist->access_id;

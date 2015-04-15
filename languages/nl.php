@@ -1,5 +1,6 @@
 <?php
 $language = array (
+  'todos:action:todoitem:edit:due_in_past' => 'Je kunt geen einddatum opgeven in het verleden',
   'todos:action:todoitem:toggle:reopened' => 'Het to-do item %s is heropend',
   'todos:action:todoitem:toggle:closed' => 'Het to-do item %s is afgesloten',
   'todos' => 'To-dos',

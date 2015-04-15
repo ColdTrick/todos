@@ -145,6 +145,7 @@ To view the to-do item click on the link
 	
 	'todos:action:todoitem:edit:cant_write' => "You're not allowed to add to-do items to this list",
 	'todos:action:todoitem:edit:assignee' => "You can only assign a todo item to one person",
+	'todos:action:todoitem:edit:due_in_past' => "You can't select a due date in the past",
 	
 	'todos:action:todoitem:edit:success' => "To-do item saved",
 	'todos:action:todoitem:edit:error' => "An error occured during the save of the to-do item",
