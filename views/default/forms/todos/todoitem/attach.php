@@ -12,7 +12,7 @@ $content .= '<label>' . elgg_echo('todos:todoitem:attachment');
 $content .= elgg_view('input/file', array(
 	'name' => 'attachment'
 ));
-$content .=  '</label>';
+$content .= '</label>';
 $content .= '</div>';
 
 $content .= '<div class="elgg-foot mtm">';
