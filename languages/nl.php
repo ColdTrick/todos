@@ -57,6 +57,20 @@ Bekijk het to-do item op onderstaande link.
 
 Bekijk het to-do item op onderstaande link.
 %s',
+  'todos:notify:todoitem:unassinged:assignee:subject' => 'To-do item %s is niet langer toegewezen',
+  'todos:notify:todoitem:unassinged:assignee:message' => 'Hallo,
+
+%s heeft to-do item %s niet langer toegewezen aan jou.
+
+Bekijk het to-do item op onderstaande link.
+%s',
+  'todos:notify:todoitem:assinged:assignee:subject' => 'To-do item %s is toegewezen',
+  'todos:notify:todoitem:assinged:assignee:message' => 'Hallo,
+
+%s heeft to-do item %s toegewezen aan jou.
+
+Bekijk het to-do item op onderstaande link.
+%s',
   'todos:notify:todoitem:reassinged:subject' => 'To-do item %s is opnieuw toegewezen',
   'todos:notify:todoitem:reassinged:message' => 'Hallo,
 

@@ -144,51 +144,31 @@ class TodoItem extends Todo {
 		if (empty($new_assignee)) {
 			if ($this->isAssigned()) {
 				// unassigning
-				$cur_assignee = $this->getAssignee();
-				
-				$subject = elgg_echo('todos:notify:todoitem:unassinged:subject', array($this->title));
-				$message = elgg_echo('todos:notify:todoitem:unassinged:message', array(
-					$acting_user->name,
-					$this->title,
-					$cur_assignee->name,
-					$this->getURL()
-				));
-				
-				$this->notifyUsers($subject, $message);
+				$this->unassignNotification();
 			}
 			
 			unset($this->assignee);
 		} else {
+			$notify = false;
+			
 			if ($this->isAssigned()) {
 				// reassign?
 				$cur_assignee = $this->getAssignee();
 				if ((int) $cur_assignee->getGUID() !== $assignee) {
-					// reassigned
-					$subject = elgg_echo('todos:notify:todoitem:reassinged:subject', array($this->title));
-					$message = elgg_echo('todos:notify:todoitem:reassinged:message', array(
-						$acting_user->name,
-						$this->title,
-						$cur_assignee->name,
-						$new_assignee->name,
-						$this->getURL()
-					));
 					
-					$this->notifyUsers($subject, $message, 0, array($assignee));
+					$this->reassignNotification($new_assignee);
 				}
 			} else {
 				// assigned
-				$subject = elgg_echo('todos:notify:todoitem:assinged:subject', array($this->title));
-				$message = elgg_echo('todos:notify:todoitem:assinged:message', array(
-					$acting_user->name,
-					$this->title,
-					$new_assignee->name,
-					$this->getURL()
-				));
-				
-				$this->notifyUsers($subject, $message, 0, array($assignee));
+				$notify = true;
 			}
 			
 			$this->assignee = $assignee;
+			
+			// only notify on change
+			if ($notify) {
+				$this->assignNotification();
+			}
 		}
 		
 		return true;
@@ -251,15 +231,10 @@ class TodoItem extends Todo {
 	 * @param string $subject          the subject
 	 * @param string $message          the message
 	 * @param int    $sender           the guid of the sender
-	 * @param int[]  $extra_user_guids (optional) additional user guids to notify
 	 *
 	 * @return void
 	 */
-	public function notifyUsers($subject, $message, $sender = 0, $extra_user_guids = array()) {
-		
-		if (!empty($extra_user_guids) && !is_array($extra_user_guids)) {
-			$extra_user_guids = array($extra_user_guids);
-		}
+	public function notifyUsers($subject, $message, $sender = 0) {
 		
 		$sender = sanitize_int($sender, false);
 		if (empty($sender)) {
@@ -277,7 +252,6 @@ class TodoItem extends Todo {
 			$user_guids[] = $this->getAssignee(true);
 		}
 		
-		$user_guids = array_merge($user_guids, $extra_user_guids);
 		$user_guids = array_unique($user_guids);
 		
 		foreach ($user_guids as $index => $user_guid) {
@@ -292,5 +266,130 @@ class TodoItem extends Todo {
 		}
 		
 		notify_user($user_guids, $sender, $subject, $message);
+	}
+	
+	/**
+	 * Notify users about the unassignment of the to-do
+	 *
+	 * @return void
+	 */
+	protected function unassignNotification() {
+		$acting_user = elgg_get_logged_in_user_entity();
+		$assignee = $this->getAssignee();
+		
+		if ($acting_user->getGUID() !== $assignee->getGUID()) {
+			// notify old assignee
+			$subject = elgg_echo('todos:notify:todoitem:unassinged:assignee:subject', array($this->title));
+			$message = elgg_echo('todos:notify:todoitem:unassinged:assignee:message', array(
+				$acting_user->name,
+				$this->title,
+				$this->getURL()
+			));
+			
+			notify_user($assignee->getGUID(), $acting_user->getGUID(), $subject, $message);
+		}
+		
+		if (($acting_user->getGUID() !== (int) $this->getOwnerGUID()) && ($assignee->getGUID() !== (int) $this->getOwnerGUID())) {
+			// notify owner
+			$subject = elgg_echo('todos:notify:todoitem:unassinged:subject', array($this->title));
+			$message = elgg_echo('todos:notify:todoitem:unassinged:message', array(
+				$acting_user->name,
+				$this->title,
+				$assignee->name,
+				$this->getURL()
+			));
+			
+			notify_user($this->getOwnerGUID(), $acting_user->getGUID(), $subject, $message);
+		}
+	}
+	
+	/**
+	 * Notify users about the assignment of the to-do
+	 *
+	 * @return void
+	 */
+	protected function assignNotification() {
+		$acting_user = elgg_get_logged_in_user_entity();
+		$assignee = $this->getAssignee();
+		
+		if ($acting_user->getGUID() !== $assignee->getGUID()) {
+			// notify assignee
+			$subject = elgg_echo('todos:notify:todoitem:assinged:assignee:subject', array($this->title));
+			$message = elgg_echo('todos:notify:todoitem:assinged:assignee:message', array(
+				$acting_user->name,
+				$this->title,
+				$this->getURL()
+			));
+			
+			notify_user($assignee->getGUID(), $acting_user->getGUID(), $subject, $message);
+		}
+		
+		if (($acting_user->getGUID() !== (int) $this->getOwnerGUID()) && ($assignee->getGUID() !== (int) $this->getOwnerGUID())) {
+			// notify owner
+			$subject = elgg_echo('todos:notify:todoitem:assinged:subject', array($this->title));
+			$message = elgg_echo('todos:notify:todoitem:assinged:message', array(
+				$acting_user->name,
+				$this->title,
+				$assignee->name,
+				$this->getURL()
+			));
+			
+			notify_user($this->getOwnerGUID(), $acting_user->getGUID(), $subject, $message);
+		}
+	}
+	
+	/**
+	 * Notify users about reassignment
+	 *
+	 * @param ElggUser $new_assignee the new assignee
+	 *
+	 * @return void
+	 */
+	protected function reassignNotification(ElggUser $new_assignee) {
+		$acting_user = elgg_get_logged_in_user_entity();
+		$old_assignee = $this->getAssignee();
+		$processed_guids = array();
+		
+		if ($acting_user->getGUID() !== $old_assignee->getGUID()) {
+			// notify assignee
+			$subject = elgg_echo('todos:notify:todoitem:unassinged:assignee:subject', array($this->title));
+			$message = elgg_echo('todos:notify:todoitem:unassinged:assignee:message', array(
+				$acting_user->name,
+				$this->title,
+				$this->getURL()
+			));
+			
+			notify_user($old_assignee->getGUID(), $acting_user->getGUID(), $subject, $message);
+			
+			$processed_guids[] = $old_assignee->getGUID();
+		}
+		
+		if ($acting_user->getGUID() !== $new_assignee->getGUID()) {
+			// notify assignee
+			$subject = elgg_echo('todos:notify:todoitem:assinged:assignee:subject', array($this->title));
+			$message = elgg_echo('todos:notify:todoitem:assinged:assignee:message', array(
+				$acting_user->name,
+				$this->title,
+				$this->getURL()
+			));
+			
+			notify_user($new_assignee->getGUID(), $acting_user->getGUID(), $subject, $message);
+			
+			$processed_guids[] = $new_assignee->getGUID();
+		}
+		
+		if (($acting_user->getGUID() !== (int) $this->getOwnerGUID()) && !in_array($this->getOwnerGUID(), $processed_guids)) {
+			// notify owner
+			$subject = elgg_echo('todos:notify:todoitem:reassinged:subject', array($this->title));
+			$message = elgg_echo('todos:notify:todoitem:reassinged:message', array(
+				$acting_user->name,
+				$this->title,
+				$old_assignee->name,
+				$new_assignee->name,
+				$this->getURL()
+			));
+			
+			notify_user($this->getOwnerGUID(), $acting_user->getGUID(), $subject, $message);
+		}
 	}
 }

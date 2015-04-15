@@ -89,6 +89,22 @@ To view the to-do item click on the link
 To view the to-do item click on the link
 %s",
 	
+	'todos:notify:todoitem:unassinged:assignee:subject' => "To-do item %s is no longer assigned",
+	'todos:notify:todoitem:unassinged:assignee:message' => "Hi,
+
+%s unassigned the to-do item %s from you.
+
+To view the to-do item click on the link
+%s",
+	
+	'todos:notify:todoitem:assinged:assignee:subject' => "To-do item %s was assigned",
+	'todos:notify:todoitem:assinged:assignee:message' => "Hi,
+
+%s assigned the to-do item %s to you.
+
+To view the to-do item click on the link
+%s",
+	
 	'todos:notify:todoitem:completed:subject' => "To-do item %s was completed",
 	'todos:notify:todoitem:completed:message' => "Hi,
 
