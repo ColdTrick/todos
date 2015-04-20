@@ -324,3 +324,46 @@ function todos_todoitem_can_comment($hook, $type, $return, $params) {
 	
 	return $list->canWriteToContainer($user->getGUID(), 'object', TodoItem::SUBTYPE);
 }
+
+/**
+ * Check if a user can edit a to-do list
+ *
+ * @param string $hook   name of the hook
+ * @param string $type   type of the hook
+ * @param array  $return return value
+ * @param array  $params hook parameters
+ *
+ * @return bool
+ */
+function todos_todolist_can_edit($hook, $type, $return, $params) {
+	
+	if ($return) {
+		// already allowed
+		return $return;
+	}
+	
+	if (empty($params) || !is_array($params)) {
+		return $return;
+	}
+	
+	$entity = elgg_extract('entity', $params);
+	if (empty($entity) || !elgg_instanceof($entity, 'object', TodoList::SUBTYPE)) {
+		return $return;
+	}
+	
+	$user = elgg_extract('user', $params);
+	if (empty($user) || !elgg_instanceof($user, 'user')) {
+		return $return;
+	}
+	
+	$container = $entity->getContainerEntity();
+	if (empty($container) || !elgg_instanceof($container, 'group')) {
+		return $return;
+	}
+	
+	if ($container->isMember($user)) {
+		return true;
+	}
+	
+	return $return;
+}
