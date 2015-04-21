@@ -296,7 +296,7 @@ function todos_cron_handler($hook, $type, $return, $params) {
  *
  * @param string $hook   name of the hook
  * @param string $type   type of the hook
- * @param array  $return return value
+ * @param bool   $return return value
  * @param array  $params hook parameters
  *
  * @return bool
@@ -330,7 +330,7 @@ function todos_todoitem_can_comment($hook, $type, $return, $params) {
  *
  * @param string $hook   name of the hook
  * @param string $type   type of the hook
- * @param array  $return return value
+ * @param bool   $return return value
  * @param array  $params hook parameters
  *
  * @return bool
