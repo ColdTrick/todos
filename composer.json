@@ -1,0 +1,7 @@
+{
+    "name": "coldtrick/todos",
+    "type": "elgg-plugin",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}
