@@ -60,7 +60,7 @@ if (empty($due)) {
 $new_entity_created = false;
 if (empty($entity)) {
 	// check due date for the past
-	if (!empty($due) && ($due < time())) {
+	if (!empty($due) && ($due < mktime(0,0,0))) {
 		register_error(elgg_echo('todos:action:todoitem:edit:due_in_past'));
 		forward(REFERER);
 	}
