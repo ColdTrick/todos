@@ -19,11 +19,19 @@ if (!$entity->canEdit()) {
 }
 
 $title = $entity->title;
+$entity_url = $entity->getURL();
+
+$forward_url = REFERER;
+$forward_alt = $entity->getContainerEntity()->getURL();
 
 if ($entity->delete()) {
 	system_message(elgg_echo('entity:delete:success', array($title)));
+	
+	if ($_SERVER['HTTP_REFERER'] === $entity_url) {
+		$forward_url = $forward_alt;
+	}
 } else {
 	register_error(elgg_echo('entity:delete:fail', array($title)));
 }
 
-forward(REFERER);
+forward($forward_url);
