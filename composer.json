@@ -1,0 +1,17 @@
+{
+	"name": "coldtrick/todos",
+	"description": "Organize to-dos in to-do lists",
+	"type": "elgg-plugin",
+	"keywords": ["elgg", "plugin"],
+	"license": "GPL-2.0",
+	"support": {
+		"source": "https://github.com/ColdTrick/todos",
+		"issues": "https://github.com/ColdTrick/todos/issues"
+	},
+	"require": {
+		"composer/installers": "^1.0.8"
+	},
+	"require-dev": {
+		"coldtrick/sniffs": "dev-master"
+	}
+}
