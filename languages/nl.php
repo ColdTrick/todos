@@ -52,66 +52,66 @@ $language = array (
   'todos:widget:list:no_list' => 'Geen to-do lijst geselecteerd',
   'todos:group:tool_option' => 'Activeer to-dos',
   'todos:owner_block:group' => 'Groep to-dos',
-  'todos:notify:todoitem:unassinged:subject' => 'To-do item %s is niet langer toegewezen',
+  'todos:notify:todoitem:unassinged:subject' => 'To-do item "%s" is niet langer toegewezen',
   'todos:notify:todoitem:unassinged:message' => 'Hallo,
 
-%s heeft to-do item %s niet langer toegewezen aan %s.
+%s heeft to-do item "%s" niet langer toegewezen aan %s.
 
 Bekijk het to-do item op onderstaande link.
 %s',
-  'todos:notify:todoitem:assinged:subject' => 'To-do item %s is toegewezen',
+  'todos:notify:todoitem:assinged:subject' => 'To-do item "%s" is toegewezen',
   'todos:notify:todoitem:assinged:message' => 'Hallo,
 
-%s heeft to-do item %s toegewezen aan %s.
+%s heeft to-do item "%s" toegewezen aan %s.
 
 Bekijk het to-do item op onderstaande link.
 %s',
-  'todos:notify:todoitem:unassinged:assignee:subject' => 'To-do item %s is niet langer toegewezen',
+  'todos:notify:todoitem:unassinged:assignee:subject' => 'To-do item "%s" is niet langer toegewezen',
   'todos:notify:todoitem:unassinged:assignee:message' => 'Hallo,
 
-%s heeft to-do item %s niet langer toegewezen aan jou.
+%s heeft to-do item "%s" niet langer toegewezen aan jou.
 
 Bekijk het to-do item op onderstaande link.
 %s',
-  'todos:notify:todoitem:assinged:assignee:subject' => 'To-do item %s is toegewezen',
+  'todos:notify:todoitem:assinged:assignee:subject' => 'To-do item "%s" is toegewezen',
   'todos:notify:todoitem:assinged:assignee:message' => 'Hallo,
 
-%s heeft to-do item %s toegewezen aan jou.
+%s heeft to-do item "%s" toegewezen aan jou.
 
 Bekijk het to-do item op onderstaande link.
 %s',
-  'todos:notify:todoitem:reassinged:subject' => 'To-do item %s is opnieuw toegewezen',
+  'todos:notify:todoitem:reassinged:subject' => 'To-do item "%s" is opnieuw toegewezen',
   'todos:notify:todoitem:reassinged:message' => 'Hallo,
 
-%s heeft de toewijzing van to-do item %s aangepast van %s naar %s.
+%s heeft de toewijzing van to-do item "%s" aangepast van %s naar %s.
 
 Bekijk het to-do item op onderstaande link.
 %s',
-  'todos:notify:todoitem:completed:subject' => 'To-do item %s is afgesloten',
+  'todos:notify:todoitem:completed:subject' => 'To-do item "%s" is afgesloten',
   'todos:notify:todoitem:completed:message' => 'Hallo,
 
-%s heeft to-do item %s afgesloten.
+%s heeft to-do item "%s" afgesloten.
 
 Bekijk het to-do item op onderstaande link.
 %s',
-  'todos:notify:todoitem:reopen:subject' => 'To-do item %s is heropend',
+  'todos:notify:todoitem:reopen:subject' => 'To-do item "%s" is heropend',
   'todos:notify:todoitem:reopen:message' => 'Hallo,
 
-%s heeft to-do item %s heropend.
+%s heeft to-do item "%s" heropend.
 
 Bekijk het to-do item op onderstaande link.
 %s',
-  'todos:notify:todoitem:due:subject' => 'To-do item %s heeft een nieuwe plan datum',
+  'todos:notify:todoitem:due:subject' => 'To-do item "%s" heeft een nieuwe plan datum',
   'todos:notify:todoitem:due:message' => 'Hallo,
 
-%s heeft de plan datum van to-do item %s gewijzigd in %s.
+%s heeft de plan datum van to-do item "%s" gewijzigd in %s.
 
 Bekijk het to-do item op onderstaande link.
 %s',
-  'todos:notify:todoitem:due_soon:subject' => 'To-do item %s moet snel gesloten worden',
+  'todos:notify:todoitem:due_soon:subject' => 'To-do item "%s" moet snel gesloten worden',
   'todos:notify:todoitem:due_soon:message' => 'Hallo,
 
-Het to-do item %s moet binnenkort (%s) gesloten worden.
+Het to-do item "%s" moet binnenkort (%s) gesloten worden.
 
 Bekijk het to-do item op onderstaande link.
 %s',

@@ -70,74 +70,74 @@ $translation = array(
 	'todos:owner_block:group' => "Group to-dos",
 	
 	// notifications
-	'todos:notify:todoitem:unassinged:subject' => "To-do item %s is no longer assigned",
+	'todos:notify:todoitem:unassinged:subject' => "To-do item '%s' is no longer assigned",
 	'todos:notify:todoitem:unassinged:message' => "Hi,
 
-%s unassigned the to-do item %s from %s.
+%s unassigned the to-do item '%s' from %s.
 
 To view the to-do item click on the link
 %s",
 	
-	'todos:notify:todoitem:assinged:subject' => "To-do item %s was assigned",
+	'todos:notify:todoitem:assinged:subject' => "To-do item '%s' was assigned",
 	'todos:notify:todoitem:assinged:message' => "Hi,
 
-%s assigned the to-do item %s to %s.
+%s assigned the to-do item '%s' to %s.
 
 To view the to-do item click on the link
 %s",
 	
-	'todos:notify:todoitem:reassinged:subject' => "To-do item %s was re-assigned",
+	'todos:notify:todoitem:reassinged:subject' => "To-do item '%s' was re-assigned",
 	'todos:notify:todoitem:reassinged:message' => "Hi,
 
-%s reassigned the to-do item %s from %s to %s.
+%s reassigned the to-do item '%s' from %s to %s.
 
 To view the to-do item click on the link
 %s",
 	
-	'todos:notify:todoitem:unassinged:assignee:subject' => "To-do item %s is no longer assigned",
+	'todos:notify:todoitem:unassinged:assignee:subject' => "To-do item '%s' is no longer assigned",
 	'todos:notify:todoitem:unassinged:assignee:message' => "Hi,
 
-%s unassigned the to-do item %s from you.
+%s unassigned the to-do item '%s' from you.
 
 To view the to-do item click on the link
 %s",
 	
-	'todos:notify:todoitem:assinged:assignee:subject' => "To-do item %s was assigned",
+	'todos:notify:todoitem:assinged:assignee:subject' => "To-do item '%s' was assigned",
 	'todos:notify:todoitem:assinged:assignee:message' => "Hi,
 
-%s assigned the to-do item %s to you.
+%s assigned the to-do item '%s' to you.
 
 To view the to-do item click on the link
 %s",
 	
-	'todos:notify:todoitem:completed:subject' => "To-do item %s was completed",
+	'todos:notify:todoitem:completed:subject' => "To-do item '%s' was completed",
 	'todos:notify:todoitem:completed:message' => "Hi,
 
-%s marked the to-do item %s as completed.
+%s marked the to-do item '%s' as completed.
 
 To view the to-do item click on the link
 %s",
 	
-	'todos:notify:todoitem:reopen:subject' => "To-do item %s was reopened",
+	'todos:notify:todoitem:reopen:subject' => "To-do item '%s' was reopened",
 	'todos:notify:todoitem:reopen:message' => "Hi,
 
-%s reopend the to-do item %s.
+%s reopend the to-do item '%s'.
 
 To view the to-do item click on the link
 %s",
 	
-	'todos:notify:todoitem:due:subject' => "To-do item %s got a new due date",
+	'todos:notify:todoitem:due:subject' => "To-do item '%s' got a new due date",
 	'todos:notify:todoitem:due:message' => "Hi,
 
-%s changed the due date of the to-do item %s to %s.
+%s changed the due date of the to-do item '%s' to %s.
 
 To view the to-do item click on the link
 %s",
 	
-	'todos:notify:todoitem:due_soon:subject' => "To-do item %s is due soon",
+	'todos:notify:todoitem:due_soon:subject' => "To-do item '%s' is due soon",
 	'todos:notify:todoitem:due_soon:message' => "Hi,
 
-The to-do item %s is due soon (%s).
+The to-do item '%s' is due soon (%s).
 
 To view the to-do item click on the link
 %s",
