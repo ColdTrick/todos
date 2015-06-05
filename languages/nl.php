@@ -26,7 +26,7 @@ $language = array (
   'todos:todolist:completed' => 'Afgesloten to-dos',
   'todos:todoitem:add' => 'To-do toevoegen',
   'todos:todoitem:reopen' => 'Heropen',
-  'todos:todoitem:close' => 'Sluiten',
+  'todos:todoitem:close' => 'Afronden',
   'todos:todoitem:error:missing_container' => 'Ontbrekende to-do lijst',
   'todos:todoitem:title' => 'Voer de titel van de to-do in',
   'todos:todoitem:assignee' => 'Toewijzing',
@@ -87,10 +87,10 @@ Bekijk het to-do item op onderstaande link.
 
 Bekijk het to-do item op onderstaande link.
 %s',
-  'todos:notify:todoitem:completed:subject' => 'To-do item "%s" is afgesloten',
+  'todos:notify:todoitem:completed:subject' => 'To-do item "%s" is afgerond',
   'todos:notify:todoitem:completed:message' => 'Hallo,
 
-%s heeft to-do item "%s" afgesloten.
+%s heeft to-do item "%s" afgerond.
 
 Bekijk het to-do item op onderstaande link.
 %s',
@@ -108,10 +108,10 @@ Bekijk het to-do item op onderstaande link.
 
 Bekijk het to-do item op onderstaande link.
 %s',
-  'todos:notify:todoitem:due_soon:subject' => 'To-do item "%s" moet snel gesloten worden',
+  'todos:notify:todoitem:due_soon:subject' => 'To-do item "%s" moet binnenkort afgerond worden',
   'todos:notify:todoitem:due_soon:message' => 'Hallo,
 
-Het to-do item "%s" moet binnenkort (%s) gesloten worden.
+Het to-do item "%s" moet binnenkort (%s) afgerond worden.
 
 Bekijk het to-do item op onderstaande link.
 %s',
@@ -123,7 +123,7 @@ Bekijk het to-do item op onderstaande link.
   'todos:action:todoitem:edit:success' => 'To-do item opgeslagen',
   'todos:action:todoitem:edit:error' => 'Er is een fout opgetreden bij het opslaan van het to-do item',
   'river:create:object:todoitem' => '%s heeft een to-do %s toegevoegd',
-  'river:close:object:todoitem' => '%s heeft to-do %s gesloten',
+  'river:close:object:todoitem' => '%s heeft to-do %s afgerond',
   'river:reopen:object:todoitem' => '%s heeft to-do %s heropend',
   'todos:todolist:error:missing_container' => 'De container waarin de lijst moet worden opgeslagen ontbreekt',
   'todos:settings:enable_personal' => 'Schakel persoonlijke to-dos in',
