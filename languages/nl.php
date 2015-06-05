@@ -1,5 +1,9 @@
 <?php
 $language = array (
+  'todos:notify:todoitem:delete:subject' => 'To-do item "%s" is verwijderd',
+  'todos:notify:todoitem:delete:message' => 'Hallo,
+
+%s heeft het to-do item "%s" verwijderd.',
   'todos:todoitem:error:not_item' => 'Geef een to-do item op',
   'todos:todoitem:attachment' => 'Bijlage',
   'todos:todoitem:attachment:upload' => 'Bijlage uploaden',

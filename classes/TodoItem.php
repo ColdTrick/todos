@@ -49,6 +49,29 @@ class TodoItem extends Todo {
 	public function getURL() {
 		return elgg_get_site_url() . "todos/view/" . $this->getGUID() . "/" . elgg_get_friendly_title($this->title);
 	}
+	
+	/**
+	 * Delete the to-do item
+	 *
+	 * @return bool
+	 *
+	 * @see ElggEntity::delete()
+	 */
+	public function delete($recursive = true) {
+		
+		// notify about delete
+		$acting_user = elgg_get_logged_in_user_entity();
+		
+		$subject = elgg_echo('todos:notify:todoitem:delete:subject', array($this->title));
+		$message = elgg_echo('todos:notify:todoitem:delete:message', array(
+			$acting_user->name,
+			$this->title
+		));
+		
+		$this->notifyUsers($subject, $message);
+		
+		return parent::delete();
+	}
 		
 	/**
 	 * Marks a todo as completed
