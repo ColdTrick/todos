@@ -72,3 +72,7 @@
 .todos-item-info a {
 	color: #999;
 }
+
+.todos-item-overdue {
+	color: red;
+}

@@ -70,7 +70,11 @@ if (!$full) {
 	}
 		
 	if ($entity->due && $show_due) {
-		$due_text = '<span class="todos-item-due">';
+		$class = 'todos-item-due';
+		if ($entity->due < time()) {
+			$class .= ' todos-item-overdue';
+		}
+		$due_text = "<span class='{$class}'>";
 		$due_text .= elgg_view('output/date', array('value' => $entity->due));
 		$due_text .= '</span>';
 		
@@ -101,9 +105,13 @@ if (!$full) {
 	$rows = array();
 	
 	if ($entity->due) {
+		$class = 'plm';
+		if ($entity->due < time()) {
+			$class .= ' todos-item-overdue';
+		}
 		$row = '<td>';
 		$row .= '<label>' . elgg_echo('todos:todoitem:due') . ': </label>';
-		$row .= '</td><td class="plm">';
+		$row .= "</td><td class='{$class}'>";
 		$row .= elgg_view('output/date', array('value' => $entity->due));
 		$row .= '</td>';
 		
