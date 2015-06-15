@@ -39,6 +39,10 @@
 	padding-bottom: 1px;
 }
 
+.todos-list > li > .elgg-image-block {
+	padding: 0 0 5px 0;
+}
+
 .todos-list-item .elgg-image-block .elgg-body > a {
 	color: inherit;
 }
