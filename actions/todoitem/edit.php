@@ -76,7 +76,9 @@ if (empty($entity)) {
 $entity->title = $title;
 $entity->setDueDate($due);
 
-$entity->assign($assignee);
+if ($entity->canAssign($assignee, true)) {
+	$entity->assign($assignee);
+}
 
 if (!empty($attachment)) {
 	$filename = $_FILES['attachment']['name'];

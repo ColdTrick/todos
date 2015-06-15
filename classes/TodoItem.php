@@ -152,6 +152,10 @@ class TodoItem extends Todo {
 	 */
 	public function assign($assignee = null) {
 		
+		if (!$this->canAssign($assignee)) {
+			return false;
+		}
+		
 		if (!empty($assignee) && is_array($assignee)) {
 			if (count($assignee) > 1) {
 				return false;
@@ -191,6 +195,56 @@ class TodoItem extends Todo {
 			if ($notify) {
 				$this->assignNotification();
 			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Check if an assigne can be assigned
+	 *
+	 * @param mixed $assignee       the new assignee (can be empty to unassign)
+	 * @param bool  $register_error register an error (default: false)
+	 *
+	 * @return bool
+	 */
+	public function canAssign($assignee = null, $register_error = false) {
+		
+		$register_error = (bool) $register_error;
+		
+		if (empty($assignee)) {
+			// unassign
+			return true;
+		}
+		
+		if (is_array($assignee) && count($assignee) > 1) {
+			// can only assign to 1 user
+			if ($register_error) {
+				register_error(elgg_echo('todos:todoitem:error:assignee:too_many'));
+			}
+			return false;
+		}
+		
+		if (is_array($assignee)) {
+			$assignee = $assignee[0];
+		}
+		
+		$assignee = sanitise_int($assignee, false);
+		$user = get_user($assignee);
+		if (empty($user)) {
+			// no a user
+			if ($register_error) {
+				register_error(elgg_echo('todos:todoitem:error:assignee:no_user'));
+			}
+			return false;
+		}
+		
+		if (!has_access_to_entity($this, $user)) {
+			// assigne has no access
+			if ($register_error) {
+				register_error(elgg_echo('todos:todoitem:error:assignee:access', array($user->name)));
+			}
+			return false;
 		}
 		
 		return true;

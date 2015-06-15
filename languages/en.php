@@ -27,6 +27,9 @@ $translation = array(
 	'todos:todoitem:close' => "Close",
 	'todos:todoitem:error:missing_container' => "Missing to-do list",
 	'todos:todoitem:error:not_item' => "Please provide a to-do item",
+	'todos:todoitem:error:assignee:too_many' => "A to-do item can only be assigned to 1 user",
+	'todos:todoitem:error:assignee:no_user' => "A to-do item can only be assigned to a user",
+	'todos:todoitem:error:assignee:access' => "Unable to assign %s because he/she can't access the to-do item",
 	
 	'todos:todoitem:title' => "Enter the title of the to-do",
 	'todos:todoitem:assignee' => "Assignee",
