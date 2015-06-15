@@ -206,7 +206,7 @@ function todos_widget_title_url($hook, $type, $return, $params) {
  *
  * @return ElggMenuItem[]
  */
-function todos_owner_block_menu_register($hook, $type, $return, $params) {
+function todos_group_owner_block_menu_register($hook, $type, $return, $params) {
 	
 	if (empty($params) || !is_array($params)) {
 		return $return;
@@ -225,6 +225,49 @@ function todos_owner_block_menu_register($hook, $type, $return, $params) {
 		'name' => 'todos',
 		'text' => elgg_echo('todos:owner_block:group'),
 		'href' => "todos/group/{$entity->getGUID()}/all"
+	));
+	
+	return $return;
+}
+
+/**
+ * Adds the menu items to the owner_block of a user
+ *
+ * @param string         $hook   name of the hook
+ * @param string         $type   type of the hook
+ * @param ElggMenuItem[] $return return value
+ * @param array          $params hook parameters
+ *
+ * @return ElggMenuItem[]
+ */
+function todos_user_owner_block_menu_register($hook, $type, $return, $params) {
+	
+	$user = elgg_get_logged_in_user_entity();
+	if (empty($user)) {
+		return $return;
+	}
+	
+	if (empty($params) || !is_array($params)) {
+		return $return;
+	}
+	
+	$entity = elgg_extract('entity', $params);
+	if (empty($entity) || !elgg_instanceof($entity, 'user')) {
+		return $return;
+	}
+	
+	if ($entity->getGUID() !== $user->getGUID()) {
+		return $return;
+	}
+	
+	if (!todos_personal_enabled()) {
+		return $return;
+	}
+	
+	$return[] = ElggMenuItem::factory(array(
+		'name' => 'todos',
+		'text' => elgg_echo('todos:owner_block:user'),
+		'href' => "todos"
 	));
 	
 	return $return;

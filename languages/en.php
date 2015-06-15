@@ -69,6 +69,9 @@ $translation = array(
 	'todos:group:tool_option' => "Enable to-dos",
 	'todos:owner_block:group' => "Group to-dos",
 	
+	// personal
+	'todos:owner_block:user' => "To-dos",
+	
 	// notifications
 	'todos:notify:todoitem:unassinged:subject' => "To-do item '%s' is no longer assigned",
 	'todos:notify:todoitem:unassinged:message' => "Hi,
