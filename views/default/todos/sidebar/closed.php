@@ -3,6 +3,10 @@
 $limit = (int) elgg_extract('limit', $vars, 5);
 $page_owner = elgg_get_page_owner_entity();
 
+if (empty($page_owner) || !(elgg_instanceof($page_owner, 'group'))) {
+	return;
+}
+
 $options = array(
 	'type' => 'object',
 	'subtype' => TodoItem::SUBTYPE,
