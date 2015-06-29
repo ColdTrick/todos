@@ -27,7 +27,7 @@ $forward_alt = $entity->getContainerEntity()->getURL();
 if ($entity->delete()) {
 	system_message(elgg_echo('entity:delete:success', array($title)));
 	
-	if ($_SERVER['HTTP_REFERER'] === $entity_url) {
+	if (stristr($_SERVER['HTTP_REFERER'], "/{$guid}/")) {
 		$forward_url = $forward_alt;
 	}
 } else {
