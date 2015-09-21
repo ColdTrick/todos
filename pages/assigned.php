@@ -53,7 +53,7 @@ $options['order_by_metadata'] = array(
 	'as' => 'integer',
 	'direction' => 'desc'
 );
-$options['item_class'] = 'todos-list-item-completed';
+$options['item_class'] .= ' todos-list-item-completed';
 $options['list_class'] = 'todos-list';
 
 $closed = elgg_list_entities_from_metadata($options);

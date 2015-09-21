@@ -28,6 +28,7 @@ function todos_get_open_assigned_item_options($assignee = 0, $group_filter = 0) 
 			)
 		),
 		'full_view' => false,
+		'item_class' => 'todos-list-item',
 		'list_class' => 'todos-list',
 		'pagination' => false
 	);
