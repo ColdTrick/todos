@@ -148,6 +148,14 @@ The to-do item '%s' is due soon (%s).
 To view the to-do item click on the link
 %s",
 	
+	'todos:notify:todoitem:due_yesterday:subject' => "To-do item '%s' was due yesterday",
+	'todos:notify:todoitem:due_yesterday:message' => "Hi,
+
+The to-do item '%s' was due yesterday (%s).
+
+To view the to-do item click on the link
+%s",
+	
 	'todos:notify:todoitem:delete:subject'  => "To-do item '%s' was removed",
 	'todos:notify:todoitem:delete:message'  => "Hi,
 

@@ -1,5 +1,12 @@
 <?php
 $language = array (
+  'todos:notify:todoitem:due_yesterday:subject' => 'To-do item "%s" moets gisteren zijn afgerond',
+  'todos:notify:todoitem:due_yesterday:message' => 'Hallo,
+
+Het to-do item "%s" moets gisteren (%s) zijn afgerond.
+
+Bekijk het to-do item op onderstaande link.
+%s',
   'todos:todoitem:error:assignee:too_many' => 'Een to-do item kan maar aan 1 gebruiker worden toegewezen',
   'todos:todoitem:error:assignee:no_user' => 'Een to-do item kan alleen worden toegewezen aan een gebruiker',
   'todos:todoitem:error:assignee:access' => '%s kon niet worden toegewezen omdat hij/zij niet bij het to-do item mag',

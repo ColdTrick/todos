@@ -315,8 +315,33 @@ function todos_cron_handler($hook, $type, $return, $params) {
 		)
 	);
 	
+	// items due yesterday (past 24 hours)
+	$lower = $time - (24 * 60 * 60);
+	
+	$due_yesterday_options = array(
+		'type' => 'object',
+		'subtype' => TodoItem::SUBTYPE,
+		'limit' => false,
+		'metadata_name_value_pairs' => array(
+			array(
+				'name' => 'due',
+				'value' => $time,
+				'operand' => '<='
+			),
+			array(
+				'name' => 'due',
+				'value' => $lower,
+				'operand' => '>='
+			)
+		),
+		'metadata_names' => array(
+			'order',
+		)
+	);
+	
 	$ia = elgg_set_ignore_access(true);
 	
+	// loop thought due soon
 	$batch = new ElggBatch('elgg_get_entities_from_metadata', $due_soon_options);
 	foreach ($batch as $entity) {
 		$list = $entity->getContainerEntity();
@@ -327,6 +352,25 @@ function todos_cron_handler($hook, $type, $return, $params) {
 		
 		$subject = elgg_echo('todos:notify:todoitem:due_soon:subject', array($entity->title));
 		$message = elgg_echo('todos:notify:todoitem:due_soon:message', array(
+			$entity->title,
+			date('Y-m-d', $entity->due),
+			$entity->getURL()
+		));
+		
+		$entity->notifyUsers($subject, $message, $list->getContainerGUID());
+	}
+	
+	// loop through due yesterday
+	$batch = new ElggBatch('elgg_get_entities_from_metadata', $due_yesterday_options);
+	foreach ($batch as $entity) {
+		$list = $entity->getContainerEntity();
+		if (empty($list)) {
+			// orphaned to-to item, should not happen
+			continue;
+		}
+		
+		$subject = elgg_echo('todos:notify:todoitem:due_yesterday:subject', array($entity->title));
+		$message = elgg_echo('todos:notify:todoitem:due_yesterday:message', array(
 			$entity->title,
 			date('Y-m-d', $entity->due),
 			$entity->getURL()
