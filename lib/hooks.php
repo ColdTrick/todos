@@ -291,9 +291,10 @@ function todos_cron_handler($hook, $type, $return, $params) {
 	
 	$time = (int) elgg_extract('time', $params, time());
 	
+	// items due in the next 24 hours
 	$upper = $time + (24 * 60 * 60);
 	
-	$options = array(
+	$due_soon_options = array(
 		'type' => 'object',
 		'subtype' => TodoItem::SUBTYPE,
 		'limit' => false,
@@ -308,12 +309,15 @@ function todos_cron_handler($hook, $type, $return, $params) {
 				'value' => $upper,
 				'operand' => '<='
 			)
+		),
+		'metadata_names' => array(
+			'order',
 		)
 	);
 	
 	$ia = elgg_set_ignore_access(true);
 	
-	$batch = new ElggBatch('elgg_get_entities_from_metadata', $options);
+	$batch = new ElggBatch('elgg_get_entities_from_metadata', $due_soon_options);
 	foreach ($batch as $entity) {
 		$list = $entity->getContainerEntity();
 		if (empty($list)) {
