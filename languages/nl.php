@@ -1,9 +1,9 @@
 <?php
 $language = array (
-  'todos:notify:todoitem:due_yesterday:subject' => 'To-do item "%s" moets gisteren zijn afgerond',
+  'todos:notify:todoitem:due_yesterday:subject' => 'To-do item "%s" moest gisteren zijn afgerond',
   'todos:notify:todoitem:due_yesterday:message' => 'Hallo,
 
-Het to-do item "%s" moets gisteren (%s) zijn afgerond.
+Het to-do item "%s" moest gisteren (%s) zijn afgerond.
 
 Bekijk het to-do item op onderstaande link.
 %s',
