@@ -3,7 +3,7 @@
 gatekeeper();
 
 $filter = get_input('filter', 'active');
-if (!in_array($filter, array('active', 'completed'))) {
+if (!in_array($filter, array('active', 'completed', 'overdue'))) {
 	$filter = 'active';
 }
 
@@ -64,6 +64,39 @@ switch ($filter) {
 		$options['metadata_name_value_pairs'] = array('active' => false);
 		$options['show_completed'] = true;
 		break;
+	case 'overdue':
+		$dbprefix = elgg_get_config('dbprefix');
+		
+		$options = array(
+			'type' => 'object',
+			'subtype' => TodoItem::SUBTYPE,
+			'limit' => false,
+			'full_view' => false,
+			'metadata_name_value_pairs' => array(
+				array(
+					'name' => 'order',
+					'value' => 0,
+					'operand' => '>',
+				),
+				array(
+					'name' => 'due',
+					'value' => time(),
+					'operand' => '<',
+				),
+			),
+			'order_by_metadata' => array(
+				'name' => 'due',
+				'as' => 'integer',
+				'order' => 'asc',
+			),
+			'joins' => array(
+				"JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid",
+			),
+			'wheres' => array(
+				"ce.container_guid = {$container_guid}",
+			),
+		);
+		break;
 }
 
 $title = elgg_echo("todos:filter:$filter");
@@ -73,7 +106,10 @@ if (empty($content)) {
 	$content = elgg_echo('todos:all:no_results');
 }
 
-$filter = elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz'));
+$filter = elgg_view_menu('filter', array(
+	'sort_by' => 'priority',
+	'class' => 'elgg-menu-hz'
+));
 
 $body = elgg_view_layout('content', array(
 	'title' => $title,

@@ -1,5 +1,6 @@
 <?php
 $language = array (
+  'todos:filter:overdue' => 'Achterstallige items',
   'todos:notify:todoitem:due_yesterday:subject' => 'To-do item "%s" moest gisteren zijn afgerond',
   'todos:notify:todoitem:due_yesterday:message' => 'Hallo,
 

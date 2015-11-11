@@ -135,6 +135,12 @@ function todos_filter_menu_register($hook, $type, $return, $params) {
 			'text' => elgg_echo('todos:filter:completed'),
 			'href' => "{$base_url}?filter=completed"
 		));
+		
+		$return[] = ElggMenuItem::factory(array(
+			'name' => 'overdue',
+			'text' => elgg_echo('todos:filter:overdue'),
+			'href' => "{$base_url}?filter=overdue"
+		));
 	}
 
 	$user = elgg_get_logged_in_user_entity();
