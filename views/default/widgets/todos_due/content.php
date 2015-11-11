@@ -1,6 +1,7 @@
 <?php
 
 $widget = elgg_extract('entity', $vars);
+$container = $widget->getContainerEntity();
 
 $num_display = (int) $widget->num_display;
 if ($num_display < 1) {
@@ -23,11 +24,18 @@ $options = array(
 	'show_due' => true
 );
 
-if (elgg_instanceof($widget->getOwnerEntity(), 'group')) {
-	$dbprefix = elgg_get_config('dbprefix');
+if ($container instanceof ElggGroup) {
 	
-	$options['joins'] = array("JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid");
-	$options['wheres'] = array("ce.container_guid = {$widget->getOwnerGUID()}");
+	if ($widget->list_guid) {
+		// show from one list
+		$options['container_guid'] = (int) $widget->list_guid;
+	} else {
+		// show from all lists
+		$dbprefix = elgg_get_config('dbprefix');
+		
+		$options['joins'] = array("JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid");
+		$options['wheres'] = array("ce.container_guid = {$widget->getOwnerGUID()}");
+	}
 }
 
 $list = elgg_list_entities_from_metadata($options);

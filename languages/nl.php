@@ -1,5 +1,7 @@
 <?php
 $language = array (
+  'todos:widget:due:list_select' => 'Toon items uit de lijst',
+  'todos:widget:due:list_select:all' => 'Alle lijsten',
   'todos:filter:overdue' => 'Achterstallige items',
   'todos:notify:todoitem:due_yesterday:subject' => 'To-do item "%s" moest gisteren zijn afgerond',
   'todos:notify:todoitem:due_yesterday:message' => 'Hallo,

@@ -58,6 +58,8 @@ $translation = array(
 	'todos:widget:due:title' => "Due to-do items",
 	'todos:widget:due:description' => "List due to-do items",
 	'todos:widget:due:none' => "No to-do items are due!",
+	'todos:widget:due:list_select' => "Show items from the to-do list",
+	'todos:widget:due:list_select:all' => "All lists",
 	
 	'todos:widget:created:title' => "Recently created to-do items",
 	'todos:widget:created:description' => "List recently created to-do items",
