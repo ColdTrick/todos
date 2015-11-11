@@ -71,7 +71,7 @@ if (!$full) {
 		
 	if ($entity->due && $show_due) {
 		$class = 'todos-item-due';
-		if ($entity->due < time()) {
+		if (!$entity->isCompleted() && ($entity->due < time())) {
 			$class .= ' todos-item-overdue';
 		}
 		$due_text = "<span class='{$class}'>";
