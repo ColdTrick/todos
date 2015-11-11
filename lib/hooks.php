@@ -136,6 +136,14 @@ function todos_filter_menu_register($hook, $type, $return, $params) {
 			'href' => "{$base_url}?filter=completed"
 		));
 		
+		if ($page_owner instanceof ElggGroup) {
+			$return[] = ElggMenuItem::factory(array(
+				'name' => 'assigned_per_user',
+				'text' => elgg_echo('todos:filter:assigned_per_user'),
+				'href' => "todos/assigned_per_user/{$page_owner->getGUID()}",
+			));
+		}
+		
 		$return[] = ElggMenuItem::factory(array(
 			'name' => 'overdue',
 			'text' => elgg_echo('todos:filter:overdue'),

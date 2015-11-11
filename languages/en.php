@@ -17,6 +17,7 @@ $translation = array(
 	'todos:filter:completed' => "Completed lists",
 	'todos:filter:assigned' => "Assigned to me",
 	'todos:filter:overdue' => "Overdue items",
+	'todos:filter:assigned_per_user' => "Assigned per user",
 	
 	'todos:todolist:error:missing_container' => "Please supply a container to create the list in",
 	'todos:todolist:add' => "Add to-do list",

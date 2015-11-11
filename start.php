@@ -95,6 +95,11 @@ function todos_page_handler($pages) {
 			
 			include(dirname(__FILE__) . '/pages/assigned.php');
 			break;
+		case 'assigned_per_user':
+			elgg_set_page_owner_guid($pages[1]);
+			
+			include(dirname(__FILE__) . '/pages/assigned_per_user.php');
+			break;
 		case 'attachment':
 			set_input('guid', elgg_extract(1, $pages));
 			set_input('filename', elgg_extract(2, $pages));

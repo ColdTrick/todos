@@ -1,5 +1,6 @@
 <?php
 $language = array (
+  'todos:filter:assigned_per_user' => 'Toegewezen per gebruiken',
   'todos:widget:due:list_select' => 'Toon items uit de lijst',
   'todos:widget:due:list_select:all' => 'Alle lijsten',
   'todos:filter:overdue' => 'Achterstallige items',
