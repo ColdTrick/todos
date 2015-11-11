@@ -39,6 +39,7 @@ function todos_get_open_assigned_item_options($assignee = 0, $group_filter = 0) 
 			'name' => 'assignee',
 			'value' => $assignee
 		);
+		$options['show_assignee'] = false;
 	} else {
 		// just assigned
 		$options['metadata_name_value_pairs'][] = array(
