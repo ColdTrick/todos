@@ -146,3 +146,22 @@ function todos_enabled_for_container(ElggEntity $container) {
 	
 	return todos_personal_enabled();
 }
+
+/**
+ * Get the where SQL to find unassigned todo items
+ *
+ * @return string
+ */
+function todos_get_unassigned_wheres_sql() {
+	
+	$dbprefix = elgg_get_config('dbprefix');
+	$assignee_id = add_metastring('assignee');
+	
+	$where = "NOT EXISTS (
+		SELECT 1 FROM {$dbprefix}metadata mda
+		WHERE mda.entity_guid = e.guid
+			AND mda.name_id = {$assignee_id}
+	)";
+	
+	return $where;
+}

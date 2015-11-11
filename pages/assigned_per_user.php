@@ -39,7 +39,7 @@ $options = array(
 			'name' => 'order',
 			'value' => 0,
 			'operand' => '>=',
-		)
+		),
 	),
 	'joins' => array(
 		"JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid",
@@ -52,6 +52,7 @@ $options = array(
 $ordered_items = array();
 $user_guids = array();
 
+// assigned items
 $batch = new ElggBatch('elgg_get_entities_from_metadata', $options);
 foreach ($batch as $index => $item) {
 	$assignee = (int) $item->assignee;
@@ -68,9 +69,30 @@ foreach ($batch as $index => $item) {
 	$ordered_items[$assignee][$order] = $item;
 }
 
-// var_dump($ordered_items);
+// unassigned items
+$unassigned_options = $options;
+$unassigned_options['metadata_name_value_pairs'] = array(
+	'name' => 'order',
+	'value' => 0,
+	'operand' => '>=',
+);
+$unassigned_options['wheres'][] = todos_get_unassigned_wheres_sql();
 
-if (empty($user_guids)) {
+$unassigned_items = array();
+$unassigned_batch = new ElggBatch('elgg_get_entities_from_metadata', $unassigned_options);
+foreach ($unassigned_batch as $item) {
+	
+	$order = (int) $item->due;
+	if (empty($order)) {
+		$order = mktime(0,0,0,1,1,2038);
+	}
+	
+	$order += $index;
+	
+	$unassigned_items[$order] = $item;
+}
+
+if (empty($user_guids) && empty($unassigned_items)) {
 	// no items to show
 	$page_data = elgg_view_layout('content', array(
 		'title' => $title,
@@ -83,22 +105,34 @@ if (empty($user_guids)) {
 	return;
 }
 
-$user_options = array(
-	'type' => 'user',
-	'guids' => $user_guids,
-	'joins' => array("JOIN {$dbprefix}users_entity ue ON e.guid = ue.guid"),
-	'order_by' => "ue.name ASC",
-);
-$user_batch = new ElggBatch('elgg_get_entities', $user_options);
+// build content
 $content = '';
-foreach ($user_batch as $user) {
+if (!empty($user_guids)) {
+	$user_options = array(
+		'type' => 'user',
+		'guids' => $user_guids,
+		'joins' => array("JOIN {$dbprefix}users_entity ue ON e.guid = ue.guid"),
+		'order_by' => "ue.name ASC",
+	);
 	
+	$user_batch = new ElggBatch('elgg_get_entities', $user_options);
+	foreach ($user_batch as $user) {
+		
+		$content .= elgg_view('todos/assigned_per_user', array(
+			'user' => $user,
+			'entities' => elgg_extract($user->getGUID(), $ordered_items, array()),
+		));
+	}
+}
+
+if (!empty($unassigned_items)) {
 	$content .= elgg_view('todos/assigned_per_user', array(
-		'user' => $user,
-		'entities' => elgg_extract($user->getGUID(), $ordered_items, array()),
+		'user' => false, // need to do this otherwise ELgg fills in current user
+		'entities' => $unassigned_items,
 	));
 }
 
+// build page
 $page_data = elgg_view_layout('content', array(
 	'title' => $title,
 	'content' => $content,
@@ -107,4 +141,3 @@ $page_data = elgg_view_layout('content', array(
 ));
 
 echo elgg_view_page($title, $page_data);
-

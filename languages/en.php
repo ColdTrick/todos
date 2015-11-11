@@ -41,6 +41,8 @@ $translation = array(
 	
 	'todos:todoitem:attach' => "Upload attachment for: %s",
 	
+	'todos:assigned_per_user:unassigned' => "Unassigned",
+	
 	// sidebar
 	'todos:sidebar:todoitems_due:title' => "Due to-do items",
 	
