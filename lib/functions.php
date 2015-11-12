@@ -165,3 +165,77 @@ function todos_get_unassigned_wheres_sql() {
 	
 	return $where;
 }
+
+/**
+ * Get assignee filter options
+ *
+ * @param ElggEntity $container a container to filter the assignee for
+ *
+ * @return array
+ */
+function todos_get_assignee_filter_for_container(ElggEntity $container) {
+	
+	$result = array(
+		'' => elgg_echo('todos:form:filters:assignee:all'),
+		-1 => elgg_echo('todos:form:filters:assignee:unassigned'),
+	);
+	
+	if (!($container instanceof ElggEntity)) {
+		return $result;
+	}
+	
+	$dbprefix = elgg_get_config('dbprefix');
+	
+	$metadata_options = array(
+		'type' => 'object',
+		'subtype' => TodoItem::SUBTYPE,
+		'metadata_name' => 'assignee',
+		'limit' => false,
+		'joins' => array(
+			"JOIN {$dbprefix}entities e ON n_table.entity_guid = e.guid",
+			"JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid"
+		),
+		'wheres' => array("ce.container_guid = {$container->getGUID()}"),
+	);
+	$meta_batch = new ElggBatch('elgg_get_metadata', $metadata_options);
+	$user_guids = array();
+	foreach ($meta_batch as $metadata) {
+		$user_guids[] = (int) $metadata->value;
+	}
+	
+	if (empty($user_guids)) {
+		return $result;
+	}
+	
+	$user_guids = array_unique($user_guids);
+	$user_options = array(
+		'type' => 'user',
+		'limit' => false,
+		'guids' => $user_guids,
+		'joins' => array("JOIN {$dbprefix}users_entity ue ON e.guid = ue.guid"),
+		'order_by' => 'ue.name',
+	);
+	$user_batch = new ElggBatch('elgg_get_entities', $user_options, 'todos_get_assignee_filter_callback');
+	foreach ($user_batch as $user_row) {
+		$result[$user_row->guid] = $user_row->name;
+	}
+	
+	return $result;
+}
+
+/**
+ * Call back function for ElggBatch
+ *
+ * @see todos_get_assignee_filter_for_container()
+ *
+ * @param stdClass $row the db row
+ *
+ * @return stdClass
+ */
+function todos_get_assignee_filter_callback($row) {
+	$result = new stdClass();
+	$result->name = $row->name;
+	$result->guid = (int) $row->guid;
+	
+	return $result;
+}

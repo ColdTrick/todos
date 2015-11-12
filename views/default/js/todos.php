@@ -1,6 +1,10 @@
 <?php
 ?>
-$(document).ready(function() {
+//<script>
+elgg.provide('elgg.todos');
+
+elgg.todos.init_todolist_sortable = function() {
+
 	$(".todos-list-todolist.todos-sortable").sortable({
 		update: function(event, ui) {
 
@@ -11,9 +15,12 @@ $(document).ready(function() {
 				pos: pos,
 				guid: guid
 			});
-		}	
+		}
 	});
-	
+};
+
+elgg.todos.init_todoitems_sortable = function() {
+
 	$(".todos-list-todoitem.todos-sortable").sortable({
 		connectWith: ".todos-list.todos-list-todoitem",
 		forcePlaceholderSizeType: true,
@@ -38,9 +45,29 @@ $(document).ready(function() {
 			});
 		}
 	});
+};
+
+elgg.todos.range_change = function() {
+
+	var $range = $('.elgg-form-todos-filters .todos-form-filters-range');
+	$range.hide();
+
+	if ($(this).val() === 'range') {
+		$range.show();
+	}
+};
+
+elgg.todos.init = function() {
+
+	elgg.todos.init_todolist_sortable();
+	elgg.todos.init_todoitems_sortable();
 	
 	$(".todos-list-item .elgg-input-checkbox").change(function() {
 		var guid = $(this).attr('rel');
 		elgg.action('todos/todoitem/toggle', {guid: guid});
 	});
-});
+
+	$('#todos-filters-date').change(elgg.todos.range_change);
+};
+
+elgg.register_hook_handler("init", "system", elgg.todos.init);

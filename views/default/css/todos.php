@@ -80,3 +80,10 @@
 .todos-item-overdue {
 	color: red;
 }
+
+#todos-filters-toggle.elgg-state-active span {
+	display: none;
+}
+#todos-filters-toggle.elgg-state-active .hidden {
+	display: inline;
+}

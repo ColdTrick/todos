@@ -74,6 +74,23 @@ $translation = array(
 	'todos:widget:list:select' => "Select a list",
 	'todos:widget:list:no_list' => "No to-do list selected",
 	
+	// filter options
+	'todos:form:filters:show_completed' => "Show completed items",
+	'todos:form:filters:date' => "Limit items based on due date",
+	'todos:form:filters:date:all' => "Select a date",
+	'todos:form:filters:date:today' => "Today",
+	'todos:form:filters:date:tomorrow' => "Tomorrow",
+	'todos:form:filters:date:overdue' => "In the past (overdue)",
+	'todos:form:filters:date:range' => "Range",
+	'todos:form:filters:date:range:from' => "From",
+	'todos:form:filters:date:range:to' => "To",
+	'todos:form:filters:assignee' => "Assignee",
+	'todos:form:filters:assignee:all' => "Show all",
+	'todos:form:filters:assignee:unassigned' => "Unassigned items",
+	
+	'todos:filters_toggle:show' => 'Show filter options',
+	'todos:filters_toggle:hide' => 'Hide filter options',
+	
 	// groups
 	'todos:group:tool_option' => "Enable to-dos",
 	'todos:owner_block:group' => "Group to-dos",
