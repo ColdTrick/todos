@@ -72,6 +72,7 @@ $translation = array(
 	'todos:widget:list:description' => "Show a specific to-do list",
 	'todos:widget:list:list' => "Please select the list to display",
 	'todos:widget:list:select' => "Select a list",
+	'todos:widget:list:list_completed' => "List completed to-dos",
 	'todos:widget:list:no_list' => "No to-do list selected",
 	
 	// filter options

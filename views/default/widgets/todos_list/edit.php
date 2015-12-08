@@ -31,3 +31,13 @@ echo elgg_view('input/dropdown', array(
 	'class' => 'mls'
 ));
 echo '</div>';
+
+echo '<div>';
+echo elgg_view('input/checkbox', array(
+	'name' => 'params[list_completed]',
+	'value' => 1,
+	'checked' => $widget->list_completed ? true : false,
+	'class' => 'mrs',
+));
+echo elgg_echo('todos:widget:list:list_completed');
+echo '</div>';

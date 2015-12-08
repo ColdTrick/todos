@@ -4,6 +4,7 @@ $full = (bool) elgg_extract('full_view', $vars, false);
 $entity = elgg_extract('entity', $vars);
 
 $show_completed = (bool) elgg_extract('show_completed', $vars, false);
+$list_completed = (bool) elgg_extract('list_completed', $vars, true); // only applies to full view
 
 if (empty($entity) || !elgg_instanceof($entity, 'object', TodoList::SUBTYPE)) {
 	return;
@@ -71,7 +72,7 @@ if ($entity->canWriteToContainer(0, 'object', TodoItem::SUBTYPE)) {
 	echo '</div>';
 }
 
-if ($full) {
+if ($full && $list_completed) {
 	// list completed todos
 	$options = array(
 		'type' => 'object',

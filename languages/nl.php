@@ -1,5 +1,6 @@
 <?php
 $language = array (
+  'todos:widget:list:list_completed' => 'Toon afgesloten to-dos',
   'todos:form:filters:show_completed' => 'Toon afgesloten items',
   'todos:form:filters:date' => 'Limiteer items gebaseerd op oplost datum',
   'todos:form:filters:date:all' => 'Selecteer een datum',

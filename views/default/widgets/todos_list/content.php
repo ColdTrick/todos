@@ -14,4 +14,9 @@ if (empty($list) || !elgg_instanceof($list, 'object', TodoList::SUBTYPE)) {
 	return;
 }
 
-echo elgg_view_entity($list, array('full_view' => true));
+$list_completed = (bool) $widget->list_completed;
+
+echo elgg_view_entity($list, array(
+	'full_view' => true,
+	'list_completed' => $list_completed,
+));
