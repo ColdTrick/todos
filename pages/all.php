@@ -30,6 +30,7 @@ $options = array(
 	'container_guid' => $container_guid,
 	'limit' => false,
 	'full_view' => false,
+	'pagination' => false,
 	'item_class' => 'mtl',
 	'list_class' => 'todos-list todos-list-todolist',
 	'order_by_metadata' => array(

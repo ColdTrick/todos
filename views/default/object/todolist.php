@@ -30,6 +30,7 @@ $options = array(
 	'subtype' => TodoItem::SUBTYPE,
 	'limit' => false,
 	'full_view' => false,
+	'pagination' => false,
 	'item_class' => 'todos-list-item',
 	'list_class' => 'todos-list todos-list-todoitem elgg-todo-' . $entity->guid,
 	'container_guid' => $entity->getGUID()
@@ -77,6 +78,7 @@ if ($full) {
 		'subtype' => TodoItem::SUBTYPE,
 		'limit' => false,
 		'full_view' => false,
+		'pagination' => false,
 		'item_class' => 'todos-list-item',
 		'list_class' => 'todos-list',
 		'container_guid' => $entity->getGUID(),

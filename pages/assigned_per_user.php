@@ -29,6 +29,7 @@ $options = array(
 	'type' => 'object',
 	'subtype' => TodoItem::SUBTYPE,
 	'limit' => false,
+	'pagination' => false,
 	'metadata_name_value_pairs' => array(),
 	'joins' => array(
 		"JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid",

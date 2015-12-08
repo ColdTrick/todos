@@ -9,6 +9,7 @@ if ($num_display < 1) {
 
 $options = todos_get_open_assigned_item_options($widget->getOwnerGUID());
 $options['limit'] = $num_display;
+$options['pagination'] = false;
 
 $list = elgg_list_entities_from_metadata($options);
 if (empty($list)) {
