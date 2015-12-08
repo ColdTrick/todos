@@ -85,7 +85,8 @@ if ($full && $list_completed) {
 		'container_guid' => $entity->getGUID(),
 		'order_by_metadata' => array(
 			'name' => 'completed',
-			'as' => 'integer'
+			'as' => 'integer',
+			'direction' => 'DESC',
 		),
 	);
 	
