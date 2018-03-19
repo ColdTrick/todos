@@ -101,6 +101,14 @@ if (!$full) {
 	echo elgg_view_image_block($checkbox, $body, $params);
 	
 } else {
+
+	if ($entity->tags) {
+		echo elgg_view('output/tags', ['value' => $entity->tags, 'class' => 'mbm']);
+	}
+
+	if ($entity->description) {
+		echo elgg_view('output/longtext', ['value' => $entity->description, 'class' => 'mbm']);
+	}
 	
 	$rows = array();
 	

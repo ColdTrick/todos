@@ -34,6 +34,8 @@ $translation = array(
 	'todos:todoitem:error:assignee:access' => "Unable to assign %s because he/she can't access the to-do item",
 	
 	'todos:todoitem:title' => "Enter the title of the to-do",
+	'todos:todoitem:description' => "Description",
+	'todos:todoitem:tags' => "Tags",
 	'todos:todoitem:assignee' => "Assignee",
 	'todos:todoitem:due' => "Due",
 	'todos:todoitem:attachment' => "Attachment",

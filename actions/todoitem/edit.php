@@ -1,6 +1,8 @@
 <?php
 
 $title = get_input('title');
+$description = get_input('description');
+$tags = get_input('tags');
 $container_guid = (int) get_input('container_guid');
 $guid = (int) get_input('guid');
 $due = (int) get_input('due');
@@ -74,6 +76,9 @@ if (empty($entity)) {
 }
 
 $entity->title = $title;
+$entity->description = $description;
+$entity->tags = string_to_tag_array($tags);
+
 $entity->setDueDate($due);
 
 if ($entity->canAssign($assignee, true)) {

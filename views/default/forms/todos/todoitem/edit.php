@@ -4,11 +4,15 @@ $entity = elgg_extract('entity', $vars);
 $container_guid = (int) elgg_extract('container_guid', $vars);
 
 $title = '';
+$description = '';
+$tags = '';
 $assignee = null;
 $due = null;
 
 if (!empty($entity)) {
 	$title = $entity->title;
+	$description = $entity->description;
+	$tags = $entity->tags;
 	$assignee = $entity->assignee;
 	$due = $entity->due;
 	$container_guid = $entity->getContainerGUID();
@@ -30,6 +34,20 @@ echo elgg_view('input/text', array(
 	'name' => 'title',
 	'required' => true,
 	'placeholder' => elgg_echo('todos:todoitem:title')
+));
+echo '</label>';
+
+echo '<label>' . elgg_echo('todos:todoitem:description');
+echo elgg_view('input/longtext', array(
+	'value' => $description,
+	'name' => 'description',
+));
+echo '</label>';
+
+echo '<label>' . elgg_echo('todos:todoitem:tags');
+echo elgg_view('input/tags', array(
+	'value' => $tags,
+	'name' => 'tags',
 ));
 echo '</label>';
 

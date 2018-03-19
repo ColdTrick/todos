@@ -64,6 +64,8 @@ Bekijk het to-do item op onderstaande link.
   'todos:todoitem:close' => 'Afronden',
   'todos:todoitem:error:missing_container' => 'Ontbrekende to-do lijst',
   'todos:todoitem:title' => 'Voer de titel van de to-do in',
+  'todos:todoitem:description' => "Omschrijving",
+  'todos:todoitem:tags' => "Tags",
   'todos:todoitem:assignee' => 'Toewijzing',
   'todos:todoitem:due' => 'Einddatum',
   'todos:sidebar:todoitems_closed:title' => 'Recent gesloten to-do items',
