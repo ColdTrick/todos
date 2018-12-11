@@ -32,7 +32,10 @@ echo elgg_view_form('todos/todoitem/edit', $form_vars, $body_vars);
 // datepicker lightbox and userpicker fix
 ?>
 <script>
-	elgg.ui.initDatePicker();
+	elgg.register_hook_handler("init", "system", function() {
+		elgg.ui.initDatePicker();
 
-	elgg.userpicker.init();
+		//elgg.userpicker.init();
+
+	});
 </script>

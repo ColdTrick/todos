@@ -94,7 +94,12 @@ if ($entity->save()) {
 	system_message(elgg_echo('todos:action:todoitem:edit:success'));
 	
 	if ($new_entity_created) {
-		add_to_river('river/object/todoitem/create', 'create', elgg_get_logged_in_user_guid(), $entity->guid);
+		elgg_create_river_item([
+			'view' => 'river/object/todoitem/create',
+			'action_type' => 'create',
+			'subject_guid' => elgg_get_logged_in_user_guid(),
+			'object_guid' => $entity->guid,
+		]);
 	}
 } else {
 	register_error(elgg_echo('todos:action:todoitem:edit:error'));

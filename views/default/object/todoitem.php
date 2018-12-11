@@ -176,9 +176,7 @@ if (!$full) {
 		$rows[] = $row;
 		
 		if ($entity->canEdit()) {
-			elgg_load_js('lightbox');
-			elgg_load_css('lightbox');
-			
+
 			$row = '<td></td><td class="plm">';
 			$row .= elgg_view('output/url', array(
 				'text' => elgg_echo('todos:todoitem:attachment:upload'),

@@ -44,7 +44,7 @@ if (!$show_completed) {
 	);
 }
 
-if (can_write_to_container(null, $entity->getContainerGUID())) {
+if ($entity->canWriteToContainer()) {
 	$options['list_class'] .= ' todos-sortable';
 }
 
@@ -52,8 +52,6 @@ $active_todos = elgg_list_entities_from_metadata($options);
 echo $active_todos;
 
 if ($entity->canWriteToContainer(0, 'object', TodoItem::SUBTYPE)) {
-	elgg_load_js("lightbox");
-	elgg_load_css("lightbox");
 	
 	elgg_load_js('elgg.userpicker');
 	elgg_load_js('jquery.ui.autocomplete.html');

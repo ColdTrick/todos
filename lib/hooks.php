@@ -25,8 +25,6 @@ function todos_todoitem_menu_register($hook, $type, $return, $params) {
 	}
 	
 	if ($entity->canEdit()) {
-		elgg_load_js('lightbox');
-		elgg_load_css('lightbox');
 		
 		elgg_load_js('elgg.userpicker');
 		elgg_load_js('jquery.ui.autocomplete.html');
@@ -81,8 +79,6 @@ function todos_todolist_menu_register($hook, $type, $return, $params) {
 	}
 	
 	if ($entity->canEdit()) {
-		elgg_load_js('lightbox');
-		elgg_load_css('lightbox');
 		
 		$return[] = ElggMenuItem::factory(array(
 			'name' => 'edit',

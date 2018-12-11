@@ -24,8 +24,8 @@ if (!empty($guid)) {
 		forward(REFERER);
 	}
 }
-
-if (empty($entity) && can_write_to_container(0, $container_guid, 'object', TodoList::SUBTYPE)) {
+$container = get_entity($container_guid);
+if (empty($entity) && $container->canWriteToContainer(0, 'object', TodoList::SUBTYPE)) {
 	$entity = new TodoList();
 	$entity->container_guid = $container_guid;
 }

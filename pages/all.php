@@ -39,7 +39,7 @@ $options = array(
 	),
 );
 
-if (can_write_to_container(null, $container_guid)) {
+if ($page_owner->canWriteToContainer()) {
 	$options['list_class'] .= ' todos-sortable';
 }
 
@@ -47,14 +47,12 @@ switch ($filter) {
 	case 'active':
 		
 		if ($page_owner->canWriteToContainer(0, 'object', TodoList::SUBTYPE)) {
-			elgg_load_js("lightbox");
-			elgg_load_css("lightbox");
 			
 			$item = ElggMenuItem::factory([
 				'text' => elgg_echo('todos:todolist:add'),
 				'href' => "ajax/view/todos/todolist/form?container_guid={$page_owner->getGUID()}",
 				'name' => 'todolist_add',
-				'class' => 'elgg-button elgg-button-action elgg-lightbox'
+				'link_class' => 'elgg-button elgg-button-action elgg-lightbox'
 			]);
 			elgg_register_menu_item('title', $item);
 		}

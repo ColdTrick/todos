@@ -19,9 +19,7 @@ function todos_init() {
 	elgg_extend_view('js/elgg', 'js/todos');
 	
 	elgg_register_page_handler('todos', 'todos_page_handler');
-	
-	elgg_register_event_handler('pagesetup', 'system', 'todos_pagesetup');
-	
+		
 	$actions_path = dirname(__FILE__) . '/actions/';
 	elgg_register_action('todos/todolist/edit', $actions_path . 'todolist/edit.php');
 	elgg_register_action('todos/todolist/delete', $actions_path . 'todolist/delete.php');
@@ -53,14 +51,19 @@ function todos_init() {
 		add_group_tool_option('todos', elgg_echo('todos:group:tool_option'), false);
 	}
 	
+	if (todos_personal_enabled()) {
+		$item = new ElggMenuItem('todos', elgg_echo('todos'), 'todos');
+		elgg_register_menu_item('site', $item);
+	}
+	
 	// widgets
 	elgg_register_plugin_hook_handler("widget_url", "widget_manager", "todos_widget_title_url");
 	
-	elgg_register_widget_type('todos_assigned', elgg_echo('todos:widget:assigned:title'), elgg_echo('todos:widget:assigned:description'), 'dashboard');
-	elgg_register_widget_type('todos_closed', elgg_echo('todos:widget:closed:title'), elgg_echo('todos:widget:closed:description'), 'index,groups');
-	elgg_register_widget_type('todos_due', elgg_echo('todos:widget:due:title'), elgg_echo('todos:widget:due:description'), 'index,groups');
-	elgg_register_widget_type('todos_created', elgg_echo('todos:widget:created:title'), elgg_echo('todos:widget:created:description'), 'index,groups');
-	elgg_register_widget_type('todos_list', elgg_echo('todos:widget:list:title'), elgg_echo('todos:widget:list:description'), 'dashboard,groups', true);
+	elgg_register_widget_type('todos_assigned', elgg_echo('todos:widget:assigned:title'), elgg_echo('todos:widget:assigned:description'), ['dashboard']);
+	elgg_register_widget_type('todos_closed', elgg_echo('todos:widget:closed:title'), elgg_echo('todos:widget:closed:description'), ['index', 'groups']);
+	elgg_register_widget_type('todos_due', elgg_echo('todos:widget:due:title'), elgg_echo('todos:widget:due:description'), ['index', 'groups']);
+	elgg_register_widget_type('todos_created', elgg_echo('todos:widget:created:title'), elgg_echo('todos:widget:created:description'), ['index', 'groups']);
+	elgg_register_widget_type('todos_list', elgg_echo('todos:widget:list:title'), elgg_echo('todos:widget:list:description'), ['dashboard', 'groups'], true);
 }
 
 /**
@@ -111,17 +114,4 @@ function todos_page_handler($pages) {
 	}
 	
 	return true;
-}
-
-/**
- * Page setup function for todos plugin
- *
- * @return void
- */
-function todos_pagesetup() {
-	
-	if (todos_personal_enabled()) {
-		$item = new ElggMenuItem('todos', elgg_echo('todos'), 'todos');
-		elgg_register_menu_item('site', $item);
-	}
 }
