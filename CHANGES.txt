@@ -1,2 +1,112 @@
 Version history
 ===============
+
+2.0 (2019-09-11):
+
+- changed: updated version requirements to Elgg 2.3
+
+1.0:
+
+- acting user now in the notifications
+- added: attachments to to-do items
+- added: composer support
+- added: filter options to assinged_per_user page
+- added: notification for over due todo-items
+- added: notification on to-do item delete to owner/assignee
+- added: optional description and tags added to todo item
+- added: option to show/hide completed to-dos in list widget
+- added: option to show due items from a specific list (in group context)
+- added: owner_block menu item for users
+- added: page to show overdue items for a container
+- added: tab in groups to show assigned open items per user
+- added: unassigned to assigned per user page
+- added activity listing to todoitem full view
+- added autoclosing of todolists
+- added comments count and some item styling
+- added cross list reordering
+- added dutch translation
+- added max width to to-do edit form
+- added option to drop items on empty lists
+- added reordering of todolists
+- added river updates
+- added sorting to todoitems
+- added title menu item to toggle todoitem state
+- assigned page breadcrumb and filter menu
+- assigned todo items overview page
+- breadcrumb
+- changed: assigned page supports group limiter
+- changed: better indication of overdue to-do items
+- changed: only show sidebar modules if page owner is a group
+- check list completeness on item move
+- coding style
+- coding style
+- corrected spelling
+- corrected spelling of to-dos
+- correctly assign todo item
+- correctly set page owner when viewing a to-do item
+- dashboard widget for assigned widgets
+- do not allow comments text to break
+- due to-do items widget for index and groups
+- edit and delete todolist
+- fixed: able to assign to-do items to user who can't access the item
+- fixed: assignee shown in list of assigned to x
+- fixed: clearify (un)assignment message for assignee
+- fixed: clearify to-do item title in notifications
+- fixed: completed items due date shown as overdue
+- fixed: completed to-dos ordering: most recently closed first
+- fixed: due date on creation can be in the past
+- fixed: due notifications are sent for completed items
+- fixed: dutch grammar
+- fixed: group members unable to close to-do items and edit lists
+- fixed: incorrect url in notifications for new to-dos
+- fixed: margin issue on assigned page
+- fixed: more fail safe check if delete from an entity page
+- fixed: pagination shown and not working in older Elgg versions
+- fixed: redirect after delete of item/list could forward to home
+- fixed: removed a lot of padding from the todo list items
+- fixed: subtype class registration
+- fixed: todo-items can't be closed/reopend on assigned page
+- fixed: translation error
+- fixed: typo in Dutch translation
+- fixed: unable to create to-do item with due date today
+- fixed a missing language key
+- fixed container not correctly set on new todo lists personal todo lists are now private
+- function doc
+- function doc
+- function doc
+- groups support
+- improved styling of closed items
+- initial upload
+- label use on the forms
+- limited visibility of todo item info
+- manifest and readme
+- minor fix
+- more info in full view
+- more work done
+- no pagination is sidebar
+- no sidebar id no contents
+- notifications - assigned - closed/reopend - due date set - daily due todos
+- object names
+- only allow assignees in group to-dos
+- only allow sorting if canWriteToContainer
+- personalized notifications
+- personal todos is now a plugin setting
+- recently closed to-do items widget for index and groups
+- recently created to-do items widget for index and groups
+- renamed sidebar views
+- renamed tab
+- show correct breadcrumbs
+- site menu item
+- small bug fixes
+- spacing
+- styling closed assigned
+- sync todoitem access with list access
+- system message on to-do item state toggle for user feedback
+- title
+- to-do item full view layout
+- todo item edit and delete
+- todoitems sidebars
+- unused code
+- update access_id of to-do when moving to an other list
+- updated Dutch translation
+- widget to show one to-do list for dashboard and groups
