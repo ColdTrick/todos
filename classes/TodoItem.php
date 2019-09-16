@@ -18,7 +18,6 @@ class TodoItem extends Todo {
 		
 		$this->order = time();
 	}
-	
 
 	/**
 	 * Saves object-specific attributes.
@@ -47,7 +46,9 @@ class TodoItem extends Todo {
 	 * @see ElggEntity::getURL()
 	 */
 	public function getURL() {
-		return elgg_get_site_url() . "todos/view/" . $this->getGUID() . "/" . elgg_get_friendly_title($this->title);
+		return elgg_generate_entity_url($this, 'view', null, [
+			'title' => elgg_get_friendly_title($this->getDisplayName()),
+		]);
 	}
 	
 	/**
@@ -62,11 +63,11 @@ class TodoItem extends Todo {
 		// notify about delete
 		$acting_user = elgg_get_logged_in_user_entity();
 		
-		$subject = elgg_echo('todos:notify:todoitem:delete:subject', array($this->title));
-		$message = elgg_echo('todos:notify:todoitem:delete:message', array(
-			$acting_user->name,
-			$this->title
-		));
+		$subject = elgg_echo('todos:notify:todoitem:delete:subject', [$this->getDisplayName()]);
+		$message = elgg_echo('todos:notify:todoitem:delete:message', [
+			$acting_user->getDisplayName(),
+			$this->getDisplayName(),
+		]);
 		
 		$this->notifyUsers($subject, $message);
 		
@@ -85,12 +86,12 @@ class TodoItem extends Todo {
 		// notify users
 		$acting_user = elgg_get_logged_in_user_entity();
 		
-		$subject = elgg_echo('todos:notify:todoitem:completed:subject', array($this->title));
-		$message = elgg_echo('todos:notify:todoitem:completed:message', array(
-			$acting_user->name,
-			$this->title,
-			$this->getURL()
-		));
+		$subject = elgg_echo('todos:notify:todoitem:completed:subject', [$this->getDisplayName()]);
+		$message = elgg_echo('todos:notify:todoitem:completed:message', [
+			$acting_user->getDisplayName(),
+			$this->getDisplayName(),
+			$this->getURL(),
+		]);
 		
 		$this->notifyUsers($subject, $message);
 		
@@ -111,12 +112,12 @@ class TodoItem extends Todo {
 		// notify users
 		$acting_user = elgg_get_logged_in_user_entity();
 		
-		$subject = elgg_echo('todos:notify:todoitem:reopen:subject', array($this->title));
-		$message = elgg_echo('todos:notify:todoitem:reopen:message', array(
-			$acting_user->name,
-			$this->title,
-			$this->getURL()
-		));
+		$subject = elgg_echo('todos:notify:todoitem:reopen:subject', [$this->getDisplayName()]);
+		$message = elgg_echo('todos:notify:todoitem:reopen:message', [
+			$acting_user->getDisplayName(),
+			$this->getDisplayName(),
+			$this->getURL(),
+		]);
 		
 		$this->notifyUsers($subject, $message);
 		
@@ -180,7 +181,7 @@ class TodoItem extends Todo {
 			if ($this->isAssigned()) {
 				// reassign?
 				$cur_assignee = $this->getAssignee();
-				if ((int) $cur_assignee->getGUID() !== $assignee) {
+				if ((int) $cur_assignee->guid !== $assignee) {
 					
 					$this->reassignNotification($new_assignee);
 				}
@@ -269,7 +270,7 @@ class TodoItem extends Todo {
 		
 		$guid_only = (bool) $guid_only;
 		if ($guid_only) {
-			return (int) $assignee->getGUID();
+			return (int) $assignee->guid;
 		}
 		
 		return $assignee;
@@ -290,13 +291,13 @@ class TodoItem extends Todo {
 			// notify about new date
 			$acting_user = elgg_get_logged_in_user_entity();
 			
-			$subject = elgg_echo('todos:notify:todoitem:due:subject', array($this->title));
-			$message = elgg_echo('todos:notify:todoitem:due:message', array(
-				$acting_user->name,
-				$this->title,
+			$subject = elgg_echo('todos:notify:todoitem:due:subject', [$this->getDisplayName()]);
+			$message = elgg_echo('todos:notify:todoitem:due:message', [
+				$acting_user->getDisplayName(),
+				$this->getDisplayName(),
 				date('Y-m-d', $timestamp),
-				$this->getURL()
-			));
+				$this->getURL(),
+			]);
 			
 			$this->notifyUsers($subject, $message);
 		}
@@ -365,14 +366,14 @@ class TodoItem extends Todo {
 			return;
 		}
 		
-		if (!$this->getGUID()) {
+		if (!$this->guid) {
 			return;
 		}
 		
 		$prefix = 'attachments/';
 		
 		$fh = new ElggFile();
-		$fh->owner_guid = $this->getGUID();
+		$fh->owner_guid = $this->guid;
 		$fh->setFilename($prefix . $filename);
 		
 		if ($fh->exists()) {
@@ -397,12 +398,12 @@ class TodoItem extends Todo {
 	public function getAttachments() {
 		$result = array();
 		
-		if (!$this->getGUID()) {
+		if (!$this->guid) {
 			return $result;
 		}
 		
 		$fh = new ElggFile();
-		$fh->owner_guid = $this->getGUID();
+		$fh->owner_guid = $this->guid;
 		$fh->setFilename('attachments/');
 		
 		$base_path = $fh->getFilenameOnFilestore();
@@ -433,12 +434,12 @@ class TodoItem extends Todo {
 	 */
 	public function getAttachment($filename) {
 		
-		if (!$this->getGUID()) {
+		if (!$this->guid) {
 			return false;
 		}
 		
 		$fh = new ElggFile();
-		$fh->owner_guid = $this->getGUID();
+		$fh->owner_guid = $this->guid;
 		$fh->setFilename("attachments/{$filename}");
 		
 		if (!$fh->exists()) {
@@ -457,12 +458,12 @@ class TodoItem extends Todo {
 	 */
 	public function deleteAttachment($filename) {
 		
-		if (!$this->getGUID()) {
+		if (!$this->guid) {
 			return false;
 		}
 		
 		$fh = new ElggFile();
-		$fh->owner_guid = $this->getGUID();
+		$fh->owner_guid = $this->guid;
 		$fh->setFilename("attachments/{$filename}");
 		
 		if (!$fh->exists()) {
@@ -481,29 +482,29 @@ class TodoItem extends Todo {
 		$acting_user = elgg_get_logged_in_user_entity();
 		$assignee = $this->getAssignee();
 		
-		if ($acting_user->getGUID() !== $assignee->getGUID()) {
+		if ($acting_user->guid !== $assignee->guid) {
 			// notify old assignee
-			$subject = elgg_echo('todos:notify:todoitem:unassinged:assignee:subject', array($this->title));
-			$message = elgg_echo('todos:notify:todoitem:unassinged:assignee:message', array(
-				$acting_user->name,
-				$this->title,
-				$this->getURL()
-			));
+			$subject = elgg_echo('todos:notify:todoitem:unassinged:assignee:subject', [$this->getDisplayName()]);
+			$message = elgg_echo('todos:notify:todoitem:unassinged:assignee:message', [
+				$acting_user->getDisplayName(),
+				$this->getDisplayName(),
+				$this->getURL(),
+			]);
 			
-			notify_user($assignee->getGUID(), $acting_user->getGUID(), $subject, $message);
+			notify_user($assignee->guid, $acting_user->guid, $subject, $message);
 		}
 		
-		if (($acting_user->getGUID() !== (int) $this->getOwnerGUID()) && ($assignee->getGUID() !== (int) $this->getOwnerGUID())) {
+		if (($acting_user->guid !== (int) $this->getOwnerGUID()) && ($assignee->guid !== (int) $this->getOwnerGUID())) {
 			// notify owner
-			$subject = elgg_echo('todos:notify:todoitem:unassinged:subject', array($this->title));
-			$message = elgg_echo('todos:notify:todoitem:unassinged:message', array(
-				$acting_user->name,
-				$this->title,
-				$assignee->name,
-				$this->getURL()
-			));
+			$subject = elgg_echo('todos:notify:todoitem:unassinged:subject', [$this->getDisplayName()]);
+			$message = elgg_echo('todos:notify:todoitem:unassinged:message', [
+				$acting_user->getDisplayName(),
+				$this->getDisplayName(),
+				$assignee->getDisplayName(),
+				$this->getURL(),
+			]);
 			
-			notify_user($this->getOwnerGUID(), $acting_user->getGUID(), $subject, $message);
+			notify_user($this->getOwnerGUID(), $acting_user->guid, $subject, $message);
 		}
 	}
 	
@@ -516,29 +517,29 @@ class TodoItem extends Todo {
 		$acting_user = elgg_get_logged_in_user_entity();
 		$assignee = $this->getAssignee();
 		
-		if ($acting_user->getGUID() !== $assignee->getGUID()) {
+		if ($acting_user->guid !== $assignee->guid) {
 			// notify assignee
-			$subject = elgg_echo('todos:notify:todoitem:assinged:assignee:subject', array($this->title));
-			$message = elgg_echo('todos:notify:todoitem:assinged:assignee:message', array(
-				$acting_user->name,
-				$this->title,
-				$this->getURL()
-			));
+			$subject = elgg_echo('todos:notify:todoitem:assinged:assignee:subject', [$this->getDisplayName()]);
+			$message = elgg_echo('todos:notify:todoitem:assinged:assignee:message', [
+				$acting_user->getDisplayName(),
+				$this->getDisplayName(),
+				$this->getURL(),
+			]);
 			
-			notify_user($assignee->getGUID(), $acting_user->getGUID(), $subject, $message);
+			notify_user($assignee->guid, $acting_user->guid, $subject, $message);
 		}
 		
-		if (($acting_user->getGUID() !== (int) $this->getOwnerGUID()) && ($assignee->getGUID() !== (int) $this->getOwnerGUID())) {
+		if (($acting_user->guid !== (int) $this->getOwnerGUID()) && ($assignee->guid !== (int) $this->getOwnerGUID())) {
 			// notify owner
-			$subject = elgg_echo('todos:notify:todoitem:assinged:subject', array($this->title));
-			$message = elgg_echo('todos:notify:todoitem:assinged:message', array(
-				$acting_user->name,
-				$this->title,
-				$assignee->name,
-				$this->getURL()
-			));
+			$subject = elgg_echo('todos:notify:todoitem:assinged:subject', [$this->getDisplayName()]);
+			$message = elgg_echo('todos:notify:todoitem:assinged:message', [
+				$acting_user->getDisplayName(),
+				$this->getDisplayName(),
+				$assignee->getDisplayName(),
+				$this->getURL(),
+			]);
 			
-			notify_user($this->getOwnerGUID(), $acting_user->getGUID(), $subject, $message);
+			notify_user($this->getOwnerGUID(), $acting_user->guid, $subject, $message);
 		}
 	}
 	
@@ -554,46 +555,46 @@ class TodoItem extends Todo {
 		$old_assignee = $this->getAssignee();
 		$processed_guids = array();
 		
-		if ($acting_user->getGUID() !== $old_assignee->getGUID()) {
+		if ($acting_user->guid !== $old_assignee->guid) {
 			// notify assignee
-			$subject = elgg_echo('todos:notify:todoitem:unassinged:assignee:subject', array($this->title));
-			$message = elgg_echo('todos:notify:todoitem:unassinged:assignee:message', array(
-				$acting_user->name,
-				$this->title,
-				$this->getURL()
-			));
+			$subject = elgg_echo('todos:notify:todoitem:unassinged:assignee:subject', [$this->getDisplayName()]);
+			$message = elgg_echo('todos:notify:todoitem:unassinged:assignee:message', [
+				$acting_user->getDisplayName(),
+				$this->getDisplayName(),
+				$this->getURL(),
+			]);
 			
-			notify_user($old_assignee->getGUID(), $acting_user->getGUID(), $subject, $message);
+			notify_user($old_assignee->guid, $acting_user->guid, $subject, $message);
 			
-			$processed_guids[] = $old_assignee->getGUID();
+			$processed_guids[] = $old_assignee->guid;
 		}
 		
-		if ($acting_user->getGUID() !== $new_assignee->getGUID()) {
+		if ($acting_user->guid !== $new_assignee->guid) {
 			// notify assignee
-			$subject = elgg_echo('todos:notify:todoitem:assinged:assignee:subject', array($this->title));
-			$message = elgg_echo('todos:notify:todoitem:assinged:assignee:message', array(
-				$acting_user->name,
-				$this->title,
-				$this->getURL()
-			));
+			$subject = elgg_echo('todos:notify:todoitem:assinged:assignee:subject', [$this->getDisplayName()]);
+			$message = elgg_echo('todos:notify:todoitem:assinged:assignee:message', [
+				$acting_user->getDisplayName(),
+				$this->getDisplayName(),
+				$this->getURL(),
+			]);
 			
-			notify_user($new_assignee->getGUID(), $acting_user->getGUID(), $subject, $message);
+			notify_user($new_assignee->guid, $acting_user->guid, $subject, $message);
 			
-			$processed_guids[] = $new_assignee->getGUID();
+			$processed_guids[] = $new_assignee->guid;
 		}
 		
-		if (($acting_user->getGUID() !== (int) $this->getOwnerGUID()) && !in_array($this->getOwnerGUID(), $processed_guids)) {
+		if (($acting_user->guid !== (int) $this->getOwnerGUID()) && !in_array($this->getOwnerGUID(), $processed_guids)) {
 			// notify owner
-			$subject = elgg_echo('todos:notify:todoitem:reassinged:subject', array($this->title));
-			$message = elgg_echo('todos:notify:todoitem:reassinged:message', array(
-				$acting_user->name,
-				$this->title,
-				$old_assignee->name,
-				$new_assignee->name,
-				$this->getURL()
-			));
+			$subject = elgg_echo('todos:notify:todoitem:reassinged:subject', [$this->getDisplayName()]);
+			$message = elgg_echo('todos:notify:todoitem:reassinged:message', [
+				$acting_user->getDisplayName(),
+				$this->getDisplayName(),
+				$old_assignee->getDisplayName(),
+				$new_assignee->getDisplayName(),
+				$this->getURL(),
+			]);
 			
-			notify_user($this->getOwnerGUID(), $acting_user->getGUID(), $subject, $message);
+			notify_user($this->getOwnerGUID(), $acting_user->guid, $subject, $message);
 		}
 	}
 }

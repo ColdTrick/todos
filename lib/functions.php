@@ -1,4 +1,6 @@
 <?php
+use Elgg\Database\QueryBuilder;
+
 /**
  * All helper functions are bundled here
  */
@@ -11,120 +13,65 @@
  *
  * @return array
  */
-function todos_get_open_assigned_item_options($assignee = 0, $group_filter = 0) {
-	
-	$assignee = sanitise_int($assignee, false);
-	$group_filter = sanitise_int($group_filter, false);
-	
-	$options = array(
+function todos_get_open_assigned_item_options(int $assignee = 0, int $group_filter = 0) {
+
+	$options = [
 		'type' => 'object',
 		'subtype' => TodoItem::SUBTYPE,
 		'limit' => false,
-		'metadata_name_value_pairs' => array(
-			array(
+		'metadata_name_value_pairs' => [
+			[
 				'name' => 'order',
 				'value' => 0,
 				'operand' => '>'
-			)
-		),
+			],
+		],
 		'full_view' => false,
 		'item_class' => 'todos-list-item',
-		'list_class' => 'todos-list mtl',
-		'pagination' => false
-	);
+		'list_class' => 'todos-list',
+		'pagination' => false,
+	];
 	
 	if (!empty($assignee)) {
 		// assiged to specific person
-		$options['metadata_name_value_pairs'][] = array(
+		$options['metadata_name_value_pairs'][] = [
 			'name' => 'assignee',
-			'value' => $assignee
-		);
+			'value' => $assignee,
+		];
 		$options['show_assignee'] = false;
 	} else {
 		// just assigned
-		$options['metadata_name_value_pairs'][] = array(
+		$options['metadata_name_value_pairs'][] = [
 			'name' => 'assignee',
 			'value' => 0,
-			'operand' => '>'
-		);
+			'operand' => '>',
+		];
 	}
 	
 	if (!empty($group_filter) && ($assignee !== $group_filter)) {
-		$group_lists = elgg_get_entities_from_metadata(array(
+		$group_lists = elgg_get_entities([
 			'type' => 'object',
 			'subtype' => TodoList::SUBTYPE,
 			'container_guid' => $group_filter,
 			'limit' => false,
 			'callback' => false,
-			'metadata_name_value_pairs' => array('active' => true)
-		));
+			'metadata_name_value_pairs' => ['active' => true],
+		]);
 		
 		if (!empty($group_lists)) {
-			$guids = array();
+			$guids = [];
 			foreach ($group_lists as $row) {
 				$guids[] = (int) $row->guid;
 			}
-			
-			$options['wheres'] = array('e.container_guid IN (' . implode(',', $guids) . ')');
+			$options['wheres'] = [
+				function(QueryBuilder $qb, $main_alias) use ($guids) {
+					return $qb->compare("{$main_alias}.container_guid", 'in', $guids, ELGG_VALUE_GUID);
+				},
+			];
 		}
 	}
 	
 	return $options;
-}
-
-/**
- * Check if group support is enabled
- *
- * @param ElggGroup $group (optional) check if the group has this enabled
- *
- * @return bool
- */
-function todos_group_enabled(ElggGroup $group = null) {
-	static $plugin_setting;
-
-	if (!isset($plugin_setting)) {
-		$plugin_setting = false;
-
-		$setting = elgg_get_plugin_setting('enable_groups', 'todos');
-		if ($setting === 'yes') {
-			$plugin_setting = true;
-		}
-	}
-
-	// shortcut
-	if (!$plugin_setting) {
-		return false;
-	}
-
-	if (empty($group) || !elgg_instanceof($group, 'group')) {
-		return $plugin_setting;
-	}
-
-	if ($group->todos_enable === 'yes') {
-		return true;
-	}
-
-	return false;
-}
-
-/**
- * Check if personal support is enabled
- *
- * @return bool
- */
-function todos_personal_enabled() {
-	static $plugin_setting;
-
-	if (!isset($plugin_setting)) {
-		$plugin_setting = false;
-
-		$setting = elgg_get_plugin_setting('enable_personal', 'todos');
-		if ($setting === 'yes') {
-			$plugin_setting = true;
-		}
-	}
-
-	return $plugin_setting;
 }
 
 /**
@@ -136,15 +83,11 @@ function todos_personal_enabled() {
  */
 function todos_enabled_for_container(ElggEntity $container) {
 	
-	if (empty($container) || !elgg_instanceof($container)) {
-		return false;
+	if ($container instanceof \ElggGroup) {
+		return $container->isToolEnabled('todos');
 	}
 	
-	if (elgg_instanceof($container, 'group')) {
-		return todos_group_enabled($container);
-	}
-	
-	return todos_personal_enabled();
+	return elgg_get_plugin_setting('enable_personal', 'todos') == 'yes';
 }
 
 /**
@@ -195,7 +138,7 @@ function todos_get_assignee_filter_for_container(ElggEntity $container) {
 			"JOIN {$dbprefix}entities e ON n_table.entity_guid = e.guid",
 			"JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid"
 		),
-		'wheres' => array("ce.container_guid = {$container->getGUID()}"),
+		'wheres' => array("ce.container_guid = {$container->guid}"),
 	);
 	$meta_batch = new ElggBatch('elgg_get_metadata', $metadata_options);
 	$user_guids = array();

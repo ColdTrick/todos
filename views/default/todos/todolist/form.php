@@ -6,7 +6,7 @@ $entity = null;
 $guid = (int) get_input('guid');
 if ($guid) {
 	$entity = get_entity($guid);
-	if (!elgg_instanceof($entity, 'object', TodoList::SUBTYPE)) {
+	if (!$entity instanceof \TodoList) {
 		unset($entity);
 	} else {
 		$container_guid = $entity->getContainerGUID();

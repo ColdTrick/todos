@@ -6,7 +6,7 @@ $guid = (int) get_input('guid');
 $entity = null;
 if (!empty($guid)) {
 	$entity = get_entity($guid);
-	if (empty($entity) || !elgg_instanceof($entity, 'object', TodoItem::SUBTYPE)) {
+	if (!$entity instanceof \TodoItem) {
 		unset($entity);
 	} else {
 		$container_guid = $entity->getContainerGUID();
@@ -19,23 +19,11 @@ if (empty($container_guid)) {
 	return;
 }
 
-$form_vars = array(
+$form_vars = [
 	'id' => 'todos-todoitem-edit',
-	'enctype' => 'multipart/form-data'
-);
-$body_vars = array(
+];
+$body_vars = [
 	'container_guid' => $container_guid,
-	'entity' => $entity
-);
+	'entity' => $entity,
+];
 echo elgg_view_form('todos/todoitem/edit', $form_vars, $body_vars);
-
-// datepicker lightbox and userpicker fix
-?>
-<script>
-	elgg.register_hook_handler("init", "system", function() {
-		elgg.ui.initDatePicker();
-
-		//elgg.userpicker.init();
-
-	});
-</script>

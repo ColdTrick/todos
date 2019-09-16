@@ -14,19 +14,17 @@ class Todo extends ElggObject {
 	public function moveToPosition($offset) {
 		$current_order = $this->order;
 		
-		$options = array(
+		$entities = elgg_get_entities([
 			'type' => 'object',
 			'subtype' => $this::SUBTYPE,
 			'container_guid' => $this->container_guid,
-			'order_by_metadata' => array(
+			'order_by_metadata' => [
 				'name' => 'order',
 				'direction' => 'ASC',
-				'as' => 'integer'
-			),
-			'limit' => false
-		);
-		
-		$entities = elgg_get_entities_from_metadata($options);
+				'as' => 'integer',
+			],
+			'limit' => false,
+		]);
 		if (empty($entities)) {
 			// nothing to do
 			return;

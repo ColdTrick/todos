@@ -1,9 +1,7 @@
 <?php
 
-gatekeeper();
-
 $filter = get_input('filter', 'active');
-if (!in_array($filter, array('active', 'completed', 'overdue'))) {
+if (!in_array($filter, ['active', 'completed', 'overdue'])) {
 	$filter = 'active';
 }
 
@@ -12,45 +10,45 @@ if (empty($page_owner)) {
 	$page_owner = elgg_get_logged_in_user_entity();
 }
 
-$container_guid = $page_owner->getGUID();
+$container_guid = $page_owner->guid;
 elgg_set_page_owner_guid($container_guid);
 
 if (!todos_enabled_for_container($page_owner)) {
 	forward(REFERER);
 }
 
-if (elgg_instanceof($page_owner, 'group')) {
-	elgg_push_breadcrumb(elgg_echo('todos'), "todos/group/{$page_owner->getGUID()}/all");
-	elgg_push_breadcrumb($page_owner->name);
-}
+elgg_push_collection_breadcrumbs('object', 'todolist');
 
-$options = array(
+$options = [
 	'type' => 'object',
 	'subtype' => 'todolist',
 	'container_guid' => $container_guid,
 	'limit' => false,
 	'full_view' => false,
 	'pagination' => false,
-	'item_class' => 'mtl',
-	'list_class' => 'todos-list todos-list-todolist',
-	'order_by_metadata' => array(
+	'list_class' => ['todos-list', 'todos-list-todolist'],
+	'order_by_metadata' => [
 		'name' => 'order',
-		'as' => 'integer'
-	),
-);
+		'as' => 'integer',
+	],
+	'no_results' => true,
+];
 
 if ($page_owner->canWriteToContainer()) {
-	$options['list_class'] .= ' todos-sortable';
+	$options['list_class'][] = 'todos-sortable';
 }
+
+$filter_value = $filter;
 
 switch ($filter) {
 	case 'active':
 		
 		if ($page_owner->canWriteToContainer(0, 'object', TodoList::SUBTYPE)) {
 			
-			$item = ElggMenuItem::factory([
+			$item = \ElggMenuItem::factory([
 				'text' => elgg_echo('todos:todolist:add'),
-				'href' => "ajax/view/todos/todolist/form?container_guid={$page_owner->getGUID()}",
+				'icon' => 'plus',
+				'href' => "ajax/view/todos/todolist/form?container_guid={$page_owner->guid}",
 				'name' => 'todolist_add',
 				'link_class' => 'elgg-button elgg-button-action elgg-lightbox'
 			]);
@@ -58,6 +56,7 @@ switch ($filter) {
 		}
 		
 		$options['metadata_name_value_pairs'] = array('active' => true);
+		$options['no_results'] = elgg_echo('todos:all:no_results');
 		break;
 	case 'completed':
 		$options['metadata_name_value_pairs'] = array('active' => false);
@@ -66,55 +65,48 @@ switch ($filter) {
 	case 'overdue':
 		$dbprefix = elgg_get_config('dbprefix');
 		
-		$options = array(
+		$options = [
 			'type' => 'object',
 			'subtype' => TodoItem::SUBTYPE,
 			'limit' => false,
 			'full_view' => false,
-			'metadata_name_value_pairs' => array(
-				array(
+			'no_results' => true,
+			'metadata_name_value_pairs' => [
+				[
 					'name' => 'order',
 					'value' => 0,
 					'operand' => '>',
-				),
-				array(
+				],
+				[
 					'name' => 'due',
 					'value' => time(),
 					'operand' => '<',
-				),
-			),
-			'order_by_metadata' => array(
+				],
+			],
+			'order_by_metadata' => [
 				'name' => 'due',
 				'as' => 'integer',
 				'order' => 'asc',
-			),
-			'joins' => array(
+			],
+			'joins' => [
 				"JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid",
-			),
-			'wheres' => array(
+			],
+			'wheres' => [
 				"ce.container_guid = {$container_guid}",
-			),
-		);
+			],
+		];
 		break;
 }
 
 $title = elgg_echo("todos:filter:$filter");
 
-$content = elgg_list_entities_from_metadata($options);
-if (empty($content)) {
-	$content = elgg_echo('todos:all:no_results');
-}
+$content = elgg_list_entities($options);
 
-$filter = elgg_view_menu('filter', array(
-	'sort_by' => 'priority',
-	'class' => 'elgg-menu-hz'
-));
-
-$body = elgg_view_layout('content', array(
+$body = elgg_view_layout('default', [
 	'title' => $title,
-	'filter' => $filter,
 	'content' => $content,
-	'sidebar' => elgg_view('todos/sidebar')
-));
+	'filter_id' => 'todos',
+	'filter_value' => $filter_value,
+]);
 
 echo elgg_view_page($title, $body);

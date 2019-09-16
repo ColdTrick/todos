@@ -1,30 +1,30 @@
 <?php
 
 $widget = elgg_extract('entity', $vars);
-$container = $widget->getContainerEntity();
 
 $num_display = (int) $widget->num_display;
 if ($num_display < 1) {
 	$num_display = 10;
 }
 
-$options = array(
+$options = [
 	'type' => 'object',
 	'subtype' => TodoItem::SUBTYPE,
 	'limit' => $num_display,
 	'full_view' => false,
 	'metadata_name' => 'order',
-	'order_by_metadata' => array(
+	'order_by_metadata' => [
 		'name' => 'due',
 		'as' => 'integer',
-		'direction' => 'asc'
-	),
+		'direction' => 'asc',
+	],
 	'pagination' => false,
 	'show_assignee' => true,
-	'show_due' => true
-);
+	'show_due' => true,
+	'no_results' => elgg_echo('todos:widget:due:none'),
+];
 
-if ($container instanceof ElggGroup) {
+if ($widget->getContainerEntity() instanceof ElggGroup) {
 	
 	if ($widget->list_guid) {
 		// show from one list
@@ -33,14 +33,9 @@ if ($container instanceof ElggGroup) {
 		// show from all lists
 		$dbprefix = elgg_get_config('dbprefix');
 		
-		$options['joins'] = array("JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid");
-		$options['wheres'] = array("ce.container_guid = {$widget->getOwnerGUID()}");
+		$options['joins'] = ["JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid"];
+		$options['wheres'] = ["ce.container_guid = {$widget->getOwnerGUID()}"];
 	}
 }
 
-$list = elgg_list_entities_from_metadata($options);
-if (empty($list)) {
-	$list = elgg_echo('todos:widget:due:none');
-}
-
-echo $list;
+echo elgg_list_entities($options);

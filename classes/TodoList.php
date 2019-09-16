@@ -1,10 +1,12 @@
 <?php
+use Elgg\Database\QueryBuilder;
+
 /**
  * TodoList
  */
 class TodoList extends Todo {
 
-	const SUBTYPE = "todolist";
+	const SUBTYPE = 'todolist';
 
 	/**
 	 * initializes the default class attributes
@@ -27,7 +29,9 @@ class TodoList extends Todo {
 	 * @see ElggEntity::getURL()
 	 */
 	public function getURL() {
-		return elgg_get_site_url() . "todos/view/" . $this->getGUID() . "/" . elgg_get_friendly_title($this->title);
+		return elgg_generate_entity_url($this, 'view', null, [
+			'title' => elgg_get_friendly_title($this->getDisplayName()),
+		]);
 	}
 	
 	/**
@@ -46,6 +50,35 @@ class TodoList extends Todo {
 		
 		$this->updateTodoItemAccess();
 		return $res;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public function canEdit($user_guid = 0) {
+		$result = parent::canEdit($user_guid);
+		if ($result) {
+			return $result;
+		}
+		
+		$user = !$user_guid ? elgg_get_logged_in_user_entity() : get_entity($user_guid);
+		if (!$user instanceof \ElggUser) {
+			return $result;
+		}
+		
+		$container = $entity->getContainerEntity();
+		if (!$container instanceof \ElggGroup) {
+			return $return;
+		}
+		
+		return $container->isMember($user);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public function canComment($user_guid = 0, $default = null) {
+		return false;
 	}
 	
 	/**
@@ -73,15 +106,13 @@ class TodoList extends Todo {
 	 * Validates if is list is complete and marks as complete
 	 */
 	public function validateListCompleteness() {
-		$options = array(
+		$incomplete_children_count = elgg_count_entities([
 			'type' => 'object',
 			'subtype' => TodoItem::SUBTYPE,
-			'count' => true,
 			'container_guid' => $this->guid,
-			'metadata_names' => array('order')
-		);
+			'metadata_names' => ['order'],
+		]);
 		
-		$incomplete_children_count = elgg_get_entities_from_metadata($options);
 		if ($this->isActive() && ($incomplete_children_count === 0)) {
 			$this->markAsInactive();
 		} elseif (!$this->isActive() && $incomplete_children_count > 0) {
@@ -95,25 +126,24 @@ class TodoList extends Todo {
 	 * @return void
 	 */
 	protected function updateTodoItemAccess() {
-		
-		$options = array(
-			'type' => 'object',
-			'subtype' => TodoItem::SUBTYPE,
-			'limit' => false,
-			'container_guid' => $this->getGUID(),
-			'wheres' => array('e.access_id <> ' . $this->access_id)
-		);
-		
-		$ia = elgg_set_ignore_access(true);
-		
-		$batch = new ElggBatch('elgg_get_entities', $options);
-		$batch->setIncrementOffset(false);
-		foreach ($batch as $item) {
-			$item->access_id = $this->access_id;
-			$item->save();
-		}
-		
-		elgg_set_ignore_access($ia);
+		elgg_call(ELGG_IGNORE_ACCESS, function() {
+			$batch = elgg_get_entities([
+				'type' => 'object',
+				'subtype' => TodoItem::SUBTYPE,
+				'limit' => false,
+				'container_guid' => $this->guid,
+				'wheres' => [
+					function(QueryBuilder $qb, $main_alias) {
+						return $qb->compare("{$main_alias}.access_id", '<>', $this->access_id, ELGG_VALUE_INTEGER);
+					},
+				],
+				'batch' => true,
+				'batch_inc_offset' => false,
+			]);
+			foreach ($batch as $item) {
+				$item->access_id = $this->access_id;
+				$item->save();
+			}
+		});
 	}
-	
 }

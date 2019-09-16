@@ -1,6 +1,6 @@
 <?php
 
-elgg_push_context("todos_sidebar");
+elgg_push_context('todos_sidebar');
 
 echo elgg_view('todos/sidebar/due');
 

@@ -2,42 +2,38 @@
 
 $widget = elgg_extract('entity', $vars);
 
-$dbprefix = elgg_get_config('dbprefix');
-
-$options = array(
+$batch = elgg_get_entities([
 	'type' => 'object',
-	'subtype' => TodoList::SUBTYPE,
+	'subtype' => \TodoList::SUBTYPE,
 	'limit' => false,
 	'container_guid' => $widget->getOwnerGUID(),
-	'metadata_name_value_pairs' => array('active' => true),
-	'joins' => array("JOIN {$dbprefix}objects_entity oe ON e.guid = oe.guid"),
-	'order_by' => 'oe.title ASC'
-);
-$batch = new ElggBatch('elgg_get_entities_from_metadata', $options);
+	'metadata_name_value_pairs' => ['active' => true],
+	'order_by_metadata' => [
+		'name' => 'title',
+		'direction' => 'ASC',
+	],
+	'batch' => true,
+]);
 
-$selector = array(
+$selector = [
 	'' => elgg_echo('todos:widget:list:select')
-);
+];
 foreach ($batch as $list) {
-	$selector[$list->getGUID()] = $list->title;
+	$selector[$list->guid] = $list->getDisplayName();
 }
 
-echo '<div>';
-echo elgg_echo('todos:widget:list:list');
-echo elgg_view('input/dropdown', array(
+echo elgg_view_field([
+	'#type' => 'select',
+	'#label' => elgg_echo('todos:widget:list:list'),
 	'name' => 'params[list_guid]',
 	'value' => $widget->list_guid,
 	'options_values' => $selector,
-	'class' => 'mls'
-));
-echo '</div>';
+]);
 
-echo '<div>';
-echo elgg_view('input/checkbox', array(
+echo elgg_view_field([
+	'#type' => 'checkbox',
+	'#label' => elgg_echo('todos:widget:list:list_completed'),
 	'name' => 'params[list_completed]',
 	'value' => 1,
-	'checked' => $widget->list_completed ? true : false,
-	'class' => 'mrs',
-));
-echo elgg_echo('todos:widget:list:list_completed');
-echo '</div>';
+	'checked' => (bool) $widget->list_completed,
+]);

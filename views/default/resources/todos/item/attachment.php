@@ -1,20 +1,20 @@
 <?php
 
+use Elgg\BadRequestException;
+use Elgg\EntityNotFoundException;
+
 $guid = (int) get_input('guid');
+elgg_entity_gatekeeper($guid, 'object', \TodoItem::SUBTYPE);
 $entity = get_entity($guid);
-if (empty($entity) || !elgg_instanceof($entity, 'object', TodoItem::SUBTYPE)) {
-	forward(REFERER);
-}
 
 $filename = get_input('filename');
 if (empty($filename)) {
-	forward(REFERER);
+	throw new BadRequestException();
 }
 
 $contents = $entity->getAttachment($filename);
 if (empty($contents)) {
-	header('"HTTP/1.1 404 Not Found');
-	exit();
+	throw new EntityNotFoundException();
 }
 
 header('Expires: 0');

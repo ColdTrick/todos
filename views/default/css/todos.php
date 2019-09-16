@@ -4,12 +4,22 @@
 	display: none;
 }
 
-.todos-list-item > h3 {
-	display: inline;
-}
-
-.todos-list-item:hover .elgg-menu-todos {
-	display: inline-block;
+.todos-list-item {
+	> h3 {
+		display: inline;
+	}
+	
+	> .elgg-image-block > .elgg-body {
+		display: flex;
+		
+		> a {
+			color: inherit;
+		}
+	}
+	
+	&:hover .elgg-menu-todos {
+		display: flex;
+	}
 }
 
 .elgg-menu.elgg-menu-todos > li {
@@ -29,9 +39,13 @@
 	border-top: none;
 }
 
-.todos-list,
-.todos-list li {
-	border: none;
+.todos-list {
+	padding-top: 0;
+
+	> li {
+		border: none;
+		padding-top: 0;
+	}
 }
 
 .todos-list.todos-list-todoitem {
@@ -41,10 +55,6 @@
 
 .todos-list > li > .elgg-image-block {
 	padding: 0 0 5px 0;
-}
-
-.todos-list-item .elgg-image-block .elgg-body > a {
-	color: inherit;
 }
 
 .todos-list-item-completed.elgg-image-block .elgg-body > a {

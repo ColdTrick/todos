@@ -5,6 +5,9 @@ $translation = array(
 	'item:object:todolist' => "To-do list",
 	'item:object:todoitem' => "To-do item",
 	
+	'collection:object:todolist' => "To-do lists",
+	'collection:object:todoitem' => "To-do items",
+	
 	// settings
 	'todos:settings:enable_personal' => "Enable to-dos for users",
 	'todos:settings:enable_groups' => "Enable to-dos for groups",

@@ -10,46 +10,54 @@ $show_access = false;
 if ($entity) {
 	$title = $entity->title;
 	
-	if (elgg_instanceof($entity->getContainerEntity(), 'group')) {
+	if ($entity->getContainerEntity() instanceof \ElggGroup) {
 		$show_access = true;
 		$access_id = (int) $entity->access_id;
 	}
 	
-	echo elgg_view('input/hidden', array(
+	echo elgg_view_field([
+		'#type' => 'hidden',
 		'name' => 'guid',
-		'value' => $entity->getGUID()
-	));
+		'value' => $entity->guid,
+	]);
 }
 
 if (!$show_access && !empty($container_guid)) {
 	$container = get_entity($container_guid);
-	if (elgg_instanceof($container, 'group')) {
+	if ($container instanceof \ElggGroup) {
 		$show_access = true;
 	}
 }
 
-echo '<label>' . elgg_echo('todos:todolist:title');
-echo elgg_view('input/text', array(
+echo elgg_view_field([
+	'#type' => 'hidden',
+	'value' => $container_guid,
+	'name' => 'container_guid',
+]);
+
+echo elgg_view_field([
+	'#type' => 'text',
+	'#label' => elgg_echo('todos:todolist:title'),
 	'value' => $title,
 	'name' => 'title',
-	'placeholder' => elgg_echo('todos:todolist:title'),
 	'required' => true,
-	'class' => 'mvm'
-));
-echo '</label>';
+]);
 
 if ($show_access) {
-	echo '<div>';
-	echo '<label>' . elgg_echo('access');
-	echo elgg_view('input/access', array(
+	echo elgg_view_field([
+		'#label' => elgg_echo('access'),
+		'#type' => 'access',
 		'name' => 'access_id',
-		'value' => $access_id
-	));
-	echo '</label>';
-	echo '</div>';
+		'value' => $access_id,
+		'entity' => $entity,
+		'entity_type' => 'object',
+		'entity_subtype' => 'todolist',
+	]);
 }
 
-echo '<div class="elgg-foot">';
-echo elgg_view('input/hidden', array('name' => 'container_guid', 'value' => $container_guid));
-echo elgg_view('input/submit', array('value' => elgg_echo('save')));
-echo '</div>';
+$footer = elgg_view_field([
+	'#type' => 'submit',
+	'value' => elgg_echo('save'),
+]);
+
+elgg_set_form_footer($footer);

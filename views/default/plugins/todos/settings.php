@@ -2,27 +2,22 @@
 
 $plugin = elgg_extract('entity', $vars);
 
-$noyes_options = array(
-	'no' => elgg_echo('option:no'),
-	'yes' => elgg_echo('option:yes')
-);
-
-echo '<div>';
-echo elgg_echo('todos:settings:enable_personal');
-echo elgg_view('input/dropdown', array(
+echo elgg_view_field([
+	'#type' => 'checkbox',
+	'#label' => elgg_echo('todos:settings:enable_personal'),
 	'name' => 'params[enable_personal]',
-	'value' => $plugin->enable_personal,
-	'options_values' => $noyes_options,
-	'class' => 'mls'
-));
-echo '</div>';
+	'checked' => $plugin->enable_personal === 'yes',
+	'switch' => true,
+	'default' => 'no',
+	'value' => 'yes',
+]);
 
-echo '<div>';
-echo elgg_echo('todos:settings:enable_groups');
-echo elgg_view('input/dropdown', array(
+echo elgg_view_field([
+	'#type' => 'checkbox',
+	'#label' => elgg_echo('todos:settings:enable_groups'),
 	'name' => 'params[enable_groups]',
-	'value' => $plugin->enable_groups,
-	'options_values' => $noyes_options,
-	'class' => 'mls'
-));
-echo '</div>';
+	'checked' => $plugin->enable_groups === 'yes',
+	'switch' => true,
+	'default' => 'no',
+	'value' => 'yes',
+]);

@@ -20,14 +20,14 @@ echo '</div>';
 
 if ($container instanceof ElggGroup) {
 	
-	$list_options = array(
-		0 => elgg_echo('todos:widget:due:list_select:all')
-	);
+	$list_options = [
+		0 => elgg_echo('todos:widget:due:list_select:all'),
+	];
 	
-	$options = array(
+	$batch = elgg_get_entities([
 		'type' => 'object',
 		'subtype' => TodoList::SUBTYPE,
-		'container_guid' => $container->getGUID(),
+		'container_guid' => $container->guid,
 		'limit' => false,
 		'order_by_metadata' => array(
 			'name' => 'order',
@@ -37,10 +37,10 @@ if ($container instanceof ElggGroup) {
 		'metadata_name_value_pairs' => array(
 			'active' => true,
 		),
-	);
-	$batch = new ElggBatch('elgg_get_entities_from_metadata', $options);
+		'batch' => true,
+	]);
 	foreach ($batch as $list) {
-		$list_options[$list->getGUID()] = $list->title;
+		$list_options[$list->guid] = $list->getDisplayName();
 	}
 	
 	// check if selected list is in options, because the list could have been closed
@@ -48,7 +48,7 @@ if ($container instanceof ElggGroup) {
 		if (!isset($list_options[$widget->list_guid])) {
 			$list = get_entity($widget->list_guid);
 			if ($list instanceof TodoList) {
-				$list_options[$list->getGUID()] = $list->title;
+				$list_options[$list->guid] = $list->getDisplayName();
 			}
 		}
 	}

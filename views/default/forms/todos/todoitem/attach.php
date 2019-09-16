@@ -2,21 +2,21 @@
 
 $entity = elgg_extract('entity', $vars);
 
-$content = elgg_view('input/hidden', array(
+$content = elgg_view_field([
+	'#type' => 'hidden',
 	'name' => 'guid',
-	'value' => $entity->getGUID()
-));
+	'value' => $entity->guid,
+]);
 
-$content .= '<div>';
-$content .= '<label>' . elgg_echo('todos:todoitem:attachment');
-$content .= elgg_view('input/file', array(
-	'name' => 'attachment'
-));
-$content .= '</label>';
-$content .= '</div>';
+$content .= elgg_view_field([
+	'#type' => 'file',
+	'#label' => elgg_echo('todos:todoitem:attachment'),
+	'name' => 'attachment',
+]);
 
-$content .= '<div class="elgg-foot mtm">';
-$content .= elgg_view('input/submit', array('value' => elgg_echo('upload')));
-$content .= '</div>';
+$content .= elgg_view_field([
+	'#type' => 'submit',
+	'value' => elgg_echo('upload'),
+]);
 
-echo elgg_view_module('info', elgg_echo('todos:todoitem:attach', array($entity->title)), $content);
+echo elgg_view_module('info', elgg_echo('todos:todoitem:attach', [$entity->getDisplayName()]), $content);

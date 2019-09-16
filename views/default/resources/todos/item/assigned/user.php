@@ -4,7 +4,7 @@ gatekeeper();
 
 $user_guid = (int) get_input('user_guid');
 $user = get_user($user_guid);
-if (empty($user) || !elgg_instanceof($user, 'user')) {
+if (!$user instanceof \ElggUser) {
 	forward(REFERER);
 }
 
@@ -18,10 +18,10 @@ if (!todos_enabled_for_container($page_owner)) {
 }
 
 // breadcrumb
-if (elgg_instanceof($page_owner, 'user')) {
+if ($page_owner instanceof \ElggUser) {
 	elgg_push_breadcrumb(elgg_echo('todos'), 'todos');
 } else {
-	elgg_push_breadcrumb(elgg_echo('todos'), "todos/group/{$page_owner->getGUID()}/all");
+	elgg_push_breadcrumb(elgg_echo('todos'), "todos/group/{$page_owner->guid}/all");
 }
 elgg_push_breadcrumb($page_owner->name);
 
@@ -29,8 +29,8 @@ elgg_push_breadcrumb($page_owner->name);
 $title = elgg_echo("todos:filter:assigned");
 
 // open assigned todo items
-$options = todos_get_open_assigned_item_options($user->getGUID(), $page_owner->getGUID());
-$content = elgg_list_entities_from_metadata($options);
+$options = todos_get_open_assigned_item_options($user->guid, $page_owner->guid);
+$content = elgg_list_entities($options);
 if (empty($content)) {
 	$content = elgg_echo('todos:assigned:no_results');
 }
@@ -40,7 +40,7 @@ $options['limit'] = 10;
 $options['metadata_name_value_pairs'] = array(
 	array(
 		'name' => 'assignee',
-		'value' => $user->getGUID()
+		'value' => $user->guid
 	),
 	array(
 		'name' => 'completed',
@@ -56,7 +56,7 @@ $options['order_by_metadata'] = array(
 $options['item_class'] .= ' todos-list-item-completed';
 $options['list_class'] = 'todos-list';
 
-$closed = elgg_list_entities_from_metadata($options);
+$closed = elgg_list_entities($options);
 if (!empty($closed)) {
 	$content .= elgg_view_module('info', elgg_echo('todos:assigned:closed'), $closed, array('class' => 'mtl'));
 }

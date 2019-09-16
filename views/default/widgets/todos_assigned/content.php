@@ -10,10 +10,6 @@ if ($num_display < 1) {
 $options = todos_get_open_assigned_item_options($widget->getOwnerGUID());
 $options['limit'] = $num_display;
 $options['pagination'] = false;
+$options['no_results'] = elgg_echo('todos:assigned:no_results');
 
-$list = elgg_list_entities_from_metadata($options);
-if (empty($list)) {
-	$list = elgg_echo('todos:assigned:no_results');
-}
-
-echo $list;
+echo elgg_list_entities($options);

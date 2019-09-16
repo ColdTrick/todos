@@ -8,20 +8,17 @@ $container_guid = (int) get_input('container_guid');
 $entity = null;
 
 if (empty($title)) {
-	register_error(elgg_echo('todos:action:error:title'));
-	forward(REFERER);
+	return elgg_error_response(elgg_echo('todos:action:error:title'));
 }
 
 if (!empty($guid)) {
 	$entity = get_entity($guid);
-	if (empty($entity) || !elgg_instanceof($entity, 'object', TodoList::SUBTYPE)) {
-		register_error(elgg_echo('InvalidParameterException:NoEntityFound'));
-		forward(REFERER);
+	if (!$entity instanceof \TodoList) {
+		return elgg_error_response(elgg_echo('InvalidParameterException:NoEntityFound'));
 	}
 	
 	if (!$entity->canEdit()) {
-		register_error(elgg_echo('InvalidParameterException:NoEntityFound'));
-		forward(REFERER);
+		return elgg_error_response(elgg_echo('InvalidParameterException:NoEntityFound'));
 	}
 }
 $container = get_entity($container_guid);
@@ -32,18 +29,15 @@ if (empty($entity) && $container->canWriteToContainer(0, 'object', TodoList::SUB
 
 if (empty($entity)) {
 	// this should not happen
-	register_error(elgg_echo('InvalidParameterException:NoEntityFound'));
-	forward(REFERER);
+	return elgg_error_response(elgg_echo('InvalidParameterException:NoEntityFound'));
 }
 
 $entity->title = $title;
 $entity->access_id = $access_id;
 $entity->active = true;
 
-if ($entity->save()) {
-	system_message(elgg_echo('todos:action:todolist:edit:success'));
-} else {
-	register_error(elgg_echo('todos:action:todolist:edit:error'));
+if (!$entity->save()) {
+	return elgg_error_response(elgg_echo('todos:action:todolist:edit:error'));
 }
 
-forward(REFERER);
+return elgg_ok_response('', elgg_echo('todos:action:todolist:edit:success'));

@@ -17,68 +17,70 @@ if (!empty($entity)) {
 	$due = $entity->due;
 	$container_guid = $entity->getContainerGUID();
 	
-	echo elgg_view('input/hidden', array(
+	echo elgg_view_field([
+		'#type' => 'hidden',
 		'name' => 'guid',
-		'value' => $entity->getGUID()
-	));
+		'value' => $entity->guid,
+	]);
 }
 
-echo elgg_view('input/hidden', array(
+echo elgg_view_field([
+	'#type' => 'hidden',
 	'value' => $container_guid,
-	'name' => 'container_guid'
-));
+	'name' => 'container_guid',
+]);
 
-echo '<label>' . elgg_echo('todos:todoitem:title');
-echo elgg_view('input/text', array(
+echo elgg_view_field([
+	'#type' => 'text',
+	'#label' => elgg_echo('todos:todoitem:title'),
 	'value' => $title,
 	'name' => 'title',
 	'required' => true,
-	'placeholder' => elgg_echo('todos:todoitem:title')
-));
-echo '</label>';
+]);
 
-echo '<label>' . elgg_echo('todos:todoitem:description');
-echo elgg_view('input/longtext', array(
+echo elgg_view_field([
+	'#type' => 'longtext',
+	'#label' => elgg_echo('todos:todoitem:description'),
 	'value' => $description,
 	'name' => 'description',
-));
-echo '</label>';
+	'editor_type' => 'simple',
+]);
 
-echo '<label>' . elgg_echo('todos:todoitem:tags');
-echo elgg_view('input/tags', array(
+echo elgg_view_field([
+	'#type' => 'tags',
+	'#label' => elgg_echo('todos:todoitem:tags'),
 	'value' => $tags,
 	'name' => 'tags',
-));
-echo '</label>';
+]);
 
-echo '<div>';
 $list = get_entity($container_guid);
-if (!empty($list) && elgg_instanceof($list->getContainerEntity(), 'group')) {
-	echo '<label>' . elgg_echo('todos:todoitem:assignee') . '</label>';
-	echo '<span class="ui-front">';
-	echo elgg_view('input/userpicker', array(
+if (!empty($list) && $list->getContainerEntity() instanceof \ElggGroup) {
+	echo elgg_view_field([
+		'#type' => 'userpicker',
+		'#label' => elgg_echo('todos:todoitem:assignee'),
 		'value' => $assignee,
-	));
-	echo '</span>';
+	]);
 }
 
-echo '<label>' . elgg_echo('todos:todoitem:due');
-echo elgg_view('input/date', array(
+echo elgg_view_field([
+	'#type' => 'date',
+	'#label' => elgg_echo('todos:todoitem:due'),
 	'value' => $due,
 	'name' => 'due',
-	'timestamp' => true
-));
-echo  '</label>';
+	'timestamp' => true,
+]);
 
 if (empty($entity)) {
-	echo '<label>' . elgg_echo('todos:todoitem:attachment');
-	echo elgg_view('input/file', array(
-		'name' => 'attachment'
-	));
-	echo  '</label>';
+	echo elgg_view_field([
+		'#type' => 'file',
+		'#label' => elgg_echo('todos:todoitem:attachment'),
+		'name' => 'attachment',
+	]);
 }
-echo '</div>';
 
-echo '<div class="elgg-foot">';
-echo elgg_view('input/submit', array('value' => elgg_echo('save')));
-echo '</div>';
+$footer = elgg_view_field([
+	'#type' => 'submit',
+	'value' => elgg_echo('save'),
+]);
+
+elgg_set_form_footer($footer);
