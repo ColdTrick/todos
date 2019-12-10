@@ -11,7 +11,6 @@ if (!todos_enabled_for_container($page_owner)) {
 
 // breadcrumb
 elgg_push_breadcrumb(elgg_echo('todos'), "todos/group/{$page_owner->guid}/all");
-elgg_push_breadcrumb($page_owner->name);
 
 // build page elements
 $title = elgg_echo('todos:filter:assigned_per_user');

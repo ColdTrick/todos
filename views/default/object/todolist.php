@@ -85,6 +85,7 @@ if (elgg_extract('full_view', $vars)) {
 	$params = [
 		'icon' => false,
 		'body' => $content,
+		'access' => false,
 		'show_summary' => true,
 		'show_social_menu' => false,
 		'show_navigation' => false,

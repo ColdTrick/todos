@@ -155,13 +155,27 @@ if (!empty($attachments)) {
 	$content .= '</ul>';
 }
 
+$responses = elgg_view_comments($entity);
+
+$activity = elgg_list_river([
+	'object_guids' => [$entity->guid],
+	'action_types' => ['create', 'reopen', 'close'],
+	'limit' => false,
+]);
+
+if ($activity) {
+	$responses .= elgg_view_module('info', elgg_echo('activity'), $activity);
+}
+
 $params = [
 	'icon' => false,
 	'body' => $content,
+	'access' => false,
 	'show_summary' => true,
 	'show_social_menu' => false,
 	'show_navigation' => false,
 	'imprint' => $imprint,
+	'responses' => $responses,
 ];
 $params = $params + $vars;
 

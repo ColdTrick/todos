@@ -15,7 +15,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 	}
 	
 	protected function registerViews() {
-		elgg_extend_view('css/elgg', 'css/todos');
+		elgg_extend_view('css/elgg', 'todos/site.css');
 		elgg_extend_view('js/elgg', 'js/todos');
 		
 		elgg_register_ajax_view('todos/todolist/form');

@@ -1,5 +1,5 @@
 <?php
-$language = array (
+return [
   'todos:widget:list:list_completed' => 'Toon afgesloten to-dos',
   'todos:form:filters:show_completed' => 'Toon afgesloten items',
   'todos:form:filters:date' => 'Limiteer items gebaseerd op oplost datum',
@@ -164,5 +164,4 @@ Bekijk het to-do item op onderstaande link.
   'river:reopen:object:todoitem' => '%s heeft to-do %s heropend',
   'todos:todolist:error:missing_container' => 'De container waarin de lijst moet worden opgeslagen ontbreekt',
   'todos:settings:enable_personal' => 'Schakel persoonlijke to-dos in',
-);
-add_translation("nl", $language);
+];

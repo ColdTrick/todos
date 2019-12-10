@@ -243,7 +243,7 @@ class TodoItem extends Todo {
 		if (!has_access_to_entity($this, $user)) {
 			// assigne has no access
 			if ($register_error) {
-				register_error(elgg_echo('todos:todoitem:error:assignee:access', array($user->name)));
+				register_error(elgg_echo('todos:todoitem:error:assignee:access', [$user->getDisplayName()]));
 			}
 			return false;
 		}

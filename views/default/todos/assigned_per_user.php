@@ -9,19 +9,17 @@ if (!($user instanceof ElggUser) && empty($items)) {
 
 $title = elgg_echo('todos:assigned_per_user:unassigned');
 if ($user instanceof ElggUser) {
-	$title = $user->name;
+	$title = $user->getDisplayName();
 }
 
 ksort($items);
 
-$view_options = array(
+$content = elgg_view_entity_list($items, [
 	'limit' => false,
 	'offset' => 0,
 	'full_view' => false,
 	'show_assignee' => false,
 	'item_class' => 'todos-list-item',
-);
-
-$content = elgg_view_entity_list($items, $view_options);
+]);
 
 echo elgg_view_module('info', $title, $content);

@@ -1,6 +1,6 @@
 <?php
 
-gatekeeper();
+elgg_gatekeeper();
 
 $user_guid = (int) get_input('user_guid');
 $user = get_user($user_guid);
@@ -23,7 +23,6 @@ if ($page_owner instanceof \ElggUser) {
 } else {
 	elgg_push_breadcrumb(elgg_echo('todos'), "todos/group/{$page_owner->guid}/all");
 }
-elgg_push_breadcrumb($page_owner->name);
 
 // page elements
 $title = elgg_echo("todos:filter:assigned");

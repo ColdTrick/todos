@@ -18,9 +18,8 @@ $content = elgg_view_entity($entity, [
 	'show_responses' => false,
 ]);
 
-$body = elgg_view_layout('content', [
+$body = elgg_view_layout('default', [
 	'title' => $title,
-	'filter' => false,
 	'content' => $content,
 	'entity' => $entity,
 ]);

@@ -1,5 +1,6 @@
 <?php
-$translation = array(
+
+return [
 	'todos' => "To-dos",
 	
 	'item:object:todolist' => "To-do list",
@@ -217,6 +218,4 @@ To view the to-do item click on the link
 	'river:create:object:todoitem' => '%s added a new to-do %s',
 	'river:close:object:todoitem' => '%s closed to-do %s',
 	'river:reopen:object:todoitem' => '%s reopened to-do %s',
-);
-
-add_translation('en', $translation);
+];

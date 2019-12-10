@@ -1,9 +1,9 @@
 <?php
 
-gatekeeper();
+elgg_gatekeeper();
 
 $filter = get_input('filter', 'active');
-if (!in_array($filter, array('active', 'completed', 'overdue'))) {
+if (!in_array($filter, ['active', 'completed', 'overdue'])) {
 	$filter = 'active';
 }
 
@@ -21,7 +21,6 @@ if (!todos_enabled_for_container($page_owner)) {
 
 if ($page_owner instanceof \ElggUser) {
 	elgg_push_breadcrumb(elgg_echo('todos'), "todos/group/{$page_owner->guid}/all");
-	elgg_push_breadcrumb($page_owner->name);
 }
 
 $options = array(

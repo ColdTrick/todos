@@ -14,13 +14,13 @@ return [
 	'entities' => [
 		[
 			'type' => 'object',
-			'subtype' => TodoList::SUBTYPE,
+			'subtype' => 'todolist',
 			'class' => TodoList::class,
 			'searchable' => true,
 		],
 		[
 			'type' => 'object',
-			'subtype' => TodoItem::SUBTYPE,
+			'subtype' => 'todoitem',
 			'class' => TodoItem::class,
 			'searchable' => true,
 		],

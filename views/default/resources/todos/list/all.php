@@ -1,5 +1,7 @@
 <?php
 
+use Elgg\Database\QueryBuilder;
+
 $filter = get_input('filter', 'active');
 if (!in_array($filter, ['active', 'completed', 'overdue'])) {
 	$filter = 'active';
@@ -88,11 +90,12 @@ switch ($filter) {
 				'as' => 'integer',
 				'order' => 'asc',
 			],
-			'joins' => [
-				"JOIN {$dbprefix}entities ce ON e.container_guid = ce.guid",
-			],
 			'wheres' => [
-				"ce.container_guid = {$container_guid}",
+				function (QueryBuilder $qb, $main_alias) use ($container_guid) {
+					$alias = $qb->joinEntitiesTable($main_alias, 'container_guid');
+
+					return $qb->compare("$alias.container_guid", '=', $container_guid, ELGG_VALUE_GUID);
+				}
 			],
 		];
 		break;
